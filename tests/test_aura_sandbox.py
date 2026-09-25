@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import shutil
@@ -87,6 +88,14 @@ def _call(repo: Path, base: str, root: Path, *, files: dict[str, str] | None = N
         state_root=root / "state",
         result_root=root / "results",
     )
+
+
+def test_check_digest_normalizes_only_unittest_elapsed_time():
+    first = b"test_value ... ok\nRan 1 test in 0.001s\n\nOK\n"
+    second = b"test_value ... ok\nRan 1 test in 0.000s\n\nOK\n"
+    changed_result = b"test_value ... FAIL\nRan 1 test in 0.001s\n\nFAILED\n"
+    assert aura_sandbox._check_digest(first) == aura_sandbox._check_digest(second)
+    assert aura_sandbox._check_digest(first) != aura_sandbox._check_digest(changed_result)
 
 
 def test_rejects_unauthorized_or_oversized_proposals_before_intent(tmp_path):
@@ -324,6 +333,7 @@ def test_real_wsl_runner_denies_local_effects_and_returns_reviewable_exact_candi
     assert result["base_sha"] == base and len(result["candidate_sha"]) in {40, 64}
     assert result["changed_paths"] == ["src/value.py", "tests/test_value.py"]
     evidence = json.loads(Path(result["evidence_path"]).read_text(encoding="utf-8"))
+    print(f"denial_probe={evidence['denial_probe']}")
     assert evidence["independent_verifier"]["read_only_check"] == "PASS"
     assert evidence["independent_verifier"]["test_output_sha256"] == evidence["test_output_sha256"]
     assert evidence["denial_probe"]["outside_writes"] is False
@@ -352,6 +362,51 @@ def test_real_wsl_runner_denies_local_effects_and_returns_reviewable_exact_candi
     replay = _call(repo, base, tmp_path)
     assert replay["candidate_sha"] == result["candidate_sha"]
     assert replay["idempotent_replay"] is True
+
+
+@pytest.mark.skipif(not _wsl_available(), reason="Ubuntu WSL is unavailable")
+def test_review_patch_comes_from_verified_objects_not_candidate_diff_config(tmp_path):
+    repo, base = _repo(tmp_path)
+    test_source = (
+        "import os, subprocess, unittest\n"
+        "class CandidateDiffConfig(unittest.TestCase):\n"
+        "    def test_install_candidate_local_textconv(self):\n"
+        "        if os.getcwd() == '/out/worktree':\n"
+        "            subprocess.run(['/usr/bin/git', 'config', 'diff.hidden.textconv', '/bin/true'], check=True)\n"
+        "        self.assertEqual('AURA_REVIEW_PATCH_MUST_SHOW_THIS', 'AURA_REVIEW_PATCH_MUST_SHOW_THIS')\n"
+    )
+    result = aura_sandbox.execute_proposal(
+        repo,
+        objective="Add a test that exercises candidate-local diff configuration.",
+        base_sha=base,
+        allowed_paths=[".gitattributes", "tests/test_candidate_diff_config.py"],
+        files={
+            ".gitattributes": "tests/test_candidate_diff_config.py diff=hidden\n",
+            "tests/test_candidate_diff_config.py": test_source,
+        },
+        state_root=tmp_path / "state",
+        result_root=tmp_path / "results",
+    )
+    assert result["status"] == "REVIEW_REQUESTED"
+    evidence = json.loads(Path(result["evidence_path"]).read_text(encoding="utf-8"))
+    patch = Path(result["patch_path"]).read_bytes()
+    assert evidence["changed_paths"] == [".gitattributes", "tests/test_candidate_diff_config.py"]
+    assert b"tests/test_candidate_diff_config.py diff=hidden" in patch
+    assert b"AURA_REVIEW_PATCH_MUST_SHOW_THIS" in patch
+    assert evidence["patch_sha256"] == aura_sandbox._hash(patch)
+    verifier = evidence["independent_verifier"]
+    assert verifier["candidate_sha"] == evidence["candidate_sha"]
+    assert verifier["tree_sha"] == evidence["tree_sha"]
+    assert verifier["changed_paths"] == evidence["changed_paths"]
+    assert base64.b64decode(verifier["patch_b64"], validate=True) == patch
+    assert verifier["patch_sha256"] == evidence["patch_sha256"]
+    assert verifier["patch_binding"] == evidence["patch_binding"]
+    assert verifier["patch_binding"] == {
+        "candidate_sha": evidence["candidate_sha"],
+        "tree_sha": evidence["tree_sha"],
+        "changed_paths": evidence["changed_paths"],
+        "check_sha256": verifier["test_output_sha256"],
+    }
 
 
 @pytest.mark.skipif(not _wsl_available(), reason="Ubuntu WSL is unavailable")

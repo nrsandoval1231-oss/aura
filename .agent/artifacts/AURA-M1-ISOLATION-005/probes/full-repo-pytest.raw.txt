@@ -1,0 +1,61 @@
+........................................................................ [ 12%]
+.s...F.................................................................. [ 24%]
+........................................................................ [ 36%]
+........................................................................ [ 49%]
+........................................................................ [ 61%]
+........................................................................ [ 73%]
+........................................................................ [ 86%]
+........................................................................ [ 98%]
+........                                                                 [100%]
+================================== FAILURES ===================================
+___________ test_rejects_files_created_by_a_check_and_check_timeout ___________
+
+tmp_path = WindowsPath('C:/Users/nrsan/AppData/Local/Temp/pytest-of-nrsan/pytest-2560/test_rejects_files_created_by_0')
+
+    def test_rejects_files_created_by_a_check_and_check_timeout(tmp_path):
+        repo = tmp_path / "repo"
+        base = repo_at(repo)
+        edit = {
+            "tests/test_candidate.py": (
+                "from pathlib import Path\n"
+                "def test_adds_unapproved_file():\n"
+                "    Path('surprise.txt').write_text('extra')\n"
+            )
+        }
+        with pytest.raises(ForgeError, match="changed|scope"):
+            execute_proposal(
+                repo,
+                Proposal("extra", base, edit),
+                allowed_paths=tuple(edit),
+                checks=(Check("pytest"),),
+                receipt_root=tmp_path / "receipts-extra",
+                worktree_root=tmp_path / "worktrees-extra",
+            )
+    
+        repo2 = tmp_path / "repo-timeout"
+        base2 = repo_at(repo2)
+        slow = {"tests/test_candidate.py": "import time\ndef test_slow():\n    time.sleep(2)\n"}
+>       with pytest.raises(ForgeError, match="timed out"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'timed out'
+E         Actual message: 'Total check budget exhausted'
+
+tests\test_aura_executor.py:402: AssertionError
+============================== warnings summary ===============================
+tests/ingestion/test_ingestion.py::test_owner_correction_reenters_decompose_and_preserves_lineage
+  C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\.venv\Lib\site-packages\pydantic\main.py:475: UserWarning: Pydantic serializer warnings:
+    PydanticSerializationUnexpectedValue(Expected `tuple[AcceptedAssumption, ...]` - serialized value may not be as expected [field_name='assumptions_accepted', input_value=[AcceptedAssumption(id='A...', 'owner correction'))], input_type=list])
+    return self.__pydantic_serializer__.to_python(
+
+tests/ingestion/test_ingestion.py::test_handoff_rejects_post_signature_contract_change
+  C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\.venv\Lib\site-packages\pydantic\main.py:475: UserWarning: Pydantic serializer warnings:
+    PydanticSerializationUnexpectedValue(Expected `tuple[str, ...]` - serialized value may not be as expected [field_name='in_scope', input_value=['sales', 'stock', 'payroll'], input_type=list])
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_aura_executor.py:277: OS cannot create symlinks: [WinError 1314] A required privilege is not held by the client: 'README.md' -> 'C:\\Users\\nrsan\\AppData\\Local\\Temp\\pytest-of-nrsan\\pytest-2560\\test_symlink_path_is_refused0\\repo\\link'
+FAILED tests/test_aura_executor.py::test_rejects_files_created_by_a_check_and_check_timeout
+1 failed, 582 passed, 1 skipped, 2 warnings in 192.84s (0:03:12)
+EXIT_CODE=1

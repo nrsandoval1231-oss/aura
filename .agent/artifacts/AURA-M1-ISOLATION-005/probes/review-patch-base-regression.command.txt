@@ -1,0 +1,4 @@
+Command (PowerShell, repository root; source code still at packet base 83775200):
+
+$env:PYTHONPATH=(Resolve-Path src).Path
+& 'C:/Users/nrsan/.codex/worktrees/aura-m0-m1/Aura/.venv/Scripts/python.exe' -m pytest tests/test_aura_sandbox.py -q -s -x -k review_patch_comes_from_verified_objects

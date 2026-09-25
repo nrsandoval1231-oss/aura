@@ -10,6 +10,7 @@ import base64
 import hashlib
 import json
 import pathlib
+import re
 import resource
 import subprocess
 import sys
@@ -271,12 +272,62 @@ def _verify() -> dict[str, object]:
         )
     if _git("--git-dir=" + str(git_dir), "rev-parse", candidate + "^{tree}") != tree:
         raise RuntimeError("VERIFIER_TREE_CHANGED")
+
+    patch_path = pathlib.Path("/out/verified.patch")
+    patch_stderr_path = pathlib.Path("/out/verified-patch.stderr")
+    patch_command = [
+        "/usr/bin/git",
+        *GIT_CONFIG,
+        "--git-dir=" + str(git_dir),
+        "diff",
+        "--no-ext-diff",
+        "--no-textconv",
+        "--binary",
+        "--full-index",
+        "--no-renames",
+        "--no-color",
+        base,
+        candidate,
+        "--",
+        *paths,
+    ]
+    with patch_path.open("wb") as output, patch_stderr_path.open("wb") as errors:
+        patch_result = subprocess.run(
+            patch_command,
+            env=ENV,
+            stdout=output,
+            stderr=errors,
+            timeout=10,
+            check=False,
+            preexec_fn=_limits,
+        )
+    patch_bytes = patch_path.read_bytes()
+    patch_stderr = patch_stderr_path.read_bytes()
+    if (
+        patch_result.returncode
+        or len(patch_bytes) > MAX_CAPTURE
+        or len(patch_stderr) > 8192
+        or patch_stderr
+    ):
+        raise RuntimeError("VERIFIED_PATCH_DERIVATION_FAILED")
+    check_digest = hashlib.sha256(
+        re.sub(rb"Ran (\d+) tests? in [0-9.]+s", rb"Ran \1 tests in <elapsed>s", test_output)
+    ).hexdigest()
     return {
         "status": "VERIFIED",
         "candidate_sha": candidate,
         "tree_sha": tree,
         "changed_paths": paths,
-        "test_output_sha256": hashlib.sha256(test_output).hexdigest(),
+        "test_output_sha256": check_digest,
+        "test_output": test_output.decode("utf-8", "replace"),
+        "patch_b64": base64.b64encode(patch_bytes).decode("ascii"),
+        "patch_sha256": hashlib.sha256(patch_bytes).hexdigest(),
+        "patch_binding": {
+            "candidate_sha": candidate,
+            "tree_sha": tree,
+            "changed_paths": paths,
+            "check_sha256": check_digest,
+        },
         "read_only_check": "PASS",
         "runtime_binary_sha256": runtime,
     }

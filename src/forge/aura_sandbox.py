@@ -56,6 +56,12 @@ def _hash(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _check_digest(data: bytes) -> str:
+    """Hash unittest output after normalizing only its nondeterministic runtime."""
+    canonical = re.sub(rb"Ran (\d+) tests? in [0-9.]+s", rb"Ran \1 tests in <elapsed>s", data)
+    return _hash(canonical)
+
+
 def _store(root: Path) -> LedgerStore:
     return LedgerStore(root, STREAM_ID)
 
@@ -493,19 +499,49 @@ def execute_proposal(
             )
             (verify_stage / "candidate.bundle").write_bytes(bundle)
             verify = _invoke_wsl(repo, verify_stage, verify=True)
-            if (
-                verify.get("status") != "VERIFIED"
-                or verify.get("candidate_sha") != first.get("candidate_sha")
-                or verify.get("tree_sha") != first.get("tree_sha")
-                or verify.get("changed_paths") != first.get("changed_paths")
-                or verify.get("test_output_sha256") != first.get("test_output_sha256")
-            ):
-                raise SandboxError(
-                    "UNKNOWN_EFFECT", "Independent read-only verifier rejected or changed candidate"
+            first_output = first.get("test_output")
+            verify_output = verify.get("test_output")
+            check_output_binding_valid = (
+                isinstance(first_output, str)
+                and isinstance(verify_output, str)
+                and first.get("test_output_sha256") == _check_digest(first_output.encode("utf-8"))
+                and verify.get("test_output_sha256") == _check_digest(verify_output.encode("utf-8"))
+            )
+            verify_mismatches = [
+                field
+                for field in (
+                    "status",
+                    "candidate_sha",
+                    "tree_sha",
+                    "changed_paths",
+                    "test_output_sha256",
                 )
-            patch = base64.b64decode(first["patch_b64"], validate=True)
+                if verify.get(field) != ("VERIFIED" if field == "status" else first.get(field))
+                or (field == "test_output_sha256" and not check_output_binding_valid)
+            ]
+            if verify_mismatches:
+                raise SandboxError(
+                    "UNKNOWN_EFFECT",
+                    "Independent read-only verifier rejected or changed candidate: "
+                    + ", ".join(verify_mismatches),
+                )
+            patch = base64.b64decode(verify["patch_b64"], validate=True)
             if len(patch) > MAX_PROPOSAL_BYTES + 8192:
                 raise SandboxError("UNKNOWN_EFFECT", "Review patch exceeds bounded proposal output")
+            patch_binding = verify.get("patch_binding")
+            expected_patch_binding = {
+                "candidate_sha": first["candidate_sha"],
+                "tree_sha": first["tree_sha"],
+                "changed_paths": first["changed_paths"],
+                "check_sha256": verify["test_output_sha256"],
+            }
+            if (
+                verify.get("patch_sha256") != _hash(patch)
+                or patch_binding != expected_patch_binding
+            ):
+                raise SandboxError(
+                    "UNKNOWN_EFFECT", "Independent verifier patch binding is inconsistent"
+                )
             output_dir = results / stable_run_id
             patch_path = output_dir / "candidate.patch"
             evidence_path = output_dir / "evidence.json"
@@ -520,6 +556,7 @@ def execute_proposal(
                 "changed_paths": first["changed_paths"],
                 "proposal_sha256": intent["proposal_sha256"],
                 "patch_sha256": _hash(patch),
+                "patch_binding": patch_binding,
                 "test_output_sha256": first["test_output_sha256"],
                 "test_output": first["test_output"],
                 "denial_probe": first["denial_probe"],
@@ -575,7 +612,7 @@ def execute_proposal(
         ) from exc
 
 
-_WORKER_TEMPLATE = r"""import base64,hashlib,json,os,pathlib,resource,socket,subprocess,sys
+_WORKER_TEMPLATE = r"""import base64,hashlib,json,os,pathlib,re,resource,socket,subprocess,sys
 MAX_LOG = 1024*1024
 TIMEOUT_GIT = 10
 TIMEOUT_TEST = 30
@@ -702,15 +739,13 @@ def main():
     if git('-C',str(WORK),'status','--porcelain','--untracked-files=all'): raise RuntimeError('TEST_MUTATED_CANDIDATE')
     for path,content in files.items():
         if (WORK/path).read_bytes()!=content: raise RuntimeError('TEST_REWROTE_PROPOSAL_BYTES')
-    diff=git('-C',str(WORK),'diff','--binary','--no-ext-diff',base,candidate,'--',*paths)
-    patch=diff.encode()
     git('--git-dir='+str(GITDIR),'update-ref','refs/heads/aura-candidate',candidate)
     bundle_log=command(['/usr/bin/git',*GC,'--git-dir='+str(GITDIR),'bundle','create',str(OUT/'candidate.bundle'),'refs/heads/aura-candidate','^'+base])
     bundle=(OUT/'candidate.bundle').read_bytes()
     if len(bundle)>MAX_LOG: raise RuntimeError('BUNDLE_OUTPUT_LIMIT')
     emit({'status':'CANDIDATE_READY','candidate_sha':candidate,'tree_sha':tree,'changed_paths':paths,
-      'patch_b64':base64.b64encode(patch).decode(),'bundle_b64':base64.b64encode(bundle).decode(),
-      'test_output':test_raw.decode('utf-8','replace'),'test_output_sha256':hashlib.sha256(test_raw).hexdigest(),
+      'bundle_b64':base64.b64encode(bundle).decode(),
+      'test_output':test_raw.decode('utf-8','replace'),'test_output_sha256':hashlib.sha256(re.sub(rb'Ran (\d+) tests? in [0-9.]+s',rb'Ran \1 tests in <elapsed>s',test_raw)).hexdigest(),
       'denial_probe':denial,'bundle_created':bool(bundle_log is not None)})
 
 main()
