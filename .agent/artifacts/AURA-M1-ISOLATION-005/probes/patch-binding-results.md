@@ -10,7 +10,7 @@ repair. Its disposable repository base was
 checks passed with matching check digests and the API returned
 `REVIEW_REQUESTED`, but the stored patch omitted the source marker
 `AURA_REVIEW_PATCH_MUST_SHOW_THIS`. The failing assertion and exact command are
-in `review-patch-base-regression.raw.txt` and
+in `review-patch-base-regression.raw.b64` and
 `review-patch-base-regression.command.txt`.
 
 After repair, the same regression passed in the full seven-test sandbox suite.
@@ -22,7 +22,7 @@ SHA-256 `c78b3b5ad7994c49b99234a84c5de11032a657bad35ad4c5de51542321ff157b`.
 The patch contains both authorized paths and the marker; verifier-returned
 bytes equal persisted bytes. Candidate, tree, sorted changed paths, and
 independent check digest are present in the patch binding. See
-`full-sandbox-tests.raw.txt`.
+`full-sandbox-tests.raw.b64`.
 
 The two check executions still must both succeed and their digests must match.
 To make this deterministic across process runtimes, only the `Ran N test(s) in

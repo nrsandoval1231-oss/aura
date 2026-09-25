@@ -1,3 +1,0 @@
-Gates failed, refusing to certify: pytest
-  pytest: 3 failed, 579 passed, 2 skipped, 2 warnings in 209.55s (0:03:29)
-EXIT_CODE=1
