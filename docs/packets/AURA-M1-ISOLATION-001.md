@@ -28,6 +28,13 @@ records are retained; neither executor is production-authorized.
   attempts to write `/outside` failed; no outside markers existed afterward.
   Candidate-local writes remained possible by design. These were one-host
   denial probes, not a production sandbox implementation or test-runtime proof.
+- In a separate Windows process test at
+  `C:/Users/nrsan/AppData/Local/Temp/aura-interrupt-proof-e57f82a7f48b47b1a883368baf6fde12`,
+  the executor was killed with exit 91 immediately after its durable intent
+  append. A fresh process loaded one `AURA_EXEC_INTENT` receipt, returned
+  `UNKNOWN_EFFECT`, and did not create a worktree. This proves the current
+  ledger's interrupted-intent refusal, not containment of pre-intent Git
+  effects or reconciliation into a safe retry.
 
 ## Replanned trust boundary
 
