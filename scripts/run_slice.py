@@ -64,6 +64,7 @@ from forge import (
     SourceType,
 )
 from forge.audit_receipts import exact_candidate, verify_detached_audit
+from forge.aura_audit import AURA_PACKET_PREFIX, exact_aura_candidate, verify_aura_detached_audit
 from forge.context_engine import ROLE_POLICY
 from forge.execution_loop import (
     _audit_report_payload_digest,
@@ -285,6 +286,16 @@ def _external_audit(packet: Packet) -> bool:
     malformed, self-referential, or mismatched documents fail closed.
     """
     try:
+        if packet.id.startswith(AURA_PACKET_PREFIX):
+            if packet.base_ref is None:
+                raise ForgeError("AUDIT_RECEIPT_INVALID", "Aura packet is missing its base commit")
+            verify_aura_detached_audit(
+                ROOT,
+                exact_aura_candidate(ROOT, packet.id),
+                packet_id=packet.id,
+                base_sha=packet.base_ref,
+            )
+            return True
         verify_detached_audit(ROOT, exact_candidate(ROOT, packet.id))
     except (ForgeError, OSError, subprocess.CalledProcessError):
         return False

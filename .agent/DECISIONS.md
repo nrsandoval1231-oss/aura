@@ -13,3 +13,10 @@
   pending verified configuration and explicit policy resolution. No silent fallback.
 - AURA-D007: Validation is local. Independent review, owner authority, and live acceptance
   are separate from passing tests. No hosted or self-hosted CI runner is introduced.
+- AURA-D008: The owner approved public PEM SHA-256
+  `55faf401c993f16fd0a9d4f0e9d58babd61ccb018f6bd6cb2a9c7087505de1c1`
+  for an owner-held encrypted audit key. Its private half and passphrase remain
+  outside Aura/Codex. The key ID is derived from this fingerprint and is an
+  attestor identity distinct from the independent reviewer. Pinning the public
+  fingerprint authorizes the protected verifier migration only; exact-candidate
+  review, owner signing, and all normal gates are still required.

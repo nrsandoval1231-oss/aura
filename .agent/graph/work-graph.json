@@ -34,19 +34,20 @@
     {
       "id": "AURA-TRUST-PLAN-001",
       "title": "Owner-held detached review trust bootstrap plan",
-      "status": "READY",
+      "status": "COMPLETE",
       "dependencies": ["AURA-SCOPE-001"],
       "packet": ".agent/tasks/AURA-TRUST-PLAN-001.md",
-      "status_note": "Documentation-only owner-selected key arrangement; no key or verifier activation."
+      "status_note": "Documentation-only plan received independent ACCEPT at 0e4f838; no key or verifier activation."
     },
     {
       "id": "AURA-TRUST-001",
       "title": "Production independent review trust",
-      "status": "PROPOSED",
+      "status": "READY",
       "dependencies": [
         "AURA-TRUST-PLAN-001"
       ],
-      "status_note": "Protected Aura verifier migration and owner public-key pin require a separate packet, exact fingerprint, and independent audit."
+      "packet": ".agent/tasks/AURA-TRUST-001.md",
+      "status_note": "Owner approved exact public PEM SHA-256 55faf401c993f16fd0a9d4f0e9d58babd61ccb018f6bd6cb2a9c7087505de1c1; protected migration remains subject to exact-candidate audit."
     },
     {
       "id": "AURA-RUNNER-001",
