@@ -15,15 +15,21 @@ They are not Aura execution authority or completion evidence.
 
 ## Remaining integration
 
-1. Confirm provider IDs and configure Sol, DeepSeek, Luna, MiniMax, and Astra explicitly.
-2. Reconcile the inherited cross-family audit rule with the requested Luna/Astra pairing.
-3. Provision owner-pinned production review identities and signing material outside builder scope.
-4. Connect SliceLearning to the Governor and real runner; enforce recovery before dispatch.
-5. Give each builder a worktree, dependency-aware queue, packet, context, and frozen base.
-6. Validate combined candidates centrally and require fresh independent candidate review.
-7. Demonstrate real execution, parallelism, forced stuck recovery, restart, and reviewed learning.
+1. Wire an isolated single-builder executor to the Governor, with verified provider
+   adapter, explicit budget, exact candidate checks, and trusted independent review.
+2. Confirm account-level provider access and configure Sol, DeepSeek, Luna, MiniMax,
+   and Astra explicitly.
+3. Reconcile the inherited cross-family audit rule with the requested Luna/Astra pairing.
+4. Provision owner-pinned production review identities and signing material outside builder scope.
+5. Connect SliceLearning to the Governor and real runner; enforce recovery before dispatch.
+6. Add a second worktree and dependency-aware queue only after one task succeeds.
+7. Validate combined candidates centrally and require fresh independent candidate review.
+8. Demonstrate real execution, parallelism, forced stuck recovery, restart, and reviewed learning.
 
-The CLI/module name remains forge for compatibility. run_slice.py is an offline proving
+The `aura` CLI now records bounded requests in an external append-only ledger and
+supports status, inspect, pause and resume on persisted state. `build` records a
+stable ID and returns BLOCKED; it invokes no model or builder and creates no
+candidate. The `forge` CLI and imports remain for compatibility. `run_slice.py` is an offline proving
 harness with test keys and simulated roles; it is not the production runner. Production
 trust is deliberately unprovisioned. No paid call, live activation, or deployment is part
-of the scope cleanup. The local source gate and the live finish contract are separate.
+of this packet. The local source gate and the live finish contract are separate.

@@ -11,9 +11,17 @@
     {
       "id": "AURA-M0-CLI-001",
       "title": "Single-builder CLI and durable local run foundation",
+      "status": "REJECTED",
+      "dependencies": ["AURA-SCOPE-001"],
+      "packet": ".agent/tasks/AURA-M0-CLI-001.md",
+      "status_note": "Exact 53fb0e3 received independent CORRECT; ledger pair loss and stale claims require separate successor evidence. Historical receipt retained."
+    },
+    {
+      "id": "AURA-M0-CLI-002",
+      "title": "Correct ledger loss and bind Aura M0 CLI candidate",
       "status": "READY",
       "dependencies": ["AURA-SCOPE-001"],
-      "packet": ".agent/tasks/AURA-M0-CLI-001.md"
+      "packet": ".agent/tasks/AURA-M0-CLI-002.md"
     },
     {
       "id": "AURA-ROUTING-001",

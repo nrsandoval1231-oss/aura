@@ -1,6 +1,6 @@
 # AURA-M0-CLI-001 — Single-builder CLI foundation
 
-Status: READY. Owner request of 2026-09-25 authorizes a reviewable branch and PR, not paid calls, merge, or deployment.
+Status: REJECTED after independent CORRECT on exact `53fb0e325b45e03af53e3bb574e98a971b64a724`. The historical slice and completion artifacts remain. AURA-M0-CLI-002 is the corrected successor; the owner's later instruction authorizes a reviewable branch and merge only after required review and gates.
 
 ## Objective
 
@@ -36,3 +36,7 @@ Six CLI commands have stable JSON outputs and persistent IDs, with explicit BLOC
 ## Handoff
 
 Record base/candidate SHAs, changed files, test output, an offline disposable request transcript, measured spend or UNKNOWN, failed gates, review verdict, and next packet. No M1 live completion claim from offline tests.
+
+## Correction after independent review
+
+The exact `53fb0e325b45e03af53e3bb574e98a971b64a724` candidate received CORRECT. Repair only the ledger-pair loss case: if either JSONL or checkpoint is missing, refuse reads and mutations without changing surviving bytes. Add both missing-file regression cases. Reconcile docs and completion claims with the blocked-request implementation. Preserve the failed review and slice evidence; produce new candidate evidence and a fresh independent audit. This correction adds no execution authority.

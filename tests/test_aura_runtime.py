@@ -99,3 +99,46 @@ def test_init_refuses_dirty_base_without_writing_runtime_state(tmp_path):
     with pytest.raises(aura_runtime.RuntimeErrorDetail, match="clean Git base"):
         aura_runtime.init_repository(repo)
     assert not aura_runtime._store(repo).exists
+
+
+@pytest.mark.parametrize("missing", ["receipts", "checkpoint"])
+def test_incomplete_ledger_pair_preserves_unknown_history_and_blocks_all_actions(tmp_path, missing):
+    repo = _repo(tmp_path)
+    task = _task(repo)
+    ledger = aura_runtime._load(repo)
+    payload = {"task_id": task["task_id"], "status": "UNKNOWN", "effect": "UNKNOWN"}
+    previous = ledger.receipts[-1].receipt_hash
+    receipt = Receipt.create(
+        len(ledger.receipts) + 1, "AURA_EFFECT_UNKNOWN", None, None, payload, previous
+    )
+    ledger.append(receipt)
+    aura_runtime._store(repo).append(receipt, ledger)
+
+    store = aura_runtime._store(repo)
+    missing_path = store.receipts_path if missing == "receipts" else store.checkpoint_path
+    surviving_path = store.checkpoint_path if missing == "receipts" else store.receipts_path
+    expected_surviving_bytes = surviving_path.read_bytes()
+    missing_path.unlink()
+
+    actions = (
+        lambda: aura_runtime.status(repo),
+        lambda: aura_runtime.inspect(repo, task["task_id"]),
+        lambda: aura_runtime.init_repository(repo),
+        lambda: aura_runtime.init_task(repo, objective="new task", allowed_paths=["src/value.py"]),
+        lambda: aura_runtime.request_build(
+            repo,
+            objective="new build",
+            allowed_paths=["src/value.py"],
+            budget_attempts=1,
+            authorization_id="test-id",
+        ),
+        lambda: aura_runtime.build(repo, task["task_id"]),
+        lambda: aura_runtime.pause(repo, task["task_id"]),
+        lambda: aura_runtime.resume(repo, task["task_id"]),
+    )
+    for action in actions:
+        with pytest.raises(aura_runtime.RuntimeErrorDetail) as error:
+            action()
+        assert error.value.code == "LEDGER_PAIR_INCOMPLETE"
+        assert surviving_path.read_bytes() == expected_surviving_bytes
+        assert not missing_path.exists()

@@ -1,0 +1,28 @@
+{
+  "packet_id": "AURA-M0-CLI-002",
+  "status": "AWAITING_INDEPENDENT_AUDIT",
+  "base_sha": "53fb0e325b45e03af53e3bb574e98a971b64a724",
+  "local_slice_candidate_digest": "52db5a59e08ac02a6e1fca651a7f55e8b061884136a6be49d0c5d6cb530f963c",
+  "local_slice_tree": "c926d89af37f8ee1b698cd8c196acb0a051f3fa9e8ca6581ce143876d42d7478",
+  "repair": "Partial ledger pair now fails closed; surviving file bytes remain unchanged.",
+  "validation": {
+    "focused": "10 passed",
+    "local_slice": "558 passed; Ruff lint and format passed",
+    "full_gate": "Pending exact-commit rerun; detached external audit trust is unprovisioned"
+  },
+  "disposable_repository": {
+    "base_sha": "66b10806edf4abe2e77d51d75d1889a33f3779f6",
+    "build_run_id": "aura-959db1b658744e7299c140e74e0fc6e7",
+    "build_status": "BLOCKED",
+    "build_candidate": "UNKNOWN",
+    "persisted_after_new_cli_process": true,
+    "pause_resume_run_id": "aura-b6ba075529514bb19a53828004352c77",
+    "fault_injected_unknown_result": "Resume BLOCKED with UNKNOWN_EFFECT; inspect remained UNKNOWN",
+    "target_repository_clean": true
+  },
+  "provider_calls": 0,
+  "measured_provider_spend_usd": 0,
+  "billing_spend_status": "UNKNOWN; no billing statement was queried",
+  "m1_reviewed_candidate": false,
+  "merge_eligibility": "BLOCKED: external exact-commit audit gate remains required"
+}

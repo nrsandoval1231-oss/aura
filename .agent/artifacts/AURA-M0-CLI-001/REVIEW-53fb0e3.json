@@ -1,0 +1,14 @@
+{
+  "candidate_sha": "53fb0e325b45e03af53e3bb574e98a971b64a724",
+  "base_sha": "a581d1485ceb9317dc15ad80f8fd4144be82c875",
+  "raw_verdict": "CORRECT",
+  "compatible_verdict": "FIX",
+  "finding": "A missing JSONL or checkpoint sidecar is treated as an empty ledger; interrupted UNKNOWN state can disappear from status.",
+  "required_repair": "Refuse reads and mutations when exactly one ledger sidecar exists, preserve surviving bytes, and test both directions.",
+  "other_findings": [
+    "The committed completion artifact reports obsolete pre-freeze identity and failed gate results; supersede without rewriting it.",
+    "The packet decision record promises isolated execution while this candidate only records blocked requests.",
+    "The simulated slice MERGE_ELIGIBLE receipt is not production authorization or external independent acceptance.",
+    "The exact-commit slice gate remains red because external audit trust is unprovisioned."
+  ]
+}

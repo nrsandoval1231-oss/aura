@@ -51,7 +51,14 @@ def _assert_clean_repo(repo: Path) -> None:
 
 def _load(repo: Path) -> Ledger:
     store = _store(repo)
-    if not store.exists:
+    receipts_exist = store.receipts_path.exists()
+    checkpoint_exists = store.checkpoint_path.exists()
+    if receipts_exist != checkpoint_exists:
+        raise RuntimeErrorDetail(
+            "LEDGER_PAIR_INCOMPLETE",
+            "Aura ledger JSONL and checkpoint must both exist; refusing to infer or rewrite missing history",
+        )
+    if not receipts_exist:
         return Ledger(stream_id=STREAM_ID)
     try:
         return store.load()
