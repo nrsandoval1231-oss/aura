@@ -1,0 +1,70 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "color": {
+    "surface": {
+      "bg-2": { "value": "#0F2A30", "type": "color", "description": "Deepest layer, page background" },
+      "bg":   { "value": "#173D45", "type": "color", "description": "Primary surface — Deep Tide anchor" },
+      "bg-3": { "value": "#1F4A54", "type": "color", "description": "Elevated card surface" },
+      "bg-4": { "value": "#2A5862", "type": "color", "description": "Hover, active states" }
+    },
+    "text": {
+      "ink":   { "value": "#F2EDE0", "type": "color", "description": "Primary text" },
+      "ink-2": { "value": "#B8B0A0", "type": "color", "description": "Secondary text" },
+      "muted": { "value": "#7A7468", "type": "color", "description": "Tertiary, hints" }
+    },
+    "accent": {
+      "accent":     { "value": "#E8B86D", "type": "color", "description": "Warm honey gold — the only bold color" },
+      "accent-dim": { "value": "#B89348", "type": "color", "description": "Darker gold for depth" }
+    },
+    "status": {
+      "success": { "value": "#7FB89B", "type": "color", "description": "Muted sage — success only" },
+      "warn":    { "value": "#D4A85A", "type": "color", "description": "Muted gold — warnings only" },
+      "error":   { "value": "#C97A6B", "type": "color", "description": "Muted terracotta — errors only" },
+      "info":    { "value": "#6FA5B8", "type": "color", "description": "Light teal — informational" }
+    }
+  },
+  "typography": {
+    "family": {
+      "display": { "value": "'DM Serif Display', Georgia, serif", "type": "fontFamily" },
+      "serif":   { "value": "'Instrument Serif', Georgia, serif", "type": "fontFamily" },
+      "sans":    { "value": "'Outfit', system-ui, sans-serif", "type": "fontFamily" },
+      "mono":    { "value": "'JetBrains Mono', 'SF Mono', monospace", "type": "fontFamily" }
+    },
+    "size": {
+      "xs":   { "value": "0.75rem",  "type": "dimension" },
+      "sm":   { "value": "0.875rem", "type": "dimension" },
+      "base": { "value": "1rem",     "type": "dimension" },
+      "lg":   { "value": "1.125rem", "type": "dimension" },
+      "xl":   { "value": "1.5rem",   "type": "dimension" },
+      "2xl":  { "value": "2rem",     "type": "dimension" },
+      "3xl":  { "value": "3rem",     "type": "dimension" },
+      "4xl":  { "value": "4.5rem",   "type": "dimension" },
+      "5xl":  { "value": "6rem",     "type": "dimension" }
+    }
+  },
+  "spacing": {
+    "1":  { "value": "4px",  "type": "dimension" },
+    "2":  { "value": "8px",  "type": "dimension" },
+    "3":  { "value": "12px", "type": "dimension" },
+    "4":  { "value": "16px", "type": "dimension" },
+    "6":  { "value": "24px", "type": "dimension" },
+    "8":  { "value": "32px", "type": "dimension" },
+    "12": { "value": "48px", "type": "dimension" },
+    "16": { "value": "64px", "type": "dimension" },
+    "24": { "value": "96px", "type": "dimension" }
+  },
+  "radius": {
+    "sm":   { "value": "4px",   "type": "dimension" },
+    "md":   { "value": "8px",   "type": "dimension" },
+    "lg":   { "value": "16px",  "type": "dimension" },
+    "xl":   { "value": "24px",  "type": "dimension" },
+    "pill": { "value": "999px", "type": "dimension" }
+  },
+  "motion": {
+    "ease":     { "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",     "type": "cubicBezier" },
+    "ease-out": { "value": "cubic-bezier(0.16, 1, 0.3, 1)",      "type": "cubicBezier" },
+    "fast":     { "value": "150ms", "type": "duration" },
+    "base":     { "value": "250ms", "type": "duration" },
+    "slow":     { "value": "400ms", "type": "duration" }
+  }
+}

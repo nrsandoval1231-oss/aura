@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Tide · Palette Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* The palette */
+    --bg: #173D45;
+    --bg-2: #0F2A30;
+    --bg-3: #1F4A54;
+    --bg-4: #2A5862;
+    --ink: #F2EDE0;
+    --ink-2: #B8B0A0;
+    --muted: #7A7468;
+    --line: rgba(242,237,224,0.10);
+    --line-strong: rgba(242,237,224,0.18);
+    --accent: #E8B86D;
+    --accent-dim: #B89348;
+    --success: #7FB89B;
+    --warn: #D4A85A;
+    --error: #C97A6B;
+    --info: #6FA5B8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-2);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 48px 32px; }
+  @media (max-width: 640px) { .wrap { padding: 32px 20px; } }
+
+  /* ---------- HEADER ---------- */
+  .head {
+    margin-bottom: 64px;
+  }
+  .head .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+  .head h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .head h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .head .sub {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-2);
+    max-width: 640px;
+  }
+
+  /* ---------- HERO SWATCH ---------- */
+  .hero-swatch {
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 64px;
+    margin-bottom: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 800px) { .hero-swatch { grid-template-columns: 1fr; padding: 40px; gap: 32px; } }
+  .hero-swatch::before {
+    content: "";
+    position: absolute;
+    width: 60%; height: 100%;
+    right: -10%; top: 0;
+    background: radial-gradient(circle at center, rgba(232,184,109,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-swatch .label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .hero-swatch .name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .hero-swatch .hex {
+    font-size: 18px;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .hero-swatch .desc {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .hero-swatch .ring {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    box-shadow:
+      inset 0 0 0 1px rgba(242,237,224,0.05),
+      0 30px 80px -20px rgba(0,0,0,0.5),
+      0 0 80px rgba(232,184,109,0.15);
+    max-width: 320px;
+    margin-left: auto;
+    position: relative;
+  }
+  .hero-swatch .ring::after {
+    content: "#173D45";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+
+  /* ---------- SECTION ---------- */
+  .section { margin-bottom: 80px; }
+  .sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+  .sec-head h2 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .sec-head .num {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink-2);
+  }
+  .sec-head .note {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-2);
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
+
+  /* ---------- SWATCH GRIDS ---------- */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) { .swatch-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .swatch {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .swatch:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .swatch .chip {
+    aspect-ratio: 4/3;
+    width: 100%;
+    position: relative;
+  }
+  .swatch .info {
+    padding: 14px 16px 16px;
+  }
+  .swatch .role {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+  .swatch .hex {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .swatch .rgb {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* for surface swatches (bg/bg-2/bg-3/bg-4) the chip uses the color itself */
+  .swatch.surface .chip {
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+  }
+  .swatch.surface .chip .label-on {
+    font-size: 11px;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+
+  /* for accent swatches */
+  .swatch.accent .info { border-top: 1px solid var(--line); }
+
+  /* ---------- LIVE PREVIEW UI MOCK ---------- */
+  .preview {
+    background: var(--bg);
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.4);
+  }
+  .preview-bar {
+    display: flex;
+    gap: 7px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(0,0,0,0.2);
+  }
+  .preview-bar span {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg-4);
+  }
+  .preview-bar span:nth-child(1) { background: var(--error); opacity: 0.6; }
+  .preview-bar span:nth-child(2) { background: var(--warn); opacity: 0.6; }
+  .preview-bar span:nth-child(3) { background: var(--success); opacity: 0.6; }
+
+  .preview-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+  }
+  @media (max-width: 800px) { .preview-body { grid-template-columns: 1fr; } }
+
+  .preview-main {
+    padding: 28px;
+    border-right: 1px solid var(--line);
+  }
+  @media (max-width: 800px) { .preview-main { border-right: none; border-bottom: 1px solid var(--line); } }
+
+  .preview-side {
+    padding: 28px;
+    background: rgba(0,0,0,0.15);
+  }
+
+  .preview-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .preview-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .preview-meta {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .output {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .output .ln { display: block; margin-bottom: 2px; }
+  .output .prompt { color: var(--accent); margin-right: 8px; }
+  .output .success { color: var(--success); }
+  .output .warn { color: var(--warn); }
+  .output .error { color: var(--error); }
+  .output .info { color: var(--info); }
+  .output .muted { color: var(--muted); font-style: italic; font-family: 'Instrument Serif', serif; }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: var(--bg-2);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .btn.ghost { color: var(--ink-2); }
+
+  .preview-side h4 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 16px;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 12px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .l { color: var(--ink-2); }
+  .stat-row .v { color: var(--ink); font-weight: 500; }
+  .stat-row .v.up { color: var(--success); }
+  .stat-row .v.warn { color: var(--warn); }
+
+  /* ---------- RULES ---------- */
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  @media (max-width: 800px) { .rules { grid-template-columns: 1fr; } }
+  .rule {
+    padding: 32px;
+    border-right: 1px solid var(--line);
+  }
+  .rule:last-child { border-right: none; }
+  @media (max-width: 800px) {
+    .rule { border-right: none; border-bottom: 1px solid var(--line); }
+    .rule:last-child { border-bottom: none; }
+  }
+  .rule .num {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .rule h5 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .rule p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="head">
+    <div class="eyebrow">Palette Reference · v1</div>
+    <h1>Deep <em>Tide</em>.</h1>
+    <p class="sub">A complete color system built around a single anchor — a deep, sophisticated teal that breathes calm and weight. Every other color earns its place.</p>
+  </header>
+
+  <!-- HERO SWATCH -->
+  <div class="hero-swatch">
+    <div>
+      <div class="label">The Anchor</div>
+      <div class="name">Deep Tide</div>
+      <div class="hex">#173D45</div>
+      <p class="desc">"Deep ocean at noon. Vintage enamel. A color that doesn't ask for attention but holds the room."</p>
+    </div>
+    <div class="ring"></div>
+  </div>
+
+  <!-- SURFACE SCALE -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Surface <em>scale</em>.</h2>
+      <div class="num">01 / 4 stops</div>
+    </div>
+    <p class="note">Four tones from deepest to highest elevation. Use them to layer depth without adding visual noise.</p>
+
+    <div class="swatch-grid">
+      <div class="swatch surface">
+        <div class="chip" style="background: #0F2A30;">
+          <span class="label-on">bg-2 · deepest</span>
+        </div>
+        <div class="info">
+          <div class="role">bg-2 · page</div>
+          <div class="hex">#0F2A30</div>
+          <div class="rgb">rgb(15, 42, 48)</div>
+        </div>
+      </div>
+
+      <div class="swatch surface">
+        <div class="chip" style="background: #173D45;">
+          <span class="label-on">bg · primary</span>
+        </div>
+        <div class="info">
+          <div class="role">bg · canvas</div>
+          <div class="hex">#173D45</div>
+          <div class="rgb">rgb(23, 61, 69)</div>
+        </div>
+      </div>
+
+      <div class="swatch surface">
+        <div class="chip" style="background: #1F4A54;">
+          <span class="label-on">bg-3 · surface</span>
+        </div>
+        <div class="info">
+          <div class="role">bg-3 · card</div>
+          <div class="hex">#1F4A54</div>
+          <div class="rgb">rgb(31, 74, 84)</div>
+        </div>
+      </div>
+
+      <div class="swatch surface">
+        <div class="chip" style="background: #2A5862;">
+          <span class="label-on">bg-4 · hover</span>
+        </div>
+        <div class="info">
+          <div class="role">bg-4 · elevated</div>
+          <div class="hex">#2A5862</div>
+          <div class="rgb">rgb(42, 88, 98)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEXT SCALE -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Text <em>scale</em>.</h2>
+      <div class="num">02 / 3 weights</div>
+    </div>
+    <p class="note">Warm off-whites — never cool whites. The warmth creates contrast against the cool teal without feeling clinical.</p>
+
+    <div class="swatch-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="swatch">
+        <div class="chip" style="background: #F2EDE0; aspect-ratio: 2/1;"></div>
+        <div class="info">
+          <div class="role">ink · primary</div>
+          <div class="hex">#F2EDE0</div>
+          <div class="rgb">rgb(242, 237, 224)</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="chip" style="background: #B8B0A0; aspect-ratio: 2/1;"></div>
+        <div class="info">
+          <div class="role">ink-2 · secondary</div>
+          <div class="hex">#B8B0A0</div>
+          <div class="rgb">rgb(184, 176, 160)</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="chip" style="background: #7A7468; aspect-ratio: 2/1;"></div>
+        <div class="info">
+          <div class="role">muted · tertiary</div>
+          <div class="hex">#7A7468</div>
+          <div class="rgb">rgb(122, 116, 104)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCENT + STATUS -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Accent & <em>status</em>.</h2>
+      <div class="num">03 / 5 colors</div>
+    </div>
+    <p class="note">A warm honey gold is the single accent — used sparingly, it sings against the teal. Status colors stay muted and harmonious.</p>
+
+    <div class="swatch-grid" style="grid-template-columns: repeat(5, 1fr);">
+      <div class="swatch accent">
+        <div class="chip" style="background: #E8B86D;"></div>
+        <div class="info">
+          <div class="role">accent</div>
+          <div class="hex">#E8B86D</div>
+          <div class="rgb">rgb(232, 184, 109)</div>
+        </div>
+      </div>
+
+      <div class="swatch accent">
+        <div class="chip" style="background: #B89348;"></div>
+        <div class="info">
+          <div class="role">accent-dim</div>
+          <div class="hex">#B89348</div>
+          <div class="rgb">rgb(184, 147, 72)</div>
+        </div>
+      </div>
+
+      <div class="swatch accent">
+        <div class="chip" style="background: #7FB89B;"></div>
+        <div class="info">
+          <div class="role">success</div>
+          <div class="hex">#7FB89B</div>
+          <div class="rgb">rgb(127, 184, 155)</div>
+        </div>
+      </div>
+
+      <div class="swatch accent">
+        <div class="chip" style="background: #D4A85A;"></div>
+        <div class="info">
+          <div class="role">warn</div>
+          <div class="hex">#D4A85A</div>
+          <div class="rgb">rgb(212, 168, 90)</div>
+        </div>
+      </div>
+
+      <div class="swatch accent">
+        <div class="chip" style="background: #C97A6B;"></div>
+        <div class="info">
+          <div class="role">error</div>
+          <div class="hex">#C97A6B</div>
+          <div class="rgb">rgb(201, 122, 107)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE PREVIEW -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Live <em>preview</em>.</h2>
+      <div class="num">04 / in context</div>
+    </div>
+    <p class="note">How the palette breathes inside an actual interface. Same components, just the system in action.</p>
+
+    <div class="preview">
+      <div class="preview-bar">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-main">
+          <div class="preview-title">aura — <em>command shell</em></div>
+          <div class="preview-meta">v0.9.2 · tide palette · live</div>
+
+          <div class="output">
+            <span class="ln"><span class="prompt">❯</span><span>deploy --prod</span></span>
+            <span class="ln success">  ✓ container started · pod-7f3a</span>
+            <span class="ln success">  ✓ healthcheck passed · 200ms</span>
+            <span class="ln info">  → running 412 smoke tests</span>
+            <span class="ln success">  ✓ all green · promoting</span>
+            <span class="ln"><span class="muted">    canary is the new production.</span></span>
+            <span class="ln"><span class="prompt">❯</span><span>analyze --deep</span></span>
+            <span class="ln">    type coverage    <span class="success">98.7%</span></span>
+            <span class="ln">    bundle size      <span class="warn">184kb</span></span>
+            <span class="ln">    score            <span class="success">A+</span></span>
+            <span class="ln"><span class="prompt">❯</span><span>git push origin main</span></span>
+            <span class="ln error">  ✗ push rejected · remote ahead</span>
+            <span class="ln"><span class="muted">    pull first, then try again.</span></span>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn primary">deploy</button>
+            <button class="btn">analyze</button>
+            <button class="btn ghost">docs →</button>
+          </div>
+        </div>
+
+        <div class="preview-side">
+          <h4>system pulse</h4>
+          <div class="stat-row"><span class="l">cpu</span><span class="v">12%</span></div>
+          <div class="stat-row"><span class="l">memory</span><span class="v">4.2 gb</span></div>
+          <div class="stat-row"><span class="l">latency p99</span><span class="v up">▲ faster</span></div>
+          <div class="stat-row"><span class="l">uptime</span><span class="v">99.99%</span></div>
+          <div class="stat-row"><span class="l">queue depth</span><span class="v warn">3 pending</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>The <em>rules</em>.</h2>
+      <div class="num">05 / how to use</div>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="num">01</div>
+        <h5>The teal is the canvas.</h5>
+        <p>Never compete with it. The accent exists to draw the eye to where action happens, not to add color.</p>
+      </div>
+      <div class="rule">
+        <div class="num">02</div>
+        <h5>One accent, used well.</h5>
+        <p>Warm honey gold is the only bold color. Use it for primary actions, prompts, and the one thing per screen that matters.</p>
+      </div>
+      <div class="rule">
+        <div class="num">03</div>
+        <h5>Status colors stay quiet.</h5>
+        <p>No neon greens or reds. Status colors are desaturated to fit the palette — visible but never loud.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Deep Tide Palette · 2026</span>
+    <span>Designed to be quiet, weighty, considered</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

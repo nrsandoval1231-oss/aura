@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aura · Brand Guidelines</title>
+<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #173D45;
+    --bg-2: #0F2A30;
+    --bg-3: #1F4A54;
+    --bg-4: #2A5862;
+    --ink: #F2EDE0;
+    --ink-2: #B8B0A0;
+    --muted: #7A7468;
+    --line: rgba(242,237,224,0.09);
+    --line-strong: rgba(242,237,224,0.16);
+    --accent: #E8B86D;
+    --accent-dim: #B89348;
+    --success: #7FB89B;
+    --warn: #D4A85A;
+    --error: #C97A6B;
+    --info: #6FA5B8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 640px) { .wrap { padding: 0 20px; } }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(15,42,48,0.7);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .topbar-left { display: flex; gap: 16px; align-items: center; }
+  .topbar-right { display: flex; gap: 24px; }
+  .topbar-right a { color: var(--ink-2); transition: color 0.2s; }
+  .topbar-right a:hover { color: var(--accent); }
+  .topbar .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 96px 0 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-tag::before { content: ""; width: 32px; height: 1px; background: var(--ink-2); }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--ink-2);
+    max-width: 720px;
+    margin-bottom: 48px;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; }
+  @media (max-width: 800px) { .hero-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 96px 0; border-bottom: 1px solid var(--line); }
+  .sec-head { margin-bottom: 48px; }
+  .sec-head .num {
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .sec-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    max-width: 900px;
+  }
+  .sec-head h2 em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--accent); }
+
+  /* ---------- LOGO SHOWCASE ---------- */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .logo-grid { grid-template-columns: 1fr; } }
+
+  .logo-cell {
+    aspect-ratio: 16/9;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-cell.dark { background: var(--bg-2); }
+  .logo-cell.darker { background: var(--bg); }
+  .logo-cell.light { background: var(--ink); }
+  .logo-cell.gradient {
+    background: radial-gradient(ellipse at top left, rgba(232,184,109,0.15), transparent 60%), var(--bg-2);
+  }
+  .logo-cell.square { aspect-ratio: 1; }
+  .logo-cell .label {
+    position: absolute;
+    bottom: 14px; left: 14px;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .logo-cell.light .label { color: var(--muted); }
+
+  /* big wordmark via CSS so we can control size */
+  .wordmark {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+  .wordmark .accent {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+  .wm-hero  { font-size: clamp(80px, 12vw, 200px); }
+  .wm-mid   { font-size: 88px; }
+  .wm-small { font-size: 56px; }
+  .wm-fill-cream { color: var(--ink); }
+  .wm-fill-cream .accent { color: var(--accent); }
+  .wm-fill-teal { color: var(--bg); }
+  .wm-fill-teal .accent { color: var(--accent-dim); }
+
+  .monogram {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 180px;
+    line-height: 1;
+    text-align: center;
+  }
+  .icon-glyph {
+    width: 140px; height: 140px;
+    background: linear-gradient(135deg, var(--bg-3), var(--bg));
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 110px;
+    color: var(--accent);
+    box-shadow: 0 20px 50px -10px rgba(0,0,0,0.4);
+  }
+  .icon-glyph.light {
+    background: var(--ink);
+    color: var(--accent-dim);
+    box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
+  }
+
+  /* ---------- COLOR GRID ---------- */
+  .color-section { margin-bottom: 56px; }
+  .color-section h3 {
+    font-size: 14px;
+    color: var(--ink-2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 800px) { .color-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .color-card {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .color-card .swatch {
+    aspect-ratio: 1.4;
+  }
+  .color-card .meta { padding: 14px 16px; }
+  .color-card .role {
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .color-card .name {
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .color-card .hex { font-size: 12px; color: var(--muted); }
+
+  /* ---------- TYPE SPECIMEN ---------- */
+  .type-stack { display: flex; flex-direction: column; gap: 32px; }
+  .type-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 700px) { .type-row { grid-template-columns: 1fr; gap: 8px; } }
+  .type-row .meta {
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .type-row .meta strong { display: block; color: var(--ink); margin-bottom: 4px; font-weight: 500; }
+  .type-row .specimen { color: var(--ink); }
+  .type-row .specimen.serif-display { font-family: 'DM Serif Display', serif; font-size: 48px; line-height: 1; letter-spacing: -0.02em; }
+  .type-row .specimen.serif-italic { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 36px; }
+  .type-row .specimen.sans { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 500; }
+  .type-row .specimen.mono { font-family: 'JetBrains Mono', monospace; font-size: 18px; }
+
+  /* ---------- VOICE ---------- */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 700px) { .voice-grid { grid-template-columns: 1fr; } }
+
+  .voice-card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .voice-card .label {
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .voice-card.do .label { color: var(--success); }
+  .voice-card.dont .label { color: var(--error); }
+  .voice-card .example {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .voice-card .why {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  /* ---------- USAGE ---------- */
+  .usage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) { .usage-grid { grid-template-columns: 1fr; } }
+
+  .usage-card {
+    aspect-ratio: 4/3;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .usage-card.ok { background: var(--bg-2); }
+  .usage-card.bad { background: rgba(201,122,107,0.08); border-color: rgba(201,122,107,0.3); }
+  .usage-card .badge {
+    position: absolute;
+    top: 14px; right: 14px;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .usage-card.ok .badge { background: var(--success); color: var(--bg-2); }
+  .usage-card.bad .badge { background: var(--error); color: var(--ink); }
+  .usage-card .label {
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* ---------- APPLICATIONS ---------- */
+  .app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  @media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } }
+
+  .app-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .app-card .preview {
+    aspect-ratio: 16/9;
+    background: var(--bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    position: relative;
+  }
+  .app-card.light .preview { background: var(--ink); }
+  .app-card .meta { padding: 16px 20px; border-top: 1px solid var(--line); }
+  .app-card .meta .role { font-size: 11px; color: var(--ink-2); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+  .app-card .meta .desc { font-size: 13px; color: var(--ink); }
+
+  /* OG preview */
+  .og {
+    width: 100%;
+    aspect-ratio: 1200/630;
+    background: radial-gradient(ellipse at 20% 30%, rgba(232,184,109,0.15), transparent 60%), var(--bg-2);
+    border-radius: 8px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+  }
+  .og .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-2); letter-spacing: 0.15em; }
+  .og .big {
+    font-family: 'DM Serif Display', serif;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+  }
+  .og .big em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--accent); }
+  .og .sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-2); }
+
+  /* Avatar preview */
+  .avatars { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .avatar {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--bg-3), var(--bg));
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 56px;
+    color: var(--accent);
+  }
+  .avatar.sm { width: 36px; height: 36px; border-radius: 10px; font-size: 28px; }
+  .avatar.lg { width: 120px; height: 120px; border-radius: 30px; font-size: 96px; }
+  .avatar.round { border-radius: 50%; }
+
+  /* Footer */
+  footer {
+    padding: 48px 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="dot"></span>
+      <span>aura · brand guidelines · v1.0</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#logo">logo</a>
+      <a href="#color">color</a>
+      <a href="#type">type</a>
+      <a href="#voice">voice</a>
+      <a href="#usage">usage</a>
+      <a href="#apps">apps</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag">Brand Guidelines · v1.0 · 2026</div>
+    <div class="hero-grid">
+      <h1>The aura <em>brand</em>.</h1>
+      <p class="hero-sub">A complete visual system for a CLI that takes itself seriously. Built around one anchor color, one bold accent, and the conviction that quiet design outlasts loud design.</p>
+    </div>
+  </div>
+</header>
+
+<!-- LOGO -->
+<section id="logo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 01 · logo system</div>
+      <h2>The wordmark, the monogram, <em>the icon.</em></h2>
+    </div>
+
+    <div class="logo-grid">
+      <div class="logo-cell gradient">
+        <span class="wordmark wm-hero wm-fill-cream">aur<span class="accent">a</span></span>
+        <span class="label">primary · wordmark</span>
+      </div>
+
+      <div class="logo-cell light">
+        <span class="wordmark wm-mid wm-fill-teal">aur<span class="accent">a</span></span>
+        <span class="label">light · wordmark</span>
+      </div>
+
+      <div class="logo-cell darker">
+        <div class="icon-glyph"><span style="margin-top: -20px;">a</span></div>
+        <span class="label">icon · 1024px</span>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+      <div class="logo-cell dark" style="aspect-ratio: 16/6;">
+        <span class="wordmark wm-small wm-fill-cream">aur<span class="accent">a</span></span>
+        <span class="label">small · monogram lockup</span>
+      </div>
+
+      <div class="logo-cell light" style="aspect-ratio: 16/6;">
+        <div class="avatars">
+          <div class="avatar round sm">a</div>
+          <div class="avatar sm">a</div>
+          <div class="avatar">a</div>
+          <div class="avatar lg">a</div>
+        </div>
+        <span class="label">avatar sizes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR -->
+<section id="color">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 02 · color system</div>
+      <h2>One anchor. <em>One bold color.</em> Nothing else competes.</h2>
+    </div>
+
+    <div class="color-section">
+      <h3>Surface scale</h3>
+      <div class="color-grid">
+        <div class="color-card"><div class="swatch" style="background: #0F2A30;"></div><div class="meta"><div class="role">bg-2</div><div class="name">Deepest</div><div class="hex">#0F2A30</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #173D45;"></div><div class="meta"><div class="role">bg · anchor</div><div class="name">Deep Tide</div><div class="hex">#173D45</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #1F4A54;"></div><div class="meta"><div class="role">bg-3</div><div class="name">Surface</div><div class="hex">#1F4A54</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #2A5862;"></div><div class="meta"><div class="role">bg-4</div><div class="name">Elevated</div><div class="hex">#2A5862</div></div></div>
+      </div>
+    </div>
+
+    <div class="color-section">
+      <h3>Text scale</h3>
+      <div class="color-grid">
+        <div class="color-card"><div class="swatch" style="background: #F2EDE0;"></div><div class="meta"><div class="role">ink</div><div class="name">Primary text</div><div class="hex">#F2EDE0</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #B8B0A0;"></div><div class="meta"><div class="role">ink-2</div><div class="name">Secondary text</div><div class="hex">#B8B0A0</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #7A7468;"></div><div class="meta"><div class="role">muted</div><div class="name">Tertiary · hints</div><div class="hex">#7A7468</div></div></div>
+      </div>
+    </div>
+
+    <div class="color-section">
+      <h3>Accent + status</h3>
+      <div class="color-grid">
+        <div class="color-card"><div class="swatch" style="background: #E8B86D;"></div><div class="meta"><div class="role">accent</div><div class="name">Warm honey gold</div><div class="hex">#E8B86D</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #B89348;"></div><div class="meta"><div class="role">accent-dim</div><div class="name">Darker gold</div><div class="hex">#B89348</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #7FB89B;"></div><div class="meta"><div class="role">success</div><div class="name">Muted sage</div><div class="hex">#7FB89B</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #D4A85A;"></div><div class="meta"><div class="role">warn</div><div class="name">Muted gold</div><div class="hex">#D4A85A</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #C97A6B;"></div><div class="meta"><div class="role">error</div><div class="name">Muted terracotta</div><div class="hex">#C97A6B</div></div></div>
+        <div class="color-card"><div class="swatch" style="background: #6FA5B8;"></div><div class="meta"><div class="role">info</div><div class="name">Light teal</div><div class="hex">#6FA5B8</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section id="type">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 03 · typography</div>
+      <h2>Four faces. <em>One hierarchy.</em></h2>
+    </div>
+
+    <div class="type-stack">
+      <div class="type-row">
+        <div class="meta"><strong>DM Serif Display</strong>Display headlines · brand voice</div>
+        <div class="specimen serif-display">aur<span style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent);">a</span> · ship calmer.</div>
+      </div>
+      <div class="type-row">
+        <div class="meta"><strong>Instrument Serif · Italic</strong>Accents, quotes, italic emphasis</div>
+        <div class="specimen serif-italic">"The interface that disappears is the one that understood you."</div>
+      </div>
+      <div class="type-row">
+        <div class="meta"><strong>Outfit</strong>UI · body · interfaces</div>
+        <div class="specimen sans">A terminal for developers who'd rather type than click.</div>
+      </div>
+      <div class="type-row">
+        <div class="meta"><strong>JetBrains Mono</strong>Code · terminal output · metadata</div>
+        <div class="specimen mono">❯ aura deploy --prod · canary green · 4.2s</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE -->
+<section id="voice">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 04 · voice & tone</div>
+      <h2>What we say, <em>and how we say it.</em></h2>
+    </div>
+
+    <div class="voice-grid">
+      <div class="voice-card do">
+        <div class="label">✓ Do</div>
+        <div class="example">"Canary is the new production."</div>
+        <div class="why">Confident, calm, present tense. Treats the user like they already understand.</div>
+      </div>
+      <div class="voice-card dont">
+        <div class="label">✗ Don't</div>
+        <div class="example">"🚀 Wow, your deploy was super fast and successful!"</div>
+        <div class="why">No emoji. No exclamation. No celebrating the obvious. The work speaks for itself.</div>
+      </div>
+      <div class="voice-card do">
+        <div class="label">✓ Do</div>
+        <div class="example">"Type faster. Ship calmer."</div>
+        <div class="why">Short. Verbs. Benefits, not features. Two-line rhythm.</div>
+      </div>
+      <div class="voice-card dont">
+        <div class="label">✗ Don't</div>
+        <div class="example">"The most powerful, AI-native, next-generation CLI platform."</div>
+        <div class="why">No superlatives. No buzzwords. We earn trust by being precise, not loud.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USAGE -->
+<section id="usage">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 05 · logo usage</div>
+      <h2>Always the same. <em>Always considered.</em></h2>
+    </div>
+
+    <div class="usage-grid">
+      <div class="usage-card ok">
+        <span class="badge">do</span>
+        <div class="label">minimum size</div>
+        <span class="wordmark" style="font-size: 36px; color: var(--ink);">aur<span style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent);">a</span></span>
+        <div style="font-size: 11px; color: var(--ink-2);">Wordmark readable down to 24px. Below that, switch to monogram.</div>
+      </div>
+      <div class="usage-card ok">
+        <span class="badge">do</span>
+        <div class="label">clear space</div>
+        <div style="background: var(--bg-3); padding: 24px; border-radius: 8px;">
+          <span class="wordmark" style="font-size: 28px; color: var(--ink);">aur<span style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent);">a</span></span>
+        </div>
+        <div style="font-size: 11px; color: var(--ink-2);">Always leave at least one "a" of clear space around the wordmark.</div>
+      </div>
+      <div class="usage-card bad">
+        <span class="badge">don't</span>
+        <div class="label">stretching</div>
+        <span class="wordmark" style="font-size: 28px; color: var(--ink); transform: scaleX(1.6); display: inline-block;">aur<span style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent);">a</span></span>
+        <div style="font-size: 11px; color: var(--ink-2);">Never stretch or skew the wordmark. Use the source SVG at intended scale.</div>
+      </div>
+      <div class="usage-card bad">
+        <span class="badge">don't</span>
+        <div class="label">recolor</div>
+        <span class="wordmark" style="font-size: 32px;">
+          <span style="color: #ec4899;">aur</span><span style="font-family: 'Instrument Serif'; font-style: italic; color: #10b981;">a</span>
+        </span>
+        <div style="font-size: 11px; color: var(--ink-2);">Never change the brand colors. The wordmark only ships in cream + gold.</div>
+      </div>
+      <div class="usage-card ok">
+        <span class="badge">do</span>
+        <div class="label">on dark</div>
+        <span class="wordmark" style="font-size: 36px; color: var(--ink);">aur<span style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent);">a</span></span>
+        <div style="font-size: 11px; color: var(--ink-2);">Cream wordmark on Deep Tide backgrounds. This is the default.</div>
+      </div>
+      <div class="usage-card ok">
+        <span class="badge">do</span>
+        <div class="label">on light</div>
+        <span class="wordmark" style="font-size: 36px; color: var(--bg);">aur<span style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent-dim);">a</span></span>
+        <div style="font-size: 11px; color: var(--ink-2);">Teal wordmark on cream/light. Use only when dark bg isn't available.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATIONS -->
+<section id="apps">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 06 · applications</div>
+      <h2>The brand <em>in the wild.</em></h2>
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="preview">
+          <div class="og">
+            <div class="tag">A COMMAND-LINE INTERFACE, REIMAGINED</div>
+            <div class="big">aur<em>a</em></div>
+            <div class="sub">type faster. ship calmer.</div>
+          </div>
+        </div>
+        <div class="meta"><div class="role">Open Graph · Social Card</div><div class="desc">1200×630 · for Twitter, LinkedIn, Slack unfurls</div></div>
+      </div>
+
+      <div class="app-card light">
+        <div class="preview">
+          <div class="avatars">
+            <div class="avatar sm round">a</div>
+            <div class="avatar sm">a</div>
+            <div class="avatar">a</div>
+            <div class="avatar lg">a</div>
+          </div>
+        </div>
+        <div class="meta"><div class="role">Avatar · Profile Picture</div><div class="desc">Rounded, square, and round variants · 36px → 120px</div></div>
+      </div>
+
+      <div class="app-card">
+        <div class="preview" style="flex-direction: column; gap: 24px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink); width: 100%;">
+            <div><span style="color: var(--accent);">❯</span> deploy --prod</div>
+            <div style="color: var(--success); margin-top: 8px;">  ✓ container started · pod-7f3a</div>
+            <div style="color: var(--success);">  ✓ healthcheck passed · 200ms</div>
+            <div style="color: var(--ink-2);">  → promoted to production</div>
+          </div>
+        </div>
+        <div class="meta"><div class="role">Terminal Output</div><div class="desc">The product itself — accent on prompt, status colors muted</div></div>
+      </div>
+
+      <div class="app-card light">
+        <div class="preview" style="background: var(--ink);">
+          <div class="wordmark" style="font-size: 80px; color: var(--bg);">aur<span class="accent" style="font-family: 'Instrument Serif'; font-style: italic; color: var(--accent-dim);">a</span></div>
+        </div>
+        <div class="meta"><div class="role">Print · Stationery</div><div class="desc">Embossed letterhead, business cards, packaging</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    aura · brand guidelines · v1.0 · 2026 · <a href="#" style="color: var(--accent);">download as PDF</a>
+  </div>
+</footer>
+
+</body>
+</html>

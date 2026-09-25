@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 140" role="img" aria-label="aura">
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Serif:ital@1&display=swap');
+      .wm { font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif; font-weight: 400; }
+      .ac { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+    </style>
+  </defs>
+  <text x="0" y="112" class="wm" font-size="128" fill="#F2EDE0" letter-spacing="-4">aur<tspan class="ac" fill="#E8B86D">a</tspan></text>
+</svg>

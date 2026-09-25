@@ -1,0 +1,109 @@
+/* =================================================================
+   AURA · DESIGN TOKENS · Deep Tide Palette
+   =================================================================
+   Use these CSS custom properties to wire the Aura brand
+   into any web project. Variables are namespaced with --aura-*
+   so they don't collide with your own design system.
+
+   Drop this file in your styles directory and import at the top
+   of your stylesheet, or copy into :root in your main CSS.
+
+   Palette anchor: #173D45 (Deep Tide)
+   ================================================================= */
+
+:root {
+  /* ---------- SURFACE SCALE ---------- */
+  --aura-bg-2:        #0F2A30;   /* deepest layer */
+  --aura-bg:          #173D45;   /* primary surface */
+  --aura-bg-3:        #1F4A54;   /* elevated card */
+  --aura-bg-4:        #2A5862;   /* hover, active */
+
+  /* ---------- TEXT SCALE ---------- */
+  --aura-ink:         #F2EDE0;   /* primary text */
+  --aura-ink-2:       #B8B0A0;   /* secondary text */
+  --aura-muted:       #7A7468;   /* tertiary, hints */
+
+  /* ---------- ACCENT ---------- */
+  --aura-accent:      #E8B86D;   /* warm honey gold */
+  --aura-accent-dim:  #B89348;   /* darker gold */
+  --aura-accent-glow: rgba(232, 184, 109, 0.32);
+
+  /* ---------- STATUS ---------- */
+  --aura-success:     #7FB89B;
+  --aura-warn:        #D4A85A;
+  --aura-error:       #C97A6B;
+  --aura-info:        #6FA5B8;
+
+  /* ---------- LINES / GLASS ---------- */
+  --aura-line:        rgba(242, 237, 224, 0.09);
+  --aura-line-strong: rgba(242, 237, 224, 0.16);
+  --aura-glass:       rgba(242, 237, 224, 0.04);
+  --aura-glass-strong: rgba(242, 237, 224, 0.09);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --aura-font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --aura-font-serif:   'Instrument Serif', Georgia, serif;
+  --aura-font-sans:    'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --aura-font-mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---------- TYPE SCALE (modular, 1.250) ---------- */
+  --aura-text-xs:    0.75rem;   /* 12 */
+  --aura-text-sm:    0.875rem;  /* 14 */
+  --aura-text-base:  1rem;      /* 16 */
+  --aura-text-lg:    1.125rem;  /* 18 */
+  --aura-text-xl:    1.5rem;    /* 24 */
+  --aura-text-2xl:   2rem;      /* 32 */
+  --aura-text-3xl:   3rem;      /* 48 */
+  --aura-text-4xl:   4.5rem;    /* 72 */
+  --aura-text-5xl:   6rem;      /* 96 */
+
+  /* ---------- SPACING (8pt grid) ---------- */
+  --aura-space-1:  4px;
+  --aura-space-2:  8px;
+  --aura-space-3:  12px;
+  --aura-space-4:  16px;
+  --aura-space-6:  24px;
+  --aura-space-8:  32px;
+  --aura-space-12: 48px;
+  --aura-space-16: 64px;
+  --aura-space-24: 96px;
+
+  /* ---------- RADII ---------- */
+  --aura-radius-sm:  4px;
+  --aura-radius:     8px;
+  --aura-radius-lg:  16px;
+  --aura-radius-xl:  24px;
+  --aura-radius-pill: 999px;
+
+  /* ---------- MOTION ---------- */
+  --aura-ease:        cubic-bezier(0.2, 0.7, 0.2, 1);
+  --aura-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --aura-duration-fast: 150ms;
+  --aura-duration:      250ms;
+  --aura-duration-slow: 400ms;
+
+  /* ---------- ELEVATION ---------- */
+  --aura-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --aura-shadow:    0 8px 24px -4px rgba(0, 0, 0, 0.18);
+  --aura-shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.30);
+}
+
+/* ---------- DARK THEME (default — Deep Tide) ---------- */
+[data-theme="tide"] {
+  --aura-bg: var(--aura-bg-2);
+}
+
+/* ---------- LIGHT THEME ---------- */
+[data-theme="ivory"] {
+  --aura-bg:          #F2EDE0;
+  --aura-bg-2:        #E8E2D2;
+  --aura-bg-3:        #FFFFFF;
+  --aura-bg-4:        #FFFFFF;
+  --aura-ink:         #173D45;
+  --aura-ink-2:       #4A5860;
+  --aura-muted:       #9C968D;
+  --aura-line:        rgba(23, 61, 69, 0.10);
+  --aura-line-strong: rgba(23, 61, 69, 0.18);
+  --aura-glass:       rgba(23, 61, 69, 0.04);
+  --aura-glass-strong: rgba(23, 61, 69, 0.08);
+}

@@ -1,0 +1,201 @@
+{
+  "audit": {
+    "bound_to_candidate": true,
+    "confidence": 0.9,
+    "discovery_verdict": "OBSERVATION",
+    "implementation_verdict": "PASS"
+  },
+  "base_candidate_digest": "1990c748b83b08166ebafee4e99e327bd6cca9c449b5c2a93a667c21e6d6d64a",
+  "budget": {
+    "budget_digest": "0271719a1cb1877a348e54924decce927cc5196764f3041e3effac6809624b98",
+    "declared_dimensions": [
+      "ATTEMPTS"
+    ],
+    "exhausted": [],
+    "limits": {
+      "ATTEMPTS": 3,
+      "INPUT_TOKENS": null,
+      "MODEL_CALLS": null,
+      "OUTPUT_TOKENS": null,
+      "WALL_CLOCK_SECONDS": null
+    },
+    "packet_id": "AURA-INTEGRATED-001",
+    "refusals": [],
+    "spend_count": 1,
+    "spent": {
+      "ATTEMPTS": 1,
+      "INPUT_TOKENS": 0,
+      "MODEL_CALLS": 0,
+      "OUTPUT_TOKENS": 0,
+      "WALL_CLOCK_SECONDS": 0
+    },
+    "unbounded_dimensions": [
+      "INPUT_TOKENS",
+      "MODEL_CALLS",
+      "OUTPUT_TOKENS",
+      "WALL_CLOCK_SECONDS"
+    ]
+  },
+  "candidate_digest": "e1c13d3f6b8f596f1315dca4b70a19adcfd1d542ddbb58111b59939cf071082c",
+  "candidate_tree": "1fce9acb6aa822b1bd5aa51b97745a928591fe668ba187daf17a3c04c4caaa4c",
+  "changed_paths": [
+    ".agent/CURRENT_STATE.md",
+    ".agent/graph/work-graph.json",
+    ".agent/tasks/AURA-INTEGRATED-001.md",
+    ".agent/tasks/AURA-MIG-001.md",
+    ".agent/tasks/AURA-RUN-001.md",
+    ".agent/tasks/FORGE-ADAPT-001.md",
+    "docs/AURA_HANDOFF.md",
+    "docs/integration/aura-runner.md",
+    "docs/source/forge-current-state-at-import.md",
+    "src/forge/engineering_runner.py",
+    "tests/test_engineering_runner.py"
+  ],
+  "context_independence": {
+    "auditor_was_given_builder_reasoning": false,
+    "builder_was_given_specification": false
+  },
+  "gates": {
+    "pytest": {
+      "evidence_digest": "5093730e5f51483be2d69c867f703fa116d96d266325cae5a73f11275d61e1ae",
+      "passed": true,
+      "summary": "792 passed, 2 warnings in 65.27s (0:01:05)"
+    },
+    "ruff_check": {
+      "evidence_digest": "a77d8f852772a0310ebc371b8a4b725aa8a04867242572c7ffdef37cb2838f71",
+      "passed": true,
+      "summary": "All checks passed!"
+    },
+    "ruff_format": {
+      "evidence_digest": "e6851ba5a08efa1cbb130aa0077dbe864b90ea66aff3c527c511a1fca0bbd368",
+      "passed": true,
+      "summary": "68 files already formatted"
+    }
+  },
+  "generated_at": "2026-09-25T02:28:34.546725+00:00",
+  "ledger": {
+    "head_hash": "edad8653ec8a3704614426fc5f955ec83320b28afdcc878d4c2ba21935b7b533",
+    "path": ".agent\\ledger\\AURA-INTEGRATED-001.jsonl",
+    "receipts": 4,
+    "reloaded_and_verified": true
+  },
+  "limits": [
+    "Agent roles are simulated; no model provider was called.",
+    "Role signing keys are process-local, not durably custodied.",
+    "Merge eligibility was computed, not acted on; no merge occurred."
+  ],
+  "loop_state": "MERGE_ELIGIBLE",
+  "merge_eligibility": {
+    "audit_digest": "5aaf88b0145f97c78b4f675b3516f9fb59bab240537b4ec1dba226abf5ef26ff",
+    "authorized_by_role": "GOVERNOR",
+    "candidate_digest": "e1c13d3f6b8f596f1315dca4b70a19adcfd1d542ddbb58111b59939cf071082c"
+  },
+  "owner_authorization": {
+    "bound_to_packet_scope": true,
+    "evidence": "docs/audit/2026-09-21-repository-audit.md",
+    "owner_ref": "OWNER"
+  },
+  "packet_id": "AURA-INTEGRATED-001",
+  "repository": {
+    "base_sha": "bd534f7c8b4aa7c93b2e1550ee3fbb953a4121ca",
+    "branch": "codex/aura-governed-runner",
+    "remote": "https://github.com/nrsandoval1231-oss/aura"
+  },
+  "role_contexts": {
+    "architect": {
+      "digest": "b091854152aa8867e851c44b841f3a4767009e411184f1265e53e82a2c79ee12",
+      "forbidden_source_types": [
+        "ACCEPTANCE_CRITERION",
+        "BUILDER_REASONING",
+        "DIFF",
+        "REPOSITORY_SLICE"
+      ],
+      "size_receipt": {
+        "budget": 60000,
+        "by_source_type": {
+          "PACKET": 200,
+          "REQUIREMENT": 21
+        },
+        "context_digest": "b091854152aa8867e851c44b841f3a4767009e411184f1265e53e82a2c79ee12",
+        "headroom": 59779,
+        "items_dropped": 0,
+        "items_included": 2,
+        "packet_id": "AURA-INTEGRATED-001",
+        "role": "ARCHITECT",
+        "unit": "characters",
+        "used": 221
+      },
+      "source_types": [
+        "PACKET",
+        "REQUIREMENT"
+      ]
+    },
+    "auditor": {
+      "digest": "84bb08bcefb10a367a116c5b414b57f6a622503f2ed3b59a0ab073d877cc001f",
+      "forbidden_source_types": [
+        "ASSUMPTION",
+        "BUILDER_REASONING",
+        "DECISION",
+        "LESSON",
+        "NORTH_STAR",
+        "REPOSITORY_SLICE"
+      ],
+      "size_receipt": {
+        "budget": 80000,
+        "by_source_type": {
+          "ACCEPTANCE_CRITERION": 47,
+          "DIFF": 341,
+          "EVIDENCE": 45,
+          "PACKET": 200
+        },
+        "context_digest": "84bb08bcefb10a367a116c5b414b57f6a622503f2ed3b59a0ab073d877cc001f",
+        "headroom": 79367,
+        "items_dropped": 0,
+        "items_included": 6,
+        "packet_id": "AURA-INTEGRATED-001",
+        "role": "AUDITOR",
+        "unit": "characters",
+        "used": 633
+      },
+      "source_types": [
+        "ACCEPTANCE_CRITERION",
+        "DIFF",
+        "EVIDENCE",
+        "PACKET"
+      ]
+    },
+    "builder": {
+      "digest": "026b423af1be3dceb7a553be41cb94cb4408edcc38926cb2771fc0d620656429",
+      "forbidden_source_types": [
+        "ACCEPTANCE_CRITERION",
+        "ASSUMPTION",
+        "BUILDER_REASONING",
+        "DECISION",
+        "DIFF",
+        "EVIDENCE",
+        "NORTH_STAR"
+      ],
+      "size_receipt": {
+        "budget": 120000,
+        "by_source_type": {
+          "PACKET": 200,
+          "REPOSITORY_SLICE": 331,
+          "REQUIREMENT": 21
+        },
+        "context_digest": "026b423af1be3dceb7a553be41cb94cb4408edcc38926cb2771fc0d620656429",
+        "headroom": 119448,
+        "items_dropped": 0,
+        "items_included": 13,
+        "packet_id": "AURA-INTEGRATED-001",
+        "role": "BUILDER",
+        "unit": "characters",
+        "used": 552
+      },
+      "source_types": [
+        "PACKET",
+        "REPOSITORY_SLICE",
+        "REQUIREMENT"
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "packet_id": "AURA-MIG-001",
+  "repository": "https://github.com/nrsandoval1231-oss/aura",
+  "base_main": "bd534f7c8b4aa7c93b2e1550ee3fbb953a4121ca",
+  "branch": "codex/aura-governed-runner",
+  "dependency_install": {
+    "command": "uv sync --extra dev --python 3.13",
+    "exit_code": 0,
+    "interpreter": "Python 3.13.15"
+  },
+  "full_gate_initial": {
+    "command": "PYTHON=.venv/Scripts/python.exe C:/Program Files/Git/bin/bash.exe scripts/validate.sh",
+    "exit_code": 1,
+    "tests": "785 passed, 1 failed: FORGE-ADAPT-001 packet lacked ## Allowed files",
+    "other_failure": "slice: same malformed packet"
+  },
+  "full_gate_after_packet_parser_repair": {
+    "command": "PYTHON=.venv/Scripts/python.exe C:/Program Files/Git/bin/bash.exe scripts/validate.sh",
+    "exit_code": 1,
+    "tests": "786 passed, 2 warnings",
+    "other_failure": "slice: FORGE-ADAPT-001 has no Aura slice evidence yet",
+    "non_slice_gates": "passed, including graph and 18 historical ledger streams"
+  },
+  "focused": [
+    {
+      "command": ".venv/Scripts/python.exe -m forge.cli graph check",
+      "exit_code": 0,
+      "result": "55 graph nodes consistent before AURA-RUN-001; 56 after"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest -q tests/test_slice_paths.py",
+      "exit_code": 0,
+      "result": "15 passed"
+    }
+  ],
+  "aura_independent_review": "UNKNOWN",
+  "aura_live_runtime": "UNKNOWN",
+  "historical_forge_evidence": "retained, not transferred as Aura acceptance"
+}

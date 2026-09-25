@@ -511,15 +511,15 @@ def _reconciliation_fixture(tmp_path, packet_id="OLD"):
     return old_ledger
 
 
-def _write_reconciliation(tmp_path, payloads):
+def _write_reconciliation(tmp_path, payloads, stream_id="FORGE-EVID-003"):
     ledger_root = tmp_path / ".agent" / "ledger"
-    reconciliation = Ledger(stream_id="FORGE-EVID-003")
+    reconciliation = Ledger(stream_id=stream_id)
     previous = None
     for sequence, payload in enumerate(payloads, 1):
         receipt = Receipt.create(sequence, "RECONCILIATION_RECORDED", None, None, payload, previous)
         reconciliation.append(receipt)
         previous = receipt.receipt_hash
-    LedgerStore(ledger_root, "FORGE-EVID-003").write(reconciliation)
+    LedgerStore(ledger_root, stream_id).write(reconciliation)
 
 
 def _present_reconciliation(old_ledger, **overrides):
@@ -777,6 +777,97 @@ def test_reconciliation_rejects_conflicting_shared_packet_successors(slicer, tmp
     graph_path.write_text(json.dumps(graph), encoding="utf-8")
     _write_reconciliation(root, [_present_reconciliation(old)])
     with pytest.raises(SystemExit, match="conflicting successor bindings"):
+        slicer.verify_reconciliation_records(root)
+
+
+def _no_legacy_record(packet_id, successor="AURA-INTEGRATED-002"):
+    return {
+        "packet_id": packet_id,
+        "status": "REDIRECTED",
+        "evidence_class": "NO_LEGACY_EVIDENCE",
+        "reason": "no canonical SLICE.json or core ledger exists",
+        "successor_packet_id": successor,
+    }
+
+
+def _write_aura_reconciliation(root, payloads):
+    return _write_reconciliation(root, payloads, stream_id="AURA-EVID-001")
+
+
+def test_reconciliation_verifies_union_without_rewriting_forge_stream(slicer, tmp_path):
+    root = tmp_path / "two-stream-union"
+    old = _reconciliation_fixture(root)
+    graph_nodes = [
+        {"id": "OLD", "status": "REDIRECTED", "packet": ".agent/tasks/OLD.md",
+         "redirected_to": "FORGE-INTEGRATED-001"},
+        {"id": "FORGE-INTEGRATED-001", "status": "PROPOSED"},
+    ]
+    for packet_id in ("FORGE-ADAPT-001", "AURA-MIG-001", "AURA-RUN-001"):
+        graph_nodes.insert(-1, {"id": packet_id, "status": "REDIRECTED",
+                                "packet": f".agent/tasks/{packet_id}.md",
+                                "redirected_to": "AURA-INTEGRATED-002"})
+        if packet_id.startswith("AURA-"):
+            artifact = root / ".agent" / "artifacts" / packet_id
+            artifact.mkdir(parents=True, exist_ok=True)
+            (artifact / "COMPLETION.json").write_text("{}", encoding="utf-8")
+    graph_nodes.append({"id": "AURA-INTEGRATED-002", "status": "PROPOSED"})
+    (root / ".agent" / "graph" / "work-graph.json").write_text(
+        json.dumps({"nodes": graph_nodes}), encoding="utf-8"
+    )
+    forge_payload = _present_reconciliation(
+        old, successor_packet_id="FORGE-INTEGRATED-001"
+    )
+    _write_reconciliation(root, [forge_payload])
+    forge_bytes = (root / ".agent" / "ledger" / "FORGE-EVID-003.jsonl").read_bytes()
+    _write_aura_reconciliation(
+        root,
+        [
+            _no_legacy_record("FORGE-ADAPT-001"),
+            _no_legacy_record("AURA-MIG-001"),
+            _no_legacy_record("AURA-RUN-001"),
+        ],
+    )
+
+    assert slicer.verify_reconciliation_records(root) == (
+        "OLD", "FORGE-ADAPT-001", "AURA-MIG-001", "AURA-RUN-001"
+    )
+    assert (root / ".agent" / "ledger" / "FORGE-EVID-003.jsonl").read_bytes() == forge_bytes
+
+
+def test_reconciliation_union_rejects_duplicate_cross_stream_record(slicer, tmp_path):
+    root = tmp_path / "cross-stream-duplicate"
+    old = _reconciliation_fixture(root)
+    _write_reconciliation(root, [_present_reconciliation(old)])
+    _write_aura_reconciliation(root, [_present_reconciliation(old)])
+    with pytest.raises(SystemExit, match="duplicate"):
+        slicer.verify_reconciliation_records(root)
+
+
+@pytest.mark.parametrize(
+    ("payload", "expected"),
+    [
+        ({**_no_legacy_record("AURA-MIG-001"), "successor_packet_id": "OTHER"}, "successor mismatch"),
+        ({**_no_legacy_record("AURA-MIG-001"), "evidence_class": "LEDGER_ONLY"}, "Legacy ledger path"),
+        ({**_no_legacy_record("AURA-MIG-001"), "status": "COMPLETE"}, "Invalid or duplicate"),
+    ],
+)
+def test_aura_stream_records_fail_closed_on_claim_mismatch(slicer, tmp_path, payload, expected):
+    root = tmp_path / expected.replace(" ", "-")
+    _reconciliation_fixture(root, "FORGE-OLD")
+    graph_path = root / ".agent" / "graph" / "work-graph.json"
+    graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    graph["nodes"].insert(
+        0,
+        {"id": "AURA-MIG-001", "status": "REDIRECTED",
+         "packet": ".agent/tasks/AURA-MIG-001.md", "redirected_to": "AURA-INTEGRATED-002"},
+    )
+    graph["nodes"].append({"id": "AURA-INTEGRATED-002", "status": "PROPOSED"})
+    graph_path.write_text(json.dumps(graph), encoding="utf-8")
+    _write_reconciliation(root, [_present_reconciliation(
+        _reconciliation_fixture(root, "FORGE-OLD"), packet_id="FORGE-OLD"
+    )])
+    _write_aura_reconciliation(root, [payload])
+    with pytest.raises(SystemExit, match=expected):
         slicer.verify_reconciliation_records(root)
 
 

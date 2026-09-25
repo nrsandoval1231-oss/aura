@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="aura">
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
+      .ac { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+    </style>
+    <radialGradient id="bg" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1F4A54"/>
+      <stop offset="100%" stop-color="#173D45"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <text x="256" y="372" class="ac" font-size="440" fill="#E8B86D" text-anchor="middle">a</text>
+</svg>

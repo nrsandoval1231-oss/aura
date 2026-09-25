@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="aura monogram">
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
+      .ac { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+    </style>
+  </defs>
+  <text x="100" y="148" class="ac" font-size="180" fill="#E8B86D" text-anchor="middle">a</text>
+</svg>

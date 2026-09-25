@@ -86,6 +86,7 @@ LEDGER_ROOT = ROOT / ".agent" / "ledger"
 TASKS = ROOT / ".agent" / "tasks"
 ARTIFACT_ROOT = ROOT / ".agent" / "artifacts"
 RECONCILIATION_STREAM_ID = "FORGE-EVID-003"
+AURA_RECONCILIATION_STREAM_ID = "AURA-EVID-001"
 INTEGRATED_AUDIT_PACKET = "FORGE-INTEGRATED-001"
 
 # Role signing keys. In V0 these are process-local: the loop's guarantee is that
@@ -314,15 +315,22 @@ def check_integrated_audit() -> int:
 
 
 def verify_reconciliation_records(root: Path = ROOT) -> tuple[str, ...]:
-    """Verify the exact, append-only historical reconciliation stream.
-
-    This deliberately reads only the EVID-003 stream.  Earlier reconciliation
-    streams are retained negative evidence and must not be silently accepted as
-    the current record.
-    """
-    store = LedgerStore(root / ".agent" / "ledger", RECONCILIATION_STREAM_ID)
-    ledger = store.load()
-    ledger.verify()
+    """Verify redirected history across the immutable Forge and additive Aura streams."""
+    stores = [
+        LedgerStore(root / ".agent" / "ledger", stream_id)
+        for stream_id in (RECONCILIATION_STREAM_ID, AURA_RECONCILIATION_STREAM_ID)
+    ]
+    ledgers: list[tuple[str, Any]] = []
+    for store in stores:
+        receipts_exist = store.receipts_path.exists()
+        checkpoint_exists = store.checkpoint_path.exists()
+        if not receipts_exist and not checkpoint_exists:
+            continue
+        ledger = store.load()
+        ledger.verify()
+        ledgers.append((store.stream_id, ledger))
+    if not ledgers:
+        raise ForgeError("LEDGER_NOT_FOUND", "No persisted reconciliation ledger stream")
     graph_path = root / ".agent" / "graph" / "work-graph.json"
     if not graph_path.is_file():
         raise SystemExit("Reconciliation graph is missing")
@@ -367,12 +375,16 @@ def verify_reconciliation_records(root: Path = ROOT) -> tuple[str, ...]:
 
     seen: set[str] = set()
     packet_ids: list[str] = []
-    if any(r.event != "RECONCILIATION_RECORDED" for r in ledger.receipts):
-        raise SystemExit("Reconciliation ledger contains an unrelated event")
-    records = list(ledger.receipts)
+    records = [
+        (stream_id, receipt)
+        for stream_id, ledger in ledgers
+        for receipt in ledger.receipts
+    ]
     if not records:
-        raise SystemExit(f"{RECONCILIATION_STREAM_ID} reconciliation ledger has no records")
-    for line_number, receipt in enumerate(records, 1):
+        raise SystemExit("Reconciliation ledgers have no records")
+    for line_number, (stream_id, receipt) in enumerate(records, 1):
+        if receipt.event != "RECONCILIATION_RECORDED":
+            raise SystemExit(f"Reconciliation ledger contains an unrelated event at receipt {line_number}")
         record = receipt.payload
         if not isinstance(record, Mapping):
             raise SystemExit(f"Malformed reconciliation record at receipt {line_number}")

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="aura">
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
+      .ac { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+    </style>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#F2EDE0"/>
+  <text x="256" y="372" class="ac" font-size="440" fill="#B89348" text-anchor="middle">a</text>
+</svg>

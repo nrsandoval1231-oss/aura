@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aura — a CLI reimagined</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #173D45;
+    --bg-2: #0F2A30;
+    --bg-3: #1F4A54;
+    --bg-4: #2A5862;
+    --ink: #F2EDE0;
+    --ink-2: #B8B0A0;
+    --muted: #7A7468;
+    --line: rgba(242,237,224,0.09);
+    --line-strong: rgba(242,237,224,0.16);
+    --accent: #E8B86D;
+    --accent-dim: #B89348;
+    --accent-glow: rgba(232,184,109,0.32);
+    --success: #7FB89B;
+    --warn: #D4A85A;
+    --error: #C97A6B;
+    --info: #6FA5B8;
+    --glass: rgba(242,237,224,0.04);
+    --glass-strong: rgba(242,237,224,0.09);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    overflow-x: hidden;
+    cursor: default;
+    min-height: 100vh;
+  }
+
+  /* ---------- AURORA BACKGROUND (mesh + animated) ---------- */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .aurora::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(ellipse 50% 45% at 30% 30%, rgba(232,184,109,0.10), transparent 55%),
+      radial-gradient(ellipse 45% 40% at 75% 75%, rgba(31,74,84,0.5), transparent 55%);
+    filter: blur(80px);
+    animation: aurora-drift 30s ease-in-out infinite;
+  }
+  @keyframes aurora-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(2%, -2%) rotate(1deg); }
+    66% { transform: translate(-2%, 1%) rotate(-1deg); }
+  }
+  /* mesh grid overlay */
+  .aurora::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+  }
+
+  /* grain */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- TOP STATUS BAR (glass) ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(6,6,10,0.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--ink-2);
+  }
+  .topbar-left { display: flex; gap: 16px; align-items: center; }
+  .topbar-right { display: flex; gap: 16px; align-items: center; }
+  .topbar .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 12px rgba(127,184,155,0.5);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .topbar .key {
+    padding: 2px 6px;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    font-size: 10px;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+  @media (max-width: 640px) { .wrap { padding: 0 20px; } .topbar-inner { padding: 12px 20px; font-size: 10px; gap: 10px; } }
+
+  /* ---------- HERO with KINETIC TYPE ---------- */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+  .hero-tag {
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-tag::before {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: var(--ink-2);
+  }
+  .title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(96px, 18vw, 280px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .title .accent {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.5vw, 32px);
+    color: var(--ink-2);
+    max-width: 720px;
+    line-height: 1.3;
+    margin-bottom: 48px;
+  }
+  .hero-sub .em { color: var(--ink); font-style: normal; font-family: 'JetBrains Mono', monospace; font-size: 0.7em; padding: 2px 8px; background: var(--glass); border: 1px solid var(--line); border-radius: 6px; vertical-align: middle; }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span strong {
+    color: var(--ink);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- SCROLL HINT ---------- */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: hint-bounce 2s ease-in-out infinite;
+  }
+  .scroll-hint .line {
+    width: 1px;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--ink-2), transparent);
+  }
+  @keyframes hint-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    50% { transform: translateX(-50%) translateY(8px); opacity: 0.5; }
+  }
+
+  /* ---------- SECTION ---------- */
+  section { padding: 120px 0; position: relative; }
+  .sec-head { margin-bottom: 64px; }
+  .sec-head .num {
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .sec-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 900px;
+  }
+  .sec-head h2 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ---------- LIVE TERMINAL (the centerpiece) ---------- */
+  .terminal-stage {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .terminal-stage { grid-template-columns: 1fr; } }
+
+  .terminal {
+    background: rgba(8,8,12,0.5);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 30px 80px -20px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.03),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+  }
+  .terminal-dots { display: flex; gap: 7px; }
+  .terminal-dots span {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .terminal-dots span:nth-child(1) { background: #ff5f57; }
+  .terminal-dots span:nth-child(2) { background: #febc2e; }
+  .terminal-dots span:nth-child(3) { background: #28c840; }
+  .terminal-title {
+    font-size: 12px;
+    color: var(--ink-2);
+    flex: 1;
+    text-align: center;
+  }
+  .terminal-pid {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .terminal-body {
+    padding: 24px;
+    min-height: 460px;
+    max-height: 560px;
+    overflow-y: auto;
+    font-size: 13.5px;
+    line-height: 1.65;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  .terminal-body::-webkit-scrollbar { width: 8px; }
+  .terminal-body::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
+  .terminal-body::-webkit-scrollbar-track { background: transparent; }
+
+  .output-line {
+    margin-bottom: 4px;
+    opacity: 0;
+    animation: line-in 0.3s forwards;
+  }
+  @keyframes line-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .output-line .prompt {
+    color: var(--accent);
+    margin-right: 8px;
+    user-select: none;
+  }
+  .output-line .prompt::before { content: "❯ "; }
+  .output-line.user .command { color: var(--ink); font-weight: 500; }
+  .output-line.system { color: var(--ink-2); padding-left: 0; }
+  .output-line.success { color: var(--success); }
+  .output-line.warn { color: var(--warn); }
+  .output-line.err { color: var(--error); }
+  .output-line.info { color: var(--info); }
+  .output-line.accent { color: var(--accent); }
+  .output-line.dim { color: var(--muted); font-style: italic; font-family: 'Instrument Serif', serif; font-size: 14px; }
+
+  .output-line .tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    margin-right: 8px;
+    background: var(--glass-strong);
+  }
+  .output-line .tag.ok { color: var(--success); border: 1px solid rgba(127,184,155,0.25); }
+  .output-line .tag.err { color: var(--error); border: 1px solid rgba(201,122,107,0.25); }
+  .output-line .tag.warn { color: var(--warn); border: 1px solid rgba(212,168,90,0.25); }
+
+  /* ASCII art / blocks */
+  .ascii-block {
+    font-size: 12px;
+    line-height: 1.2;
+    color: var(--ink-2);
+    margin: 12px 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .ascii-block.green { color: var(--success); }
+  .ascii-block.violet { color: var(--accent); }
+  .ascii-block.amber { color: var(--accent-dim); }
+
+  /* terminal input row */
+  .terminal-input-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 24px;
+    border-top: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    font-size: 14px;
+  }
+  .terminal-input-row .prompt {
+    color: var(--accent);
+    margin-right: 12px;
+  }
+  .terminal-input-row .prompt::before { content: "❯ "; }
+  .terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: inherit;
+    caret-color: var(--accent);
+  }
+  .terminal-input::placeholder { color: var(--muted); font-style: italic; }
+
+  /* suggestion chip */
+  .suggestions {
+    padding: 8px 24px 14px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-top: 1px dashed var(--line);
+    background: rgba(0,0,0,0.2);
+  }
+  .suggestion-chip {
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    background: var(--glass);
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .suggestion-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,184,109,0.08);
+  }
+
+  /* ---------- HISTORY PANEL (glass) ---------- */
+  .side-panel {
+    background: rgba(8,8,12,0.4);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow:
+      0 20px 60px -20px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .panel-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .panel-title .live {
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .panel-title .live::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  .history-list { display: flex; flex-direction: column; gap: 4px; }
+  .history-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .history-item:hover { background: var(--glass); color: var(--ink); }
+  .history-item .time { color: var(--muted); font-size: 10px; min-width: 50px; }
+  .history-item .cmd { flex: 1; }
+
+  /* ---------- COMMAND CARDS (3D spatial) ---------- */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    perspective: 1500px;
+  }
+  @media (max-width: 800px) { .cmd-grid { grid-template-columns: 1fr; } }
+
+  .cmd-card {
+    position: relative;
+    background: rgba(8,8,12,0.4);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    padding: 24px;
+    min-height: 200px;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.3s, box-shadow 0.6s;
+    transform-style: preserve-3d;
+    overflow: hidden;
+  }
+  .cmd-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(232,184,109,0.10), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .cmd-card:hover {
+    border-color: rgba(232,184,109,0.35);
+    box-shadow: 0 30px 80px -20px rgba(232,184,109,0.16);
+  }
+  .cmd-card:hover::before { opacity: 1; }
+  .cmd-card .num {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .cmd-card .name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .cmd-card .name::before { content: "$ "; color: var(--accent); }
+  .cmd-card .desc {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .cmd-card .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .cmd-card .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-2);
+    background: var(--glass);
+  }
+  .cmd-card .run {
+    font-size: 11px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cmd-card .run .arrow {
+    transition: transform 0.3s;
+  }
+  .cmd-card:hover .run .arrow { transform: translateX(4px); }
+
+  /* ---------- SCROLL CHOREOGRAPHY SECTIONS ---------- */
+  .scroll-stage {
+    position: relative;
+    padding: 80px 0;
+  }
+  .scroll-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 900px) { .scroll-row { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .scroll-row { grid-template-columns: 1fr; } }
+
+  .scroll-card {
+    background: rgba(8,8,12,0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .scroll-card.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .scroll-card .time {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .scroll-card .command {
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .scroll-card .command::before { content: "❯ "; color: var(--accent); }
+  .scroll-card .meta {
+    font-size: 11px;
+    color: var(--ink-2);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+  .scroll-card:nth-child(odd) .meta { color: var(--accent-dim); }
+  .scroll-card:nth-child(3n) .meta { color: var(--accent); }
+
+  /* parallax depth cards */
+  .depth-card {
+    background: rgba(8,8,12,0.5);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    transition: transform 0.4s;
+  }
+  .depth-card.layer-1 { transform: translateZ(0); }
+  .depth-card.layer-2 { transform: translateZ(20px); }
+  .depth-card.layer-3 { transform: translateZ(40px); }
+
+  /* ---------- METRICS ---------- */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 800px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+  .metric {
+    background: rgba(8,8,12,0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .metric .label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .metric .val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: var(--ink);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric .val .unit {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink-2);
+    margin-left: 4px;
+  }
+  .metric .delta {
+    font-size: 11px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .metric .delta.up { color: var(--success); }
+  .metric .delta.down { color: var(--error); }
+
+  /* ---------- KEYMAP ---------- */
+  .keymap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 600px) { .keymap { grid-template-columns: 1fr; } }
+  .key-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .key-row .keys { display: flex; gap: 4px; }
+  .key-row .key {
+    padding: 3px 7px;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    font-size: 10px;
+    color: var(--ink);
+    background: rgba(255,255,255,0.04);
+    min-width: 22px;
+    text-align: center;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 60px 0 32px;
+    border-top: 1px solid var(--line);
+    position: relative;
+    z-index: 1;
+  }
+  .ft-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--ink-2);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .ft-row a { color: var(--ink-2); }
+  .ft-row a:hover { color: var(--accent); }
+
+  /* ---------- PROGRESS BAR (in command output) ---------- */
+  .progress {
+    margin: 8px 0;
+  }
+  .progress .track {
+    height: 4px;
+    background: var(--glass);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress .fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 0%;
+    animation: fill 2.5s ease-out forwards;
+  }
+  @keyframes fill {
+    to { width: 100%; }
+  }
+
+  /* matrix rain effect */
+  .matrix {
+    font-size: 12px;
+    color: var(--success);
+    line-height: 1.1;
+    white-space: pre;
+    overflow: hidden;
+    height: 120px;
+    margin: 12px 0;
+    position: relative;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- AURORA BACKGROUND -->
+<div class="aurora"></div>
+
+<!-- TOP STATUS BAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="dot"></span>
+      <span>aura-shell · v0.9.2-rc</span>
+      <span style="opacity:0.5">|</span>
+      <span>mainframe: aurora-7.us-west</span>
+    </div>
+    <div class="topbar-right">
+      <span><span class="key">⌘</span><span class="key">K</span> command palette</span>
+      <span style="opacity:0.5">|</span>
+      <span id="topbarTime">--:--:--</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">
+      <span>A command-line interface, reimagined</span>
+    </div>
+
+    <h1 class="title">aur<span class="accent">a</span></h1>
+
+    <p class="hero-sub">
+      A terminal that <em style="color:var(--ink); font-style:normal;">floats</em>, <em style="color:var(--ink); font-style:normal;">breathes</em>, and <em style="color:var(--ink); font-style:normal;">remembers</em>.
+      Built for developers who'd rather type than click —
+      wrapped in <span class="em">glass</span>, lit by <span class="em">aurora</span>, alive with motion.
+    </p>
+
+    <div class="hero-meta">
+      <span><strong>0.4ms</strong>p99 latency</span>
+      <span><strong>47</strong>built-in commands</span>
+      <span><strong>∞</strong>plugins</span>
+      <span><strong>3</strong>themes · aurora · vapor · mono</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll to continue</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- LIVE TERMINAL -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 01 · live terminal</div>
+      <h2>Type a command. <em>Watch the shell respond.</em></h2>
+    </div>
+
+    <div class="terminal-stage">
+      <!-- TERMINAL -->
+      <div class="terminal" id="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="terminal-title">aura — zsh — 120×48</div>
+          <div class="terminal-pid">pid 4096</div>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <!-- output injected by JS -->
+        </div>
+        <div class="terminal-input-row">
+          <span class="prompt"></span>
+          <input type="text" class="terminal-input" id="terminalInput" placeholder="type a command — try: help, deploy, whoami, theme aurora, matrix" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="suggestions" id="suggestions">
+          <span class="suggestion-chip" data-cmd="help">help</span>
+          <span class="suggestion-chip" data-cmd="whoami">whoami</span>
+          <span class="suggestion-chip" data-cmd="deploy">deploy</span>
+          <span class="suggestion-chip" data-cmd="analyze">analyze</span>
+          <span class="suggestion-chip" data-cmd="theme tide">theme tide</span>
+          <span class="suggestion-chip" data-cmd="theme ember">theme ember</span>
+          <span class="suggestion-chip" data-cmd="theme coral">theme coral</span>
+          <span class="suggestion-chip" data-cmd="matrix">matrix</span>
+          <span class="suggestion-chip" data-cmd="git status">git status</span>
+          <span class="suggestion-chip" data-cmd="clear">clear</span>
+        </div>
+      </div>
+
+      <!-- SIDE PANEL: HISTORY -->
+      <div class="side-panel depth-card layer-2">
+        <div class="panel-title">
+          <span>recent activity</span>
+          <span class="live">live</span>
+        </div>
+        <div class="history-list" id="historyList">
+          <!-- injected -->
+        </div>
+
+        <div style="margin-top: 24px;">
+          <div class="panel-title" style="margin-bottom: 12px;">
+            <span>keymap</span>
+          </div>
+          <div class="keymap">
+            <div class="key-row"><span>command palette</span><span class="keys"><span class="key">⌘</span><span class="key">K</span></span></div>
+            <div class="key-row"><span>history up</span><span class="keys"><span class="key">↑</span></span></div>
+            <div class="key-row"><span>autocomplete</span><span class="keys"><span class="key">TAB</span></span></div>
+            <div class="key-row"><span>clear</span><span class="keys"><span class="key">⌃</span><span class="key">L</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMAND CARDS (3D) -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 02 · command library</div>
+      <h2>Tap a card to <em>execute it</em> in the terminal.</h2>
+    </div>
+
+    <div class="cmd-grid">
+
+      <div class="cmd-card" data-cmd="deploy">
+        <div class="num">01</div>
+        <div class="name">deploy</div>
+        <div class="desc">Ship the current branch to production. Spins up canary, runs smoke tests, promotes if green.</div>
+        <div class="tags">
+          <span class="tag">network</span>
+          <span class="tag">~4s</span>
+        </div>
+        <div class="run">execute <span class="arrow">→</span></div>
+      </div>
+
+      <div class="cmd-card" data-cmd="analyze">
+        <div class="num">02</div>
+        <div class="name">analyze</div>
+        <div class="desc">Static analysis across the codebase — bundle size, dead code, type coverage. Renders ASCII report.</div>
+        <div class="tags">
+          <span class="tag">local</span>
+          <span class="tag">~2s</span>
+        </div>
+        <div class="run">execute <span class="arrow">→</span></div>
+      </div>
+
+      <div class="cmd-card" data-cmd="snapshot">
+        <div class="num">03</div>
+        <div class="name">snapshot</div>
+        <div class="desc">Create a point-in-time backup of state, env, and DB. Encrypted, versioned, restorable.</div>
+        <div class="tags">
+          <span class="tag">storage</span>
+          <span class="tag">~1s</span>
+        </div>
+        <div class="run">execute <span class="arrow">→</span></div>
+      </div>
+
+      <div class="cmd-card" data-cmd="search">
+        <div class="num">04</div>
+        <div class="name">search</div>
+        <div class="desc">Ripgrep with semantic understanding. Finds code by intent, not just string match.</div>
+        <div class="tags">
+          <span class="tag">local</span>
+          <span class="tag">~0.1s</span>
+        </div>
+        <div class="run">execute <span class="arrow">→</span></div>
+      </div>
+
+      <div class="cmd-card" data-cmd="theme vapor">
+        <div class="num">05</div>
+        <div class="name">theme</div>
+        <div class="desc">Switch the visual theme. aurora · vapor · mono · paper. Animates the entire UI.</div>
+        <div class="tags">
+          <span class="tag">ui</span>
+        </div>
+        <div class="run">execute <span class="arrow">→</span></div>
+      </div>
+
+      <div class="cmd-card" data-cmd="matrix">
+        <div class="num">06</div>
+        <div class="name">matrix</div>
+        <div class="desc">Easter egg. Brief matrix rain, then back to work. Adds zero value, removes zero joy.</div>
+        <div class="tags">
+          <span class="tag">fun</span>
+          <span class="tag">~3s</span>
+        </div>
+        <div class="run">execute <span class="arrow">→</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SCROLL CHOREOGRAPHY -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 03 · scroll choreography</div>
+      <h2>Each card <em>arrives in sequence</em> as you scroll.</h2>
+    </div>
+
+    <div class="scroll-stage" id="scrollStage">
+      <!-- rows generated by JS for variety -->
+    </div>
+  </div>
+</section>
+
+<!-- METRICS + STATUS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">/ 04 · system pulse</div>
+      <h2>Live metrics from <em>the running shell.</em></h2>
+    </div>
+
+    <div class="metrics">
+      <div class="metric depth-card layer-1">
+        <div class="label">CPU</div>
+        <div class="val"><span id="mCpu">12</span><span class="unit">%</span></div>
+        <div class="delta up">▲ 2.4% vs 5m</div>
+      </div>
+      <div class="metric depth-card layer-2">
+        <div class="label">memory</div>
+        <div class="val"><span id="mMem">4.2</span><span class="unit">gb</span></div>
+        <div class="delta down">▼ 0.3gb vs 5m</div>
+      </div>
+      <div class="metric depth-card layer-3">
+        <div class="label">uptime</div>
+        <div class="val"><span id="mUp">99.99</span><span class="unit">%</span></div>
+        <div class="delta up">▲ nominal</div>
+      </div>
+      <div class="metric depth-card layer-2">
+        <div class="label">p99 latency</div>
+        <div class="val"><span id="mLat">0.4</span><span class="unit">ms</span></div>
+        <div class="delta up">▼ faster</div>
+      </div>
+    </div>
+
+    <div class="side-panel depth-card layer-3" style="padding: 32px;">
+      <div class="panel-title"><span>process tree</span><span class="live">streaming</span></div>
+      <div class="ascii-block" id="processTree"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="ft-row">
+      <span>aura · designed in a terminal, shipped from aurora-7</span>
+      <span>
+        <a href="#">docs</a> ·
+        <a href="#">github</a> ·
+        <a href="#">discord</a> ·
+        <span style="color: var(--muted);">© 2026</span>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   AURA — interactive CLI shell + visual layer
+   ============================================================ */
+
+/* ---------- TIME in topbar ---------- */
+(function(){
+  const el = document.getElementById('topbarTime');
+  const tick = () => {
+    const d = new Date();
+    el.textContent = d.toLocaleTimeString('en-US', { hour12: false }) + ' · ' + d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  };
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ---------- 3D TILT for command cards ---------- */
+document.querySelectorAll('.cmd-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    card.style.transform = `perspective(1000px) rotateX(${(0.5 - y) * 8}deg) rotateY(${(x - 0.5) * 8}deg) translateZ(10px)`;
+    card.style.setProperty('--mx', (x * 100) + '%');
+    card.style.setProperty('--my', (y * 100) + '%');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+  });
+  card.addEventListener('click', () => {
+    const cmd = card.dataset.cmd;
+    if (cmd) {
+      const input = document.getElementById('terminalInput');
+      input.value = cmd;
+      input.focus();
+      handleCommand(cmd);
+    }
+  });
+});
+
+/* ---------- SUGGESTIONS ---------- */
+document.querySelectorAll('.suggestion-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const cmd = chip.dataset.cmd;
+    const input = document.getElementById('terminalInput');
+    input.value = cmd;
+    handleCommand(cmd);
+  });
+});
+
+/* ---------- TERMINAL COMMANDS ---------- */
+const body = document.getElementById('terminalBody');
+const input = document.getElementById('terminalInput');
+const historyList = document.getElementById('historyList');
+let history = [];
+let cmdHistory = [];
+let cmdIdx = -1;
+
+function scrollBottom() { body.scrollTop = body.scrollHeight; }
+
+function addLine(html, cls = '') {
+  const div = document.createElement('div');
+  div.className = 'output-line ' + cls;
+  div.innerHTML = html;
+  body.appendChild(div);
+  scrollBottom();
+}
+
+function addAscii(text, cls = '') {
+  const div = document.createElement('div');
+  div.className = 'ascii-block ' + cls;
+  div.textContent = text;
+  body.appendChild(div);
+  scrollBottom();
+}
+
+function addProgress() {
+  const div = document.createElement('div');
+  div.className = 'output-line progress';
+  div.innerHTML = `<div class="track"><div class="fill"></div></div>`;
+  body.appendChild(div);
+  scrollBottom();
+}
+
+function addMatrix() {
+  const div = document.createElement('div');
+  div.className = 'matrix';
+  body.appendChild(div);
+  const chars = '01アァカサタナハマヤラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨロヲゴゾドボポヴッン';
+  let frame = 0;
+  const interval = setInterval(() => {
+    let s = '';
+    for (let i = 0; i < 14; i++) {
+      s += Array.from({length: 60}, () => chars[Math.floor(Math.random() * chars.length)]).join('') + '\n';
+    }
+    div.textContent = s;
+    frame++;
+    if (frame > 18) clearInterval(interval);
+  }, 60);
+  scrollBottom();
+}
+
+function logHistory(cmd) {
+  history.unshift({ time: new Date().toLocaleTimeString('en-US', { hour12: false }), cmd });
+  history = history.slice(0, 12);
+  renderHistory();
+}
+function renderHistory() {
+  historyList.innerHTML = history.map(h =>
+    `<div class="history-item"><span class="time">${h.time}</span><span class="cmd">${h.cmd}</span></div>`
+  ).join('');
+}
+
+function handleCommand(raw) {
+  const cmd = (raw || input.value).trim();
+  if (!cmd) return;
+  addLine(`<span class="prompt"></span><span class="command">${escape(cmd)}</span>`, 'user');
+  cmdHistory.unshift(cmd);
+  cmdIdx = -1;
+  input.value = '';
+  logHistory(cmd);
+
+  const [name, ...args] = cmd.split(/\s+/);
+
+  switch (name) {
+    case 'help':
+      addLine('<span class="tag ok">help</span>available commands', 'system');
+      [
+        ['help',     'show this help'],
+        ['whoami',   'print current user'],
+        ['deploy',   'ship current branch'],
+        ['analyze',  'run static analysis'],
+        ['snapshot', 'create state backup'],
+        ['search',   'ripgrep with semantics'],
+        ['theme',    'switch visual theme (aurora|vapor|mono)'],
+        ['matrix',   'a brief easter egg'],
+        ['git',      'git status / log'],
+        ['ls',       'list workspace'],
+        ['date',     'current date'],
+        ['clear',    'clear terminal'],
+      ].forEach(([c, d]) => addLine(`  <span style="color:var(--ink)">${c.padEnd(10)}</span>  <span style="color:var(--ink-2)">${d}</span>`, 'system'));
+      break;
+
+    case 'whoami':
+      addLine('<span class="tag ok">user</span>', 'success');
+      addLine('  you are: developer@aura-shell', 'success');
+      addLine('  session: 4h 12m · since 06:34', 'success');
+      addLine('  zone:    us-west-2 · aurora-7', 'success');
+      addLine('  auth:    ssh-ed25519 · verified', 'success');
+      break;
+
+    case 'deploy':
+      addLine('<span class="tag ok">deploy</span>spinning up canary in us-west-2…', 'info');
+      setTimeout(() => addLine('  ✓  container started · pod-7f3a', 'success'), 250);
+      setTimeout(() => addLine('  ✓  healthcheck passed (200ms)', 'success'), 500);
+      setTimeout(() => addLine('  →  running smoke tests', 'info'), 750);
+      setTimeout(() => { addProgress(); }, 900);
+      setTimeout(() => addLine('  ✓  412 tests passed · 0 failures', 'success'), 3000);
+      setTimeout(() => addLine('  ✓  promoted to production · version 0.9.2', 'success'), 3300);
+      setTimeout(() => addLine('  →  https://aura.example.com is live', 'accent'), 3500);
+      break;
+
+    case 'analyze':
+      addAscii(`
+   ╭─────────────────────────────────────────╮
+   │          STATIC ANALYSIS · v0.9.2       │
+   ╰─────────────────────────────────────────╯
+       `, 'violet');
+      addLine('  files scanned         <span style="color:var(--ink)">2,341</span>', 'system');
+      addLine('  type coverage         <span style="color:var(--success)">98.7%</span>  ████████████████░', 'system');
+      addLine('  bundle size           <span style="color:var(--warn)">184kb</span>  ███████████████░░░', 'system');
+      addLine('  dead code             <span style="color:var(--success)">0.3%</span>   ░░', 'system');
+      addLine('  circular deps         <span style="color:var(--success)">none</span>', 'system');
+      addLine('  score                 <span style="color:var(--success)">A+</span>', 'success');
+      break;
+
+    case 'snapshot':
+      addLine('<span class="tag ok">snapshot</span>creating point-in-time backup…', 'info');
+      setTimeout(() => addLine('  ✓  state captured · 124mb', 'success'), 400);
+      setTimeout(() => addLine('  ✓  encrypted · aes-256-gcm', 'success'), 700);
+      setTimeout(() => addLine('  ✓  uploaded to s3://aurora-backups/2026-09-25/', 'success'), 1000);
+      setTimeout(() => addLine('  →  snapshot id: snap_4096_8f3a', 'accent'), 1100);
+      break;
+
+    case 'search':
+      addLine('<span class="tag ok">search</span>semantic ripgrep · index ready', 'info');
+      setTimeout(() => addLine('  →  3 matches across 47 files · 12ms', 'accent'), 500);
+      setTimeout(() => {
+        addAscii(`
+  src/lib/deploy.ts        L42  · canary healthcheck
+  src/lib/deploy.ts        L98  · promote to prod
+  tests/deploy.spec.ts     L17  · deploy hook
+        `, '');
+      }, 600);
+      break;
+
+    case 'theme':
+      const t = args[0] || 'tide';
+      addLine(`<span class="tag ok">theme</span>switching to "${t}"`, 'info');
+      setTimeout(() => {
+        const themes = {
+          tide:   { accent: '#E8B86D', dim: '#B89348' },
+          ember:  { accent: '#E07A5F', dim: '#A85540' },
+          coral:  { accent: '#E8A87C', dim: '#B88161' },
+          ivory:  { accent: '#F2EDE0', dim: '#B8B0A0' }
+        };
+        const sel = themes[t] || themes.tide;
+        document.documentElement.style.setProperty('--accent', sel.accent);
+        document.documentElement.style.setProperty('--accent-dim', sel.dim);
+      }, 200);
+      setTimeout(() => addLine(`  ✓  theme applied — try scrolling to see the difference`, 'success'), 700);
+      break;
+
+    case 'matrix':
+      addLine('<span class="tag warn">matrix</span>briefly.', 'warn');
+      addMatrix();
+      setTimeout(() => addLine('  ok. back to work.', 'dim'), 1500);
+      break;
+
+    case 'git':
+      if (args[0] === 'status') {
+        addLine('<span class="tag ok">git</span>on branch <span style="color:var(--accent)">main</span>', 'info');
+        addLine('  nothing to commit, working tree clean', 'success');
+        addLine('', 'system');
+        addLine('  →  last commit: feat(aura): glass + aurora + scroll', 'dim');
+      } else if (args[0] === 'log') {
+        addAscii(`
+  * feat(aura): glass + aurora + scroll   · 4m ago
+  * fix(deploy): race in canary healthcheck · 2h ago
+  * chore(deps): bump gsap to 3.13         · 1d ago
+        `, 'green');
+      } else {
+        addLine('  usage: git status | git log', 'dim');
+      }
+      break;
+
+    case 'ls':
+      addAscii(`
+  drwxr-xr-x  src/
+  drwxr-xr-x  dist/
+  -rw-r--r--  package.json
+  -rw-r--r--  README.md
+  -rw-r--r--  .aura.config
+      `, '');
+      break;
+
+    case 'date':
+      addLine(`  ${new Date().toString()}`, 'accent');
+      break;
+
+    case 'clear':
+      body.innerHTML = '';
+      break;
+
+    case '':
+      break;
+
+    default:
+      addLine(`<span class="tag err">not found</span>  command not recognized: ${escape(name)}`, 'err');
+      addLine(`  type <span style="color:var(--accent)">help</span> to see available commands.`, 'dim');
+  }
+}
+
+function escape(s) {
+  return s.replace(/[&<>]/g, c => ({'&':'&','<':'<','>':'>'}[c]));
+}
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleCommand();
+  if (e.key === 'ArrowUp') {
+    if (cmdIdx < cmdHistory.length - 1) {
+      cmdIdx++;
+      input.value = cmdHistory[cmdIdx] || '';
+    }
+    e.preventDefault();
+  }
+  if (e.key === 'ArrowDown') {
+    if (cmdIdx > 0) {
+      cmdIdx--;
+      input.value = cmdHistory[cmdIdx] || '';
+    } else {
+      cmdIdx = -1;
+      input.value = '';
+    }
+    e.preventDefault();
+  }
+  if (e.key === 'l' && e.ctrlKey) { body.innerHTML = ''; e.preventDefault(); }
+  if (e.key === 'Tab' && input.value) {
+    const prefix = input.value.trim();
+    const cmds = ['help','whoami','deploy','analyze','snapshot','search','theme','matrix','git','ls','date','clear'];
+    const match = cmds.find(c => c.startsWith(prefix));
+    if (match) { input.value = match; e.preventDefault(); }
+  }
+});
+
+/* focus terminal on click */
+document.getElementById('terminal').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON' && !e.target.classList.contains('cmd-card')) {
+    input.focus();
+  }
+});
+
+/* ---------- boot sequence ---------- */
+setTimeout(() => addLine(`<span class="tag ok">boot</span>aura-shell v0.9.2 starting…`, 'info'), 200);
+setTimeout(() => addLine(`  ✓  aurora gradient engine · loaded`, 'success'), 600);
+setTimeout(() => addLine(`  ✓  glass compositor · loaded`, 'success'), 900);
+setTimeout(() => addLine(`  ✓  type engine · loaded`, 'success'), 1100);
+setTimeout(() => addLine(`  ✓  scroll choreographer · ready`, 'success'), 1300);
+setTimeout(() => addLine(`  →  <span style="color:var(--accent)">welcome.</span> type <span style="color:var(--accent)">help</span> to begin.`, 'accent'), 1700);
+input.focus();
+
+/* ---------- SCROLL CHOREOGRAPHY ---------- */
+(function(){
+  const stage = document.getElementById('scrollStage');
+  const cmds = [
+    { cmd: 'aura deploy --prod', meta: 'canary green · shipped in 4.2s', color: '' },
+    { cmd: 'aura analyze --deep', meta: 'found 0 issues · score A+', color: 'violet' },
+    { cmd: 'git push origin feat/glass', meta: 'pushed 3 commits', color: '' },
+    { cmd: 'aura snapshot --encrypt', meta: 'snap_4096 · 124mb · s3://aurora', color: 'amber' },
+    { cmd: 'aura search "intent"', meta: '12 matches across 47 files', color: '' },
+    { cmd: 'aura theme vapor', meta: 'theme applied · smooth transition', color: 'violet' },
+    { cmd: 'npm install aura@latest', meta: '+ 1 package · 0 vulnerabilities', color: '' },
+    { cmd: 'aura rollback v0.9.1', meta: 'rolled back · 312ms downtime', color: 'amber' },
+    { cmd: 'aura matrix', meta: 'briefly. then back to work.', color: '' },
+    { cmd: 'aura deploy --canary 10%', meta: 'canary at 10% · monitoring', color: 'violet' },
+    { cmd: 'aura logs --tail 50', meta: 'streaming · 4 warnings · 0 errors', color: '' },
+    { cmd: 'aura snapshot list', meta: 'found 18 snapshots · oldest 14d', color: 'amber' },
+  ];
+  // build 3 rows of 4
+  let html = '';
+  for (let r = 0; r < 3; r++) {
+    html += '<div class="scroll-row">';
+    for (let i = 0; i < 4; i++) {
+      const idx = r * 4 + i;
+      const item = cmds[idx];
+      if (item) {
+        html += `<div class="scroll-card"><div class="time">${String(idx * 17 + 12).padStart(2,'0')}:${String((idx * 31) % 60).padStart(2,'0')}:${String((idx * 53) % 60).padStart(2,'0')}</div><div class="command">${item.cmd}</div><div class="meta">${item.meta}</div></div>`;
+      }
+    }
+    html += '</div>';
+  }
+  stage.innerHTML = html;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        setTimeout(() => card.classList.add('in-view'), i * 80);
+        obs.unobserve(card);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.scroll-card').forEach(c => obs.observe(c));
+})();
+
+/* ---------- METRICS live tick ---------- */
+(function(){
+  function jitter(id, base, range, decimals = 0) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const v = base + (Math.random() - 0.5) * range;
+    el.textContent = decimals ? v.toFixed(decimals) : Math.round(v);
+  }
+  setInterval(() => {
+    jitter('mCpu', 12, 4);
+    jitter('mMem', 4.2, 0.2, 1);
+    jitter('mLat', 0.4, 0.1, 1);
+  }, 1800);
+})();
+
+/* ---------- PROCESS TREE ---------- */
+(function(){
+  const tree = document.getElementById('processTree');
+  const lines = [
+    'aura-shell (pid 4096) ──┬─ git-daemon (pid 4112)',
+    '                        ├─ watcher (pid 4118) ── [file-watcher · 24 files]',
+    '                        ├─ compiler (pid 4124) ── [swc · idle]',
+    '                        ├─ aurora-engine (pid 4130) ── [gradient · 60fps]',
+    '                        ├─ glass-compositor (pid 4136) ── [blur · idle]',
+    '                        ├─ scroll-choreographer (pid 4142) ── [armed]',
+    '                        └─ network (pid 4148) ── [us-west-2 · 12ms]',
+  ];
+  if (tree) tree.textContent = lines.join('\n');
+})();
+
+</script>
+
+</body>
+</html>

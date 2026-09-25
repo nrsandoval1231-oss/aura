@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "packet_id": "AURA-RUN-001",
+  "status": "IMPLEMENTED_FOCUSED_VALIDATION_ONLY",
+  "candidate": {
+    "repository": "nrsandoval1231-oss/aura",
+    "branch": "codex/aura-governed-runner",
+    "base_commit": "bd534f7c8b4aa7c93b2e1550ee3fbb953a4121ca",
+    "working_tree_candidate": true,
+    "commit": null,
+    "selected_file_sha256": {
+      "src/forge/engineering_runner.py": "4B84C332BD2E0E80293C83B2040DCF930AF803693172864433F3D6BED11B69DE",
+      "tests/test_engineering_runner.py": "47E898630FE881C691B59B60216F3125006C8B228F49115049F9589C10FFBCE0",
+      "docs/integration/aura-runner.md": "2D33DD208FBC66B28104B3711935F8964CEEE10E1B1FEA956E6C214492DD865E"
+    }
+  },
+  "validation": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/test_engineering_runner.py tests/test_slice_learning.py tests/test_athena_engineering.py -q",
+      "exit_code": 0,
+      "result": "26 passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check src/forge/engineering_runner.py tests/test_engineering_runner.py",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check src/forge/engineering_runner.py tests/test_engineering_runner.py",
+      "exit_code": 0,
+      "result": "2 files already formatted"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "No whitespace errors"
+    }
+  ],
+  "implemented": [
+    "Persistent detached worktrees for bounded local builder callbacks",
+    "At most two concurrent disjoint packet scopes with serialized state writes",
+    "Fixed check execution, path-scope enforcement, untracked-file candidate hashing, and UNKNOWN for missing checks",
+    "Pinned-verifier review gate bound to repository, packet, candidate, checks, and policy identity; review rejects candidate mutation after checks",
+    "Durable attempt state, fail-closed restart replay refusal, cancellation UNKNOWN, and bounded strategy-rung recovery",
+    "Optional SliceLearning slice-start and attempt recording, lesson snapshot delivery, and recovery_plan preflight",
+    "Read-only module status command"
+  ],
+  "not_proven_or_not_implemented": [
+    "No commit, push, merge, or candidate integration is performed",
+    "Production trusted review verifier and trust anchor are deployment configuration and remain UNKNOWN",
+    "Provider adapters, credentials, model identities, billing, and live model execution are not configured or tested",
+    "SliceLearning outcomes, lesson proposal/review/measurement and harmful lesson withdrawal are not wired end to end",
+    "Learning-backed recovery_plan is used only when a SliceLearning instance is injected; local fallback enforces rung and attempt bounds",
+    "Durable ambiguous-run reconciliation tooling is absent; existing packet identity blocks replay pending manual reconciliation",
+    "Full scripts/validate.sh and independent Astra review were not run by this builder"
+  ],
+  "authority": "Local implementation only; no external effects or production activation"
+}

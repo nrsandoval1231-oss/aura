@@ -1,0 +1,21 @@
+{
+  "packet_id": "AURA-INTEGRATED-001",
+  "status": "REJECTED_FULL_GATE_RED",
+  "candidate_digest": "e1c13d3f6b8f596f1315dca4b70a19adcfd1d542ddbb58111b59939cf071082c",
+  "candidate_tree": "1fce9acb6aa822b1bd5aa51b97745a928591fe668ba187daf17a3c04c4caaa4c",
+  "local_slice_producer": {
+    "command": ".venv/Scripts/python.exe scripts/run_slice.py --packet AURA-INTEGRATED-001",
+    "exit_code": 0,
+    "tests": "792 passed, 2 warnings",
+    "limitation": "process-local simulated role keys and audit are not independent production authority"
+  },
+  "full_gate": {
+    "command": "PYTHON=.venv/Scripts/python.exe C:/Program Files/Git/bin/bash.exe scripts/validate.sh",
+    "exit_code": 1,
+    "tests": "792 passed, 2 warnings",
+    "failing_gate": "slice",
+    "reason": "Redirected graph packets lack reconciliation records: AURA-MIG-001, AURA-RUN-001, FORGE-ADAPT-001"
+  },
+  "independent_review": "NOT_RUN",
+  "next_direction": "CORRECT in AURA-INTEGRATED-002 using a separate Aura reconciliation stream; retain this evidence"
+}
