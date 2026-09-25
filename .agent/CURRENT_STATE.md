@@ -12,8 +12,10 @@ The owner generated an encrypted private key outside the Aura and Codex workspac
 retains its passphrase, and approved public PEM SHA-256
 `55faf401c993f16fd0a9d4f0e9d58babd61ccb018f6bd6cb2a9c7087505de1c1`.
 The private key is not in this repository. AURA-TRUST-PLAN-001 received independent
-ACCEPT at `0e4f838`; AURA-TRUST-001 is now READY for a protected Aura-specific
-verifier migration. This is not audit activation or candidate acceptance.
+ACCEPT at `0e4f838`. The first verifier candidate `b23e3c8` received independent
+CORRECT: its new authority surfaces were unregistered and its external public
+key was read twice. AURA-TRUST-002 is the active bounded repair. There is still
+no owner signature, audit activation, or candidate acceptance.
 
 The graph tracks remaining Aura milestones; no Forge completion status is inherited.
 The scope cleanup removes unrelated UI, optional decision services, external product

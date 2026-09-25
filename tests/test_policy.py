@@ -85,6 +85,8 @@ def test_f9_surfaces_require_owner_authority(path):
         "src/forge/governor.py",
         "src/forge/audit_receipts.py",
         ".agent/audit-trust.json",
+        "src/forge/aura_audit.py",
+        ".agent/aura-audit-trust.json",
     ],
 )
 def test_governance_surfaces_require_owner_authority(path):
@@ -135,6 +137,8 @@ def test_spelling_never_decides_protection(spelling):
         "scripts/validate.sh",
         "src/forge/audit_receipts.py",
         ".agent/audit-trust.json",
+        "src/forge/aura_audit.py",
+        ".agent/aura-audit-trust.json",
         "governor/*.py",
     ],
 )
@@ -145,6 +149,13 @@ def test_patterns_reaching_protected_surfaces_are_caught(pattern):
 @pytest.mark.parametrize("pattern", ["docs/packets/*.md", "README.md"])
 def test_routine_patterns_are_not_escalated(pattern):
     assert not pattern_reaches_protected_surface(pattern)
+
+
+@pytest.mark.parametrize(
+    "pattern", ["src/forge/aura_audit.py", ".agent/aura-audit-trust.json", ".agent/aura-audit-*"]
+)
+def test_aura_trust_patterns_require_owner_authority(pattern):
+    assert pattern_reaches_protected_surface(pattern)
 
 
 def test_normalization_is_idempotent():

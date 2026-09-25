@@ -42,12 +42,19 @@
     {
       "id": "AURA-TRUST-001",
       "title": "Production independent review trust",
-      "status": "READY",
+      "status": "REJECTED",
       "dependencies": [
         "AURA-TRUST-PLAN-001"
       ],
       "packet": ".agent/tasks/AURA-TRUST-001.md",
-      "status_note": "Owner approved exact public PEM SHA-256 55faf401c993f16fd0a9d4f0e9d58babd61ccb018f6bd6cb2a9c7087505de1c1; protected migration remains subject to exact-candidate audit."
+      "status_note": "Exact b23e3c8 received independent CORRECT: Aura verifier/trust record absent from protected registry and external key read twice. Historical candidate retained."
+    },
+    {
+      "id": "AURA-TRUST-002",
+      "title": "Protect Aura verifier and snapshot approved key",
+      "status": "READY",
+      "dependencies": ["AURA-TRUST-PLAN-001"],
+      "packet": ".agent/tasks/AURA-TRUST-002.md"
     },
     {
       "id": "AURA-RUNNER-001",

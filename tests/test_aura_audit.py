@@ -16,7 +16,7 @@ from forge.audit_receipts import (
     tracked_manifest,
 )
 from forge.aura_audit import exact_aura_candidate, verify_aura_detached_audit
-from forge.trust_kernel import ForgeError
+from forge.trust_kernel import CandidateIdentity, ForgeError
 
 
 def _run(*args: str, cwd: Path) -> str:
@@ -184,6 +184,105 @@ def test_modified_validation_artifact_is_rejected(tmp_path, monkeypatch):
         "{}", encoding="utf-8"
     )
     with pytest.raises(ForgeError):
+        _verify(root, candidate, receipt, public, reviewer)
+
+
+def test_external_public_key_is_read_once_and_snapshot_is_verified(tmp_path, monkeypatch):
+    root, candidate, receipt, public, reviewer = _signed_fixture(tmp_path, monkeypatch)
+    original = public.read_bytes()
+    reads = 0
+
+    def read_once():
+        nonlocal reads
+        reads += 1
+        if reads == 1:
+            return original
+        return b"changed key bytes"
+
+    original_read_bytes = Path.read_bytes
+    monkeypatch.setattr(
+        aura_audit.Path,
+        "read_bytes",
+        lambda self: read_once() if self == public else original_read_bytes(self),
+    )
+    # OpenSSL must receive the verifier-owned snapshot of the bytes fingerprinted above.
+    real_run = subprocess.run
+    verified_keys = []
+
+    def inspect_run(args, **kwargs):
+        if "-verify" in args:
+            verified_keys.append(Path(args[args.index("-verify") + 1]).read_bytes())
+        return real_run(args, **kwargs)
+
+    monkeypatch.setattr(aura_audit.subprocess, "run", inspect_run)
+    assert _verify(root, candidate, receipt, public, reviewer)["reviewer_id"] == "astra-reviewer"
+    assert reads == 1
+    assert verified_keys == [original]
+
+
+@pytest.mark.parametrize("key_state", ["missing", "wrong"])
+def test_missing_or_wrong_external_key_fails_closed(tmp_path, monkeypatch, key_state):
+    root, candidate, receipt, public, reviewer = _signed_fixture(tmp_path, monkeypatch)
+    if key_state == "missing":
+        public.unlink()
+        expected = "External public key is absent"
+    else:
+        other = tmp_path / "wrong-public.pem"
+        other.write_text("not a public key", encoding="utf-8")
+        public = other
+        expected = "does not match owner approval"
+    with pytest.raises(ForgeError, match=expected):
+        _verify(root, candidate, receipt, public, reviewer)
+
+
+def test_missing_or_invalid_signature_fails_closed(tmp_path, monkeypatch):
+    root, candidate, receipt, public, reviewer = _signed_fixture(tmp_path, monkeypatch)
+    data = json.loads(receipt.read_text(encoding="utf-8"))
+    signature = Path(data["signature_file"])
+    signature.unlink()
+    with pytest.raises(ForgeError, match="detached signature"):
+        _verify(root, candidate, receipt, public, reviewer)
+    signature.write_bytes(b"bad signature")
+    with pytest.raises(ForgeError, match="attestation is invalid"):
+        _verify(root, candidate, receipt, public, reviewer)
+
+
+@pytest.mark.parametrize("mutation", ["head", "tree", "repository"])
+def test_changed_candidate_identity_and_repository_fail_closed(tmp_path, monkeypatch, mutation):
+    root, candidate, receipt, public, reviewer = _signed_fixture(tmp_path, monkeypatch)
+    if mutation == "head":
+        changed = CandidateIdentity(
+            candidate.repository_digest, "0" * 40, candidate.tree, candidate.packet_id
+        )
+    elif mutation == "tree":
+        changed = CandidateIdentity(
+            candidate.repository_digest, candidate.revision, "0" * 40, candidate.packet_id
+        )
+    else:
+        changed = CandidateIdentity(
+            "0" * 64, candidate.revision, candidate.tree, candidate.packet_id
+        )
+    with pytest.raises(ForgeError, match="Candidate has wrong Aura repository|exact HEAD/tree"):
+        _verify(root, changed, receipt, public, reviewer)
+
+
+def test_non_green_validation_gate_fails_closed(tmp_path, monkeypatch):
+    root, candidate, receipt, public, reviewer = _signed_fixture(tmp_path, monkeypatch)
+    validation = root / ".agent" / "artifacts" / candidate.packet_id / "VALIDATION.json"
+    data = json.loads(validation.read_text(encoding="utf-8"))
+    data["pre_audit_gates"][next(iter(data["pre_audit_gates"]))] = 1
+    validation.write_text(json.dumps(data), encoding="utf-8")
+    receipt_data = json.loads(receipt.read_text(encoding="utf-8"))
+    receipt_data["validation_digest"] = hashlib.sha256(validation.read_bytes()).hexdigest()
+    receipt.write_text(json.dumps(receipt_data, sort_keys=True), encoding="utf-8")
+    # Isolate the gate check from the earlier dirty-checkout rejection.
+    original_git = aura_audit._git
+    monkeypatch.setattr(
+        aura_audit,
+        "_git",
+        lambda root, *args: "" if args == ("status", "--porcelain") else original_git(root, *args),
+    )
+    with pytest.raises(ForgeError, match="green pre-audit gates"):
         _verify(root, candidate, receipt, public, reviewer)
 
 

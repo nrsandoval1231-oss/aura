@@ -17,7 +17,6 @@ from forge.audit_receipts import (
     _read_json,
     _validate_validation_artifact,
     manifest_digest,
-    public_key_fingerprint,
     signed_payload,
     tracked_manifest,
 )
@@ -96,9 +95,13 @@ def verify_aura_detached_audit(
     if set(trust) != {"schema_version", "public_key_sha256"} or trust.get("schema_version") != 1:
         raise ForgeError("AUDIT_TRUST_INVALID", "Aura owner trust record is malformed")
     approved = trust.get("public_key_sha256")
+    try:
+        public_key_bytes = trust_anchor.read_bytes()
+    except OSError as exc:
+        raise ForgeError("AUDIT_TRUST_MISSING", "External public key is absent") from exc
     if (
         approved != APPROVED_PUBLIC_KEY_SHA256
-        or public_key_fingerprint(trust_anchor) != APPROVED_PUBLIC_KEY_SHA256
+        or hashlib.sha256(public_key_bytes).hexdigest() != APPROVED_PUBLIC_KEY_SHA256
     ):
         raise ForgeError("AUDIT_TRUST_INVALID", "Aura public key does not match owner approval")
 
@@ -226,14 +229,16 @@ def verify_aura_detached_audit(
         raise ForgeError("AUDIT_CANDIDATE_MISMATCH", "Aura repository changed during verification")
     with tempfile.TemporaryDirectory(prefix="aura-audit-") as temp:
         payload = Path(temp) / "receipt.json"
+        pinned_key = Path(temp) / "owner-public.pem"
         payload.write_bytes(signed_payload(receipt))
+        pinned_key.write_bytes(public_key_bytes)
         check = subprocess.run(
             [
                 _openssl(),
                 "dgst",
                 "-sha256",
                 "-verify",
-                str(trust_anchor),
+                str(pinned_key),
                 "-signature",
                 str(signature),
                 str(payload),

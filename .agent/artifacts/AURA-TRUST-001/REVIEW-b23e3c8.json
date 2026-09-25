@@ -1,0 +1,13 @@
+{
+  "packet_id": "AURA-TRUST-001",
+  "candidate_sha": "b23e3c87a512b6279df3ea11831ccfa499ee3eaf",
+  "reviewer_role": "Astra independent strategic auditor",
+  "raw_verdict": "CORRECT",
+  "derived_status": "FIX",
+  "findings": [
+    "src/forge/aura_audit.py and .agent/aura-audit-trust.json were not classified as owner-protected by src/forge/policy.py",
+    "The external public-key path was fingerprinted and later reopened by OpenSSL, allowing different bytes across reads",
+    "Additional fail-closed negative tests were missing"
+  ],
+  "activation": "BLOCKED"
+}

@@ -84,6 +84,9 @@ PROTECTED_PATHS: frozenset[str] = frozenset(
         "src/forge/audit_receipts.py",
         # The owner-approved public-key fingerprint for the integrated audit.
         ".agent/audit-trust.json",
+        # Owner-pinned detached review for Aura itself.
+        "src/forge/aura_audit.py",
+        ".agent/aura-audit-trust.json",
         # Trust kernel, loop, and specification.
         "src/forge/trust_kernel.py",
         "src/forge/execution_loop.py",
