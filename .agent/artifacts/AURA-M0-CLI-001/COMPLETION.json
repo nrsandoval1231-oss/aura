@@ -1,0 +1,48 @@
+{
+  "packet_id": "AURA-M0-CLI-001",
+  "status": "AWAITING_AUDIT",
+  "objective_result": "M0 CLI implemented; build activation remains honestly blocked",
+  "repository": "nrsandoval1231-oss/aura",
+  "branch": "codex/aura-m0-cli-runner",
+  "candidate": {
+    "base_sha": "a581d1485ceb9317dc15ad80f8fd4144be82c875",
+    "head_sha": "a581d1485ceb9317dc15ad80f8fd4144be82c875",
+    "diff_sha256": "UNKNOWN: candidate includes untracked/shared files and has not been frozen"
+  },
+  "owned_changed_files": [
+    "pyproject.toml",
+    "src/forge/aura_cli.py",
+    "src/forge/aura_runtime.py",
+    "tests/test_aura_cli.py",
+    "tests/test_aura_runtime.py"
+  ],
+  "implementation": {
+    "commands": ["init", "build", "status", "inspect", "pause", "resume"],
+    "state_authority": "Append-only LedgerStore receipts and verified checkpoint",
+    "state_location": "External user-local state, keyed by canonical repository path; configurable with AURA_STATE_HOME or --state-root",
+    "build": "Returns BLOCKED and persists stable run_id because trusted builder, isolated worktree executor, and owner authority verification are unavailable",
+    "provider_calls": false,
+    "m1_live_completion_claim": false
+  },
+  "validation": {
+    "focused_command": "python -m pytest -q tests/test_aura_cli.py tests/test_aura_runtime.py tests/test_cli.py",
+    "focused_result": "PASS: 26 passed",
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "full_gate_command": "./scripts/validate.sh via Git Bash with Python 3.13.15 and candidate src on PYTHONPATH",
+    "full_gate_result": "FAIL: 555 passed, 1 failed in tests; slice gate failed",
+    "failure": "test_real_packets_in_this_repository_all_parse: .agent/tasks/AURA-M0-CLI-001.md declares no allowed files in run_slice parser format",
+    "other_gates": {
+      "python_floor": "PASS",
+      "import_surface": "PASS",
+      "lint": "PASS",
+      "format": "PASS",
+      "doc_graph": "PASS",
+      "self_improvement": "PASS",
+      "governed_evolution": "PASS"
+    }
+  },
+  "spend": "UNKNOWN; no provider calls were made",
+  "audit": "PENDING independent review of frozen exact candidate",
+  "finish_contract": "NOT COMPLETE: no live builder, parallelism, trusted review, or M1 operational evidence"
+}

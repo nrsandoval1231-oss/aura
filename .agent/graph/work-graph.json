@@ -9,6 +9,13 @@
       "dependencies": []
     },
     {
+      "id": "AURA-M0-CLI-001",
+      "title": "Single-builder CLI and durable local run foundation",
+      "status": "READY",
+      "dependencies": ["AURA-SCOPE-001"],
+      "packet": ".agent/tasks/AURA-M0-CLI-001.md"
+    },
+    {
       "id": "AURA-ROUTING-001",
       "title": "Verified target role routing and audit policy",
       "status": "BLOCKED",
