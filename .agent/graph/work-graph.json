@@ -59,10 +59,18 @@
     {
       "id": "AURA-M1-ISOLATION-003",
       "title": "Implement one offline WSL sandbox runner",
-      "status": "READY",
+      "status": "BLOCKED",
       "dependencies": ["AURA-M1-ISOLATION-002"],
       "packet": ".agent/tasks/AURA-M1-ISOLATION-003.md",
-      "status_note": "Frozen at exact base a30c7fca8f6b300cd33012c4eb618897f76794a6 after bounded feasibility ACCEPT; offline only, no provider/CLI activation."
+      "status_note": "Offline runner and real restart proof exist at 825dba8, but its retained slice binds the prior ecd2cef tree. Historical evidence is preserved; no independent or detached acceptance."
+    },
+    {
+      "id": "AURA-M1-ISOLATION-004",
+      "title": "Bind restart repair to fresh offline candidate evidence",
+      "status": "READY",
+      "dependencies": ["AURA-M1-ISOLATION-002"],
+      "packet": ".agent/tasks/AURA-M1-ISOLATION-004.md",
+      "status_note": "Evidence-only successor frozen at 825dba817461a54ccbe0b76d6603635e172075b6; prior 003 ledger and slice are immutable. No production authority."
     },
     {
       "id": "AURA-ROUTING-001",

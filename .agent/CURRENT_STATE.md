@@ -38,10 +38,12 @@ The feasibility candidate d2f9627 received independent CORRECT because exact
 probe commands/raw output and a fixed next implementation packet were missing.
 Astra returned bounded ACCEPT for AURA-M1-ISOLATION-002 at exact candidate
 a30c7fca8f6b300cd33012c4eb618897f76794a6; the evidence is recorded in the
-successor packet artifact. AURA-M1-ISOLATION-003 is READY and frozen to that
-base for an unwired offline WSL sandbox implementation. This ACCEPT covers
-reproducible feasibility only, not a runner, candidate, detached owner-trusted
-review, or production authority.
+successor packet artifact. AURA-M1-ISOLATION-003 is BLOCKED after a real restart proof at 825dba8 changed
+the source tree bound by its retained slice; its ledger and slice remain intact.
+AURA-M1-ISOLATION-004 is READY at exact base
+825dba817461a54ccbe0b76d6603635e172075b6 to bind fresh evidence and
+seek independent exact-candidate review. The runner remains disconnected;
+external owner-pinned detached audit trust is absent.
 
 Next: design isolated check and Git effect boundaries, provision trusted review, then connect
 one governed task and prove it before two-lane scheduling, stuck recovery, and learning.
