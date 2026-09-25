@@ -1,6 +1,6 @@
 # AURA-M1-ISOLATION-005 — Repair review patch binding
 
-Status: IMPLEMENTED; deterministic repository validation red, independent
+Status: IMPLEMENTED; deterministic validation recorded, independent security
 review pending. Repair-only successor to independent `CORRECT` at exact source
 candidate `83775200a99914f97bb2ec3f62cc24b76d5efdd9`.
 
@@ -75,16 +75,19 @@ merge, deployment, trust activation, or CLI dispatch from this packet.
 - Full sandbox tests: `7 passed`; targeted restart/denial tests: `2 passed`.
   Ruff check, Ruff format check, and `git diff --check` passed. Raw commands and
   output are under `.agent/artifacts/AURA-M1-ISOLATION-005/probes/`.
-- Full repository pytest: `582 passed, 1 skipped, 1 failed`. The isolated
-  failure is the pre-existing `tests/test_aura_executor.py::test_rejects_files_created_by_a_check_and_check_timeout` expectation; with
-  a one-second total check budget, setup exhausts the budget before the
-  0.2-second per-check timeout, producing `Total check budget exhausted`
-  instead of `timed out`. It is outside this packet and remains unmodified.
-- Canonical slice generation was attempted once without `--rebind`; it refused
-  to write slice/ledger evidence because its pytest gate was red. Its run took
-  place while a duplicate local process was also running and reported three
-  failures. A subsequent serialized full pytest run and isolated rerun both
-  reproduce the single failure above. No slice or ledger is claimed.
-- The patch repair is a review candidate only. Independent security review is
-  pending. Detached owner-pinned audit status is `UNKNOWN`; no merge/live
-  dispatch authority is established.
+- Canonical slice generation completed once, serialized, without `--rebind` at
+  base HEAD `916c416d948babe32eb0cd063c7474b5da509034`. It recorded candidate
+  digest `82d69aa6b261b88b962084d38253462065a8ec11a0a6c754cb90eb4307edcf1a`,
+  four ledger receipts, `583 passed, 1 skipped, 2 warnings`, and passing Ruff
+  and format gates. The slice's Auditor and `MERGE_ELIGIBLE` are simulated local
+  development artifacts only; they are not independent review or merge
+  authority. The exact command output is preserved with decoded SHA-256 in
+  `probes/RAW_OUTPUTS.md`.
+- A prior full pytest run on the earlier candidate failed one unrelated
+  executor timeout-budget expectation. At HEAD `916c416`, the controller
+  reran `./scripts/validate.sh`: 583 passed, 1 skipped, 2 warnings; every gate
+  passed except the expected slice gate for missing 005 evidence. Final
+  validation is run after the new slice/ledger is committed.
+- Independent security review of this exact patch candidate remains pending.
+  Detached owner-pinned audit status is `UNKNOWN`; no merge/live dispatch
+  authority is established.

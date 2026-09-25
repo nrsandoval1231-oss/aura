@@ -15,9 +15,8 @@ or CLI activation.
 The [task packet](../../.agent/tasks/AURA-M1-ISOLATION-005.md) sets the exact
 scope, tests, and budget.
 
-The 005 patch repair is implemented but remains pending independent security
-review. The focused WSL sandbox gates pass. The full repository pytest gate
-remains red on an unrelated executor timeout-budget assertion; canonical slice
-generation therefore wrote no 005 slice or ledger evidence. Detached external
-audit status is `UNKNOWN`, and this candidate is not approved for merge or live
-dispatch.
+The 005 patch repair is implemented and the canonical local slice and ledger
+were generated once. That slice's Auditor and `MERGE_ELIGIBLE` results are
+simulated development evidence only. Independent security review is pending;
+detached external audit status is `UNKNOWN`, and this candidate is not approved
+for merge or live dispatch.
