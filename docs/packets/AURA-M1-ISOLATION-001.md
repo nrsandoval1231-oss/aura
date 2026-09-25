@@ -18,6 +18,16 @@ records are retained; neither executor is production-authorized.
   narrow probes, not proof that a candidate or its Git configuration is safe.
 - Ubuntu has Python 3.14.4 and Git 2.53.0, but no Linux pytest or pip. The
   supported test runtime must be provisioned and pinned before execution.
+- In `/tmp/aura-bwrap-git-nYR1jy`, repository-local `core.fsmonitor` was
+  demonstrably invoked (`FSMONITOR_EXECUTED`) inside a Bubblewrap shell with a
+  read-only source bind. Attempts to write `/outside/host-marker` and
+  `/repo/worktree-marker` failed; neither marker existed afterward.
+- In `/tmp/aura-bwrap-git-effects-79DQ3y`, repository-local `include.path`
+  loaded a malicious clean filter. The filter was invoked twice and a
+  `pre-commit` hook once in a writable disposable candidate bind. All three
+  attempts to write `/outside` failed; no outside markers existed afterward.
+  Candidate-local writes remained possible by design. These were one-host
+  denial probes, not a production sandbox implementation or test-runtime proof.
 
 ## Replanned trust boundary
 
