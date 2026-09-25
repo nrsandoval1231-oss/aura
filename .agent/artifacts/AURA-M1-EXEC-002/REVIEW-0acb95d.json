@@ -1,0 +1,18 @@
+{
+  "candidate_sha": "0acb95d59436f73bfbc326f6a69b23689549fa63",
+  "base_sha": "84a3d014c578cf28a0115238ffabbe86a19927a3",
+  "raw_verdict": "CORRECT",
+  "compatible_verdict": "FIX",
+  "finding": "Repository-local Git core.fsmonitor executes with host authority before the executor appends its durable intent. Scrubbing only system and global Git configuration does not contain repository-local configuration or includes.",
+  "reproduction": {
+    "disposable_path": "C:/Users/nrsan/AppData/Local/Temp/aura-astra-preintent-l3chf9gd",
+    "source_base_sha": "d414bfb89ffad46ba99fa08e5872436eeb25bad0",
+    "returned_candidate_sha": "a3b95c5fcb87f797197d8aa3582750b573142a92",
+    "returned_candidate_tree": "1453879cdf2f709a68a69272fb0841e12f54acaf",
+    "before_intent_effect": "before-intent.txt contains PRE_INTENT_EFFECT"
+  },
+  "repaired_from_prior": "Self-rewriting passing tests now fail closed against exact committed bytes.",
+  "required_direction": "Replan after two repair attempts: put untrusted Git configuration and repository checks behind a real process and filesystem isolation boundary, with intent preceding effectful commands; retain production BLOCKED until separately audited.",
+  "validation": "Independent focused suite 18 passed, 1 skipped; controller full validate.sh had 576 passed, 1 skipped and only mandatory detached audit slice gate failed.",
+  "production_authority": "ABSENT"
+}

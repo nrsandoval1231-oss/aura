@@ -35,10 +35,18 @@
     {
       "id": "AURA-M1-EXEC-002",
       "title": "Bind offline executor checks to committed candidate bytes",
-      "status": "READY",
+      "status": "REJECTED",
       "dependencies": ["AURA-SCOPE-001"],
       "packet": ".agent/tasks/AURA-M1-EXEC-002.md",
-      "status_note": "Repair only: exact-byte binding and containment hardening. Production remains blocked pending OS isolation and trust."
+      "status_note": "Exact 0acb95d received independent CORRECT: repository-local fsmonitor ran before intent. Repair budget exhausted; offline executor is not production authority."
+    },
+    {
+      "id": "AURA-M1-ISOLATION-001",
+      "title": "Design isolated check and sterile Git effect boundary",
+      "status": "READY",
+      "dependencies": ["AURA-SCOPE-001"],
+      "packet": ".agent/tasks/AURA-M1-ISOLATION-001.md",
+      "status_note": "Replanned approach after two rejected executor attempts. Evidence and design first; no production dispatch."
     },
     {
       "id": "AURA-ROUTING-001",

@@ -21,8 +21,17 @@ loss defect. AURA-M0-CLI-002 is BLOCKED after bounded independent ACCEPT at
 581c450; the full gate's slice check still requires owner-pinned detached audit trust.
 AURA-M1-EXEC-001 was rejected by independent CORRECT at 84a3d01: an allowed
 test could rewrite its own bytes after passing, leaving an untested commit.
-AURA-M1-EXEC-002 is READY for a bounded repair. Its offline proof cannot grant
+AURA-M1-EXEC-002 attempted a bounded repair. Its offline proof cannot grant
 production execution authority because candidate tests have host filesystem access.
 
-Next: repair exact candidate binding, provision trusted review, then connect
+The exact AURA-M1-EXEC-002 candidate 0acb95d also received independent CORRECT.
+The auditor demonstrated repository-local Git fsmonitor running before the
+durable intent. The repair budget is exhausted, and both executor candidates
+are retained as rejected evidence. AURA-M1-ISOLATION-001 is READY to replan
+around a real process sandbox and sterile Git boundary. Ubuntu WSL has a
+working Bubblewrap primitive; Docker daemon is unavailable, and Linux pytest
+is not yet installed. These observations are feasibility evidence, not a
+production runtime claim.
+
+Next: design isolated check and Git effect boundaries, provision trusted review, then connect
 one governed task and prove it before two-lane scheduling, stuck recovery, and learning.
