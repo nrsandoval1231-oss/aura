@@ -1,0 +1,61 @@
+{
+  "application": null,
+  "baseline": {
+    "direction": "LOWER_IS_BETTER",
+    "name": "unexplained_external_refusals",
+    "value": 1.0
+  },
+  "candidate_lesson": {
+    "author": "sol",
+    "context": "FORGE-EXT-001 made one paid proposal-only Hallam request. The schema-valid response was refused during scope validation, but the retained outcome named only ValueError and the failed rule could not be reconstructed.",
+    "derived_from": [
+      "8f8f74e3722f9f3572edb696d85bc68c739887378f6a10cd816cbe7fe7d01c4a"
+    ],
+    "diagnosis": "the execution strategy persisted too little safe refusal detail to attribute a post-schema rejection, so it blocked evidence-based recovery",
+    "failure_signatures": [
+      "unexplained_proposal_refusal a code proposal refused retained rule safe schema valid without"
+    ],
+    "id": "LESSON-EXPLAIN-EXTERNAL-REFUSAL",
+    "intended_change": "before a paid external Builder call, use independently audited allowlisted refusal reason codes and content-free hunk metadata, and scan credentials before any response-derived persistence",
+    "metric_name": "unexplained_external_refusals",
+    "negative_knowledge": [
+      "A generic exception type without the failed rule does not support attribution and must not justify blind retry."
+    ]
+  },
+  "candidate_lesson_digest": "ab743a3cbab9b74d56d102ac4c74a9a02c40444c8c1b0c6e26f2c28f683d6ea3",
+  "diagnostic_audit": {
+    "focused_tests": 42,
+    "full_tests": 630,
+    "independent_secret_probes": 12,
+    "verdict": "ACCEPT"
+  },
+  "diagnostic_repair_candidate": "2db548693bcace2606e459b962571b6b47960e81",
+  "failure_signature": "unexplained_proposal_refusal a code proposal refused retained rule safe schema valid without",
+  "hallam_base": "2d687fe51fdc406c35f52cfc8c275615f2792772",
+  "measurement": null,
+  "packet_id": "FORGE-EXT-LESSON-001",
+  "repository_digest": "797f248d2e60d1cfc2f81e153c0f3c77922b17f5fa1bef5eff36696809b817df",
+  "source_outcome": {
+    "candidate_digest": "cd129121a1bbfb309a36598bbd8fd97d2d66acf0",
+    "evidence_digest": "ff73ef89c4c81c40eb9c899d2aebe870bcd8952a43428e39efaf4b5798f389d2",
+    "failing_checks": [
+      "unexplained_proposal_refusal"
+    ],
+    "metric": {
+      "direction": "LOWER_IS_BETTER",
+      "name": "unexplained_external_refusals",
+      "value": 1.0
+    },
+    "packet_id": "FORGE-EXT-001",
+    "repository_digest": "797f248d2e60d1cfc2f81e153c0f3c77922b17f5fa1bef5eff36696809b817df",
+    "strategy_digest": "252e1e7d1866f715e877ffd40d5d2e9d1d54eb0995c7e7c53312289d7241529a",
+    "succeeded": false
+  },
+  "source_outcome_digest": "8f8f74e3722f9f3572edb696d85bc68c739887378f6a10cd816cbe7fe7d01c4a",
+  "source_strategy": {
+    "description": "external proposal call with generic ValueError outcome and no safe refusal-rule metadata",
+    "digest": "252e1e7d1866f715e877ffd40d5d2e9d1d54eb0995c7e7c53312289d7241529a",
+    "digest_method": "sha256(UTF-8 description)"
+  },
+  "state": "CANDIDATE_AWAITING_INDEPENDENT_VALIDATION"
+}

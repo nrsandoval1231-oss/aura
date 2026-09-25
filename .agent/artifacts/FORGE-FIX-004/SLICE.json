@@ -1,0 +1,78 @@
+{
+  "audit": {
+    "bound_to_candidate": true,
+    "confidence": 0.9,
+    "discovery_verdict": "OBSERVATION",
+    "implementation_verdict": "PASS"
+  },
+  "base_candidate_digest": "7fd79d384a98ec4c4148eed3a4fd37522f7a4b090e0ee8444a980e0d6f8df7e2",
+  "candidate_digest": "cab443af425237a8eca6f2d70cdd75fdb11bb6d00a9793e3464b170e48c66e2a",
+  "candidate_tree": "156a47781c54888303d76ed03bb3fdee60142c0f43af950b9661f4aa7aa3a07d",
+  "changed_paths": [
+    ".agent/DECISIONS.md",
+    ".agent/graph/work-graph.json",
+    ".agent/tasks/FORGE-FIX-004.md",
+    ".env.example",
+    "README.md",
+    "docs/audit/2026-09-22-repository-audit.md",
+    "scripts/validate.sh",
+    "src/forge/cli.py",
+    "src/forge/execution_loop.py",
+    "src/forge/ledger_store.py",
+    "src/forge/policy.py",
+    "src/forge/providers/model_provider.py",
+    "tests/ingestion/test_ingestion.py",
+    "tests/test_cli.py",
+    "tests/test_config.py",
+    "tests/test_gate_parity.py",
+    "tests/test_ledger_store.py",
+    "tests/test_model_provider.py",
+    "tests/test_policy.py"
+  ],
+  "gates": {
+    "pytest": {
+      "evidence_digest": "19836980ecfc7cbd5d496e245a6e7819b46a7fcd515489b65904aa936b767b75",
+      "passed": true,
+      "summary": "286 passed in 1.71s"
+    },
+    "ruff_check": {
+      "evidence_digest": "a77d8f852772a0310ebc371b8a4b725aa8a04867242572c7ffdef37cb2838f71",
+      "passed": true,
+      "summary": "All checks passed!"
+    },
+    "ruff_format": {
+      "evidence_digest": "bdcc0ca45fdceeb8f2508902137c6c6afdea95b043e8a05986c6debab8cc916f",
+      "passed": true,
+      "summary": "37 files already formatted"
+    }
+  },
+  "generated_at": "2026-09-22T00:52:24.053511+00:00",
+  "ledger": {
+    "head_hash": "105e5c378ce371935afe7b6197c481e1da364f2b7bac5a132b68695d134a44f1",
+    "path": ".agent/ledger/FORGE-FIX-004.jsonl",
+    "receipts": 4,
+    "reloaded_and_verified": true
+  },
+  "limits": [
+    "Agent roles are simulated; no model provider was called.",
+    "Role signing keys are process-local, not durably custodied.",
+    "Merge eligibility was computed, not acted on; no merge occurred."
+  ],
+  "loop_state": "MERGE_ELIGIBLE",
+  "merge_eligibility": {
+    "audit_digest": "357af4ab9006e280c2f674e2cb6fc92563c27a6e5c892ad62d2bee8fd02f47f2",
+    "authorized_by_role": "GOVERNOR",
+    "candidate_digest": "cab443af425237a8eca6f2d70cdd75fdb11bb6d00a9793e3464b170e48c66e2a"
+  },
+  "owner_authorization": {
+    "bound_to_packet_scope": true,
+    "evidence": "docs/audit/2026-09-21-repository-audit.md",
+    "owner_ref": "OWNER"
+  },
+  "packet_id": "FORGE-FIX-004",
+  "repository": {
+    "base_sha": "933424f23481882d4eebd018755b28b8f36a9fd9",
+    "branch": "claude/repo-audit-2n4o60",
+    "remote": "https://github.com/nrsandoval1231-oss/forge-agent"
+  }
+}

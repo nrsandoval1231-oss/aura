@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renzo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="renzo.css">
+</head>
+<body>
+<div class="paper"></div>
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
+
+<header class="topbar">
+  <a href="home.html" class="brand">
+    <span class="brand-mark">Renzo</span>
+    <span class="brand-sub">Studio</span>
+  </a>
+  <nav class="topbar-nav">
+    <a href="home.html" class="active">Home</a>
+    <a href="manifesto.html">Manifesto</a>
+    <a href="journal.html">Journal</a>
+    <a href="first-visit.html">First visit</a>
+  </nav>
+  <div class="topbar-right">
+    <span class="topbar-page">I</span>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="centerpiece">
+    <div class="eyebrow rise rise-1">A quiet companion for building</div>
+
+    <h1 class="question rise rise-2">
+      What would you <em>like</em> to build?
+    </h1>
+
+    <p class="subhead rise rise-3">Describe it in your own words. Renzo will handle the rest.</p>
+
+    <div class="rule rise rise-3"></div>
+
+    <form class="field rise rise-4" onsubmit="event.preventDefault(); window.location='building.html'">
+      <input
+        type="text"
+        class="field-input"
+        autofocus
+        placeholder="a small tool that organizes my photos by season…"
+      />
+      <span class="field-line"></span>
+    </form>
+
+    <button class="submit rise rise-4" onclick="window.location='building.html'">
+      Build it <span class="submit-arrow">→</span>
+    </button>
+
+    <div class="examples rise rise-4">
+      <div class="examples-label">— a few gentle suggestions —</div>
+      <div class="examples-list">
+        <span class="example" onclick="document.querySelector('.field-input').value=this.textContent">a small tool that organizes my photos by season</span>
+        <span class="example" onclick="document.querySelector('.field-input').value=this.textContent">a newsletter for my book club</span>
+        <span class="example" onclick="document.querySelector('.field-input').value=this.textContent">a script to rename files in my Downloads folder</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="bottom-left">
+      <span>Local</span>
+      <span>Quiet</span>
+      <span>Yours</span>
+    </div>
+  </div>
+</main>
+
+<script src="renzo.js"></script>
+</body>
+</html>

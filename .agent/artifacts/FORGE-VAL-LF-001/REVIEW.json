@@ -1,0 +1,18 @@
+{
+  "task_id": "FORGE-VAL-LF-001",
+  "verdict": "PASS",
+  "auditor": "independent Astra",
+  "candidate_sha": "57fb8d2bb45c23b849d1b322fbfa1a5fcbc2bac0",
+  "summary": "A fresh Windows checkout with core.autocrlf=true retains scripts/validate.sh as LF and Git mode 100755; installed Git Bash parses and runs it without weakening any gate.",
+  "evidence": {
+    "git_eol": "i/lf w/lf",
+    "crlf_bytes": 0,
+    "git_mode": "100755",
+    "gate_parity_tests": "13 passed",
+    "script_blob_unchanged_from_packet_base": true
+  },
+  "limitations": [
+    "The historical bash parse failure itself was not reproduced with the installed current Git Bash.",
+    "A separate lesson-artifact line-ending defect was discovered and is outside this packet."
+  ]
+}

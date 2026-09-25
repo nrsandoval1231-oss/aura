@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "task_id": "FORGE-LOOP-001",
+  "status": "COMPLETE",
+  "candidate": {
+    "commit_sha": "0f8f6ca2e7c91d45bd44148eba73522e031bdf62",
+    "tree_sha": "0edd22266d0d1c02df5a5c5a48ce9c07a1d83a8e",
+    "branch": "codex/forge-loop-001",
+    "stacked_base_branch": "codex/forge-pb-001",
+    "base_sha": "449d15c41b02f2a1138d485e07b81f6b2154f09b"
+  },
+  "validation": [
+    {"command": "uv run --with pytest pytest -q", "result": "PASS", "evidence": "69 passed"},
+    {"command": "uv run --with ruff ruff check src tests", "result": "PASS"},
+    {"command": "uv run python -m compileall -q src", "result": "PASS"},
+    {"command": "git diff --check", "result": "PASS"},
+    {"command": "GitHub Codex exact-head review", "result": "PASS", "evidence": "0f8f6ca reviewed with no inline findings on 2026-09-18"}
+  ],
+  "audit_history": [
+    {"verdict": "FIX", "outcome": "Added explicit Builder attestation and validation of the exact packet base candidate."},
+    {"verdict": "PASS", "outcome": "One bounded packet reaches Governor-only merge eligibility with exact identity and independent audit."},
+    {"verdict": "FIX", "outcome": "PR review required trusted role contexts, candidate-bound evidence, specification revalidation, active-work allowlisting, canonical paths, and removal of unapproved DEC-007."},
+    {"verdict": "PASS", "outcome": "All PR review trust-boundary findings are repaired on refreshed dependency bases."},
+    {"verdict": "PASS", "outcome": "Second-round trust-kernel and Product Brain repairs were integrated and the full stacked candidate revalidated."},
+    {"verdict": "FIX", "outcome": "Later reviews required action-, scope-, payload-, and loop-bound role credentials; disjoint role identities and keys; immutable packet and audit tuples; private Product Brain references; and signed owner packet authorization."},
+    {"verdict": "FIX", "outcome": "Protected-path review required separator-aware wildcard intersection, broader governance module and package classification, root wildcard protection, and normalized North Star spellings."},
+    {"verdict": "FIX", "outcome": "Cryptographic review identified HMAC-equivalent short keys; context signing keys are now fixed at exactly 32 bytes before role-separation checks."},
+    {"verdict": "PASS", "outcome": "Exact integrated implementation head 0f8f6ca passed 69 tests and independent GitHub Codex review with no inline findings."}
+  ],
+  "scope": {"model_execution": false, "git_effects": false, "merge_execution": false, "autonomous_continuation": false},
+  "next_direction": "CONTINUE to Phase 4 Evidence Ledger and replay on a new bounded packet; preserve the stacked dependency chain."
+}

@@ -1,0 +1,31 @@
+{
+  "packet_id": "FORGE-SPD-002",
+  "status": "COMPLETE",
+  "authority": "A2",
+  "owner_authorization": "Owner instruction to proceed with the next builder session (2026-09-21)",
+  "implements": ["Canonical S32 (Context Engine)", "Canonical S33 (Context provenance)"],
+  "acceptance_checks": {
+    "provenance_required_on_every_item": "PASS",
+    "forbidden_source_refused_by_role": "PASS",
+    "builder_cannot_receive_specification": "PASS",
+    "auditor_cannot_receive_builder_reasoning": "PASS",
+    "budget_deterministic_and_drops_recorded": "PASS",
+    "manifest_accounts_for_every_supplied_item": "PASS",
+    "assembly_digest_is_reproducible": "PASS",
+    "size_receipt_is_ledger_shaped": "PASS",
+    "harness_drives_any_packet_by_id": "PASS",
+    "gates_verify_every_ledger_chain": "PASS"
+  },
+  "evidence": {
+    "slice": ".agent/artifacts/FORGE-SPD-002/SLICE.json",
+    "ledger": ".agent/ledger/FORGE-SPD-002.jsonl"
+  },
+  "tests": {"before": 160, "after": 198},
+  "protected_surfaces_touched": [],
+  "not_claimed": [
+    "No live model provider call was made; the Context Engine has never assembled context for a real model.",
+    "Budgets are measured in characters, a deterministic proxy for tokens, and the starting values are unvalidated guesses pending FORGE-LRN-002 traces.",
+    "Agent roles in the proving slice remain simulated.",
+    "The Context Engine is additive and is not yet wired into ExecutionLoop; callers must use it."
+  ]
+}

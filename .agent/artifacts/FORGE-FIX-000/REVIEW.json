@@ -1,0 +1,81 @@
+{
+  "packet_id": "FORGE-FIX-000",
+  "verdict": "PASS",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewer": "self",
+      "verdict": "PASS",
+      "basis": [
+        "Deterministic gates re-run by the Governor rather than trusted from the builder claim.",
+        "Audit bound to the exact candidate digest; candidate mutation invalidates it.",
+        "Evidence reloaded from disk and re-verified after being written."
+      ]
+    },
+    {
+      "round": 2,
+      "reviewer": "independent (automated PR review + independent security review)",
+      "verdict": "FIX",
+      "findings_accepted": 6,
+      "findings_rejected": 0,
+      "findings": [
+        {
+          "id": "R2-1",
+          "severity": "HIGH",
+          "area": "src/forge/decisions/jev_decisions.py",
+          "finding": "paths_in_scope used bare fnmatch, so 'src/../AGENTS.md' matched 'src/**'. A reversible write to a protected surface cleared the Governor guardrail without a human.",
+          "resolution": "Path scope promoted to src/forge/paths.py with normalization, traversal rejection, and segment-aware matching. execution_loop now delegates to the same implementation instead of holding a second copy.",
+          "note": "Found independently by two reviewers. The duplicate implementation was the root cause: one correct, one not, and the weaker one decided wherever it sat."
+        },
+        {
+          "id": "R2-2",
+          "severity": "MEDIUM",
+          "area": "src/forge/decisions/jev_decisions.py",
+          "finding": "An empty touched_paths read as in-scope, because all() over an empty sequence is vacuously true. touched_paths was optional, so the callers least able to enumerate paths — shell above all — silently lost the deterministic half of the guardrail.",
+          "resolution": "Empty paths now fail closed; touched_paths is required.",
+          "note": "A test in round 1 pinned the fail-open behaviour as intended, so the suite would never have caught it."
+        },
+        {
+          "id": "R2-3",
+          "severity": "HIGH",
+          "area": "scripts/run_slice.py",
+          "finding": "CHANGED_PATHS was a hand-maintained tuple covering 13 of 33 changed paths, omitting AGENTS.md, DECISIONS.md, and the core modules. Omitted paths skipped the loop's scope validation and were absent from the exact-candidate tree hash.",
+          "resolution": "Changed paths derived from git, unioning committed and working-tree changes, excluding only the evidence the slice writes itself.",
+          "note": "This is the audit's own governance-drift finding reproduced inside the fix for it."
+        },
+        {
+          "id": "R2-4",
+          "severity": "MEDIUM",
+          "area": "scripts/run_slice.py",
+          "finding": "Recorded candidate identity folded in the base SHA, absolute checkout path, and branch, so --check could never pass once committed or checked out elsewhere.",
+          "resolution": "--check compares the content tree hash, which is what the audit binds to. Verified across a commit."
+        },
+        {
+          "id": "R2-5",
+          "severity": "HIGH",
+          "area": "src/forge/ledger_store.py",
+          "finding": "write() atomically replaced an existing stream's whole chain, so re-running a producer destroyed prior evidence — in a store introduced as append-only.",
+          "resolution": "write() requires the persisted chain to be an exact prefix and appends only new records; divergence is refused. Deliberate replacement moved to rebind(), which callers must choose."
+        },
+        {
+          "id": "R2-6",
+          "severity": "LOW",
+          "area": "src/forge/cli.py",
+          "finding": "The consistency gate read only README.md, leaving .agent/CURRENT_STATE.md — authority layer 6, and the other document that drifted — free to go stale while the gate stayed green.",
+          "resolution": "Gate scans every state-bearing document. It immediately caught two stale node statuses in CURRENT_STATE.md."
+        }
+      ]
+    }
+  ],
+  "residual_risk": [
+    "The slice proves the loop's control flow, not agent output quality. The first real measurement of that is still ahead, and no completed node claims otherwise.",
+    "Provider adapters are verified against injected transports and published API shapes, not against live endpoints. A wire-format change at a vendor would not be caught by CI.",
+    "Absorbing three proposed nodes into one packet is wider than the default bounded packet. It was accepted because the three were not independent.",
+    "CI has never successfully executed in this repository: the runner does not schedule the job. All gate evidence is from local runs via scripts/validate.sh."
+  ],
+  "discovery_candidates": [
+    "OBS-FIX-000-unexecuted-paths-hide-defects: a defect on a code path no test or run exercises is invisible to review, however thorough.",
+    "OBS-FIX-000-duplicate-security-logic: where one security rule has two implementations, the weaker one decides wherever it sits. Both round-2 HIGH findings were duplication, not absence.",
+    "OBS-FIX-000-hand-maintained-state-recurs: the fix for hand-maintained drift introduced a hand-maintained list. Deriving state from a source of truth has to be the default, not the remedy."
+  ]
+}

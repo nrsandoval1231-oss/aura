@@ -1,0 +1,76 @@
+{
+  "task_id": "FORGE-RECON-004",
+  "role": "Sol integration",
+  "base_sha": "024851f47fe56b1e7e853b18014af58899e0da85",
+  "status": "INTEGRATED_AWAITING_INDEPENDENT_AUDIT",
+  "historical_prefix": {
+    "receipts": 8,
+    "bytes": 5280,
+    "sha256": "23a537ec08b60b65ee2cbd3b547e4bded4bbd932669d20ee95e55d062d2cec1b",
+    "unchanged": true
+  },
+  "extended_stream": {
+    "stream_id": "FORGE-EVID-003",
+    "receipts": 11,
+    "head_hash": "7976fc9958c86a69b6392e165cade9cf0b8cb89ea4b9f3ac2e718e8346878f46",
+    "jsonl_sha256": "947988a1c4b8adb4fdd396aa18b23c7856ef2e08a54f3e7554896c6cf2230d33",
+    "checkpoint_sha256": "ade0d26282aa1c121c66329669097e45fc7f5d6a15cd052c4280b5ecca6c9d16"
+  },
+  "appended_reconciliations": [
+    {
+      "packet_id": "FORGE-EXT-001",
+      "evidence_class": "LEDGER_ONLY",
+      "successor_packet_id": "FORGE-EXT-DIAG-001"
+    },
+    {
+      "packet_id": "FORGE-EXT-002",
+      "evidence_class": "LEDGER_ONLY",
+      "successor_packet_id": "FORGE-EXT-003"
+    },
+    {
+      "packet_id": "FORGE-EXT-002-CORRECTION-002",
+      "evidence_class": "NO_LEGACY_EVIDENCE",
+      "successor_packet_id": "FORGE-EXT-002-CORRECTION-003"
+    }
+  ],
+  "validation": [
+    {
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "result": "714 passed, 2 warnings"
+    },
+    {
+      "command": "python -m ruff check src tests scripts",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": "python -m ruff format --check src tests scripts",
+      "exit_code": 0,
+      "result": "60 files already formatted"
+    },
+    {
+      "command": "python -m forge.cli graph check",
+      "exit_code": 0,
+      "result": "51 graph nodes consistent with documents"
+    },
+    {
+      "command": "python -m forge.cli ledger verify FORGE-EVID-003",
+      "exit_code": 0,
+      "result": "11 receipts; exact checkpoint head verified"
+    },
+    {
+      "command": "verify_reconciliation_records()",
+      "exit_code": 0,
+      "result": "all 11 redirected packet streams match their explicit graph successors"
+    }
+  ],
+  "external_effects": {
+    "provider_calls": 0,
+    "hallam_edits": 0,
+    "pushes": 0,
+    "merges": 0,
+    "deployments": 0
+  },
+  "self_certification": false
+}

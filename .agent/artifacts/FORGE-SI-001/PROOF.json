@@ -1,0 +1,112 @@
+{
+  "acceptance": {
+    "1_attributable_outcomes": true,
+    "2_candidate_lesson_with_negative_knowledge": true,
+    "3_independent_validation": true,
+    "4_repository_scope_only": true,
+    "5_retrieval_evidence": true,
+    "6_changed_later_decision": true,
+    "7_measured_named_outcome": true,
+    "8_rollback_on_harm": true,
+    "9_protected_surfaces_excluded": true
+  },
+  "boundary": "The stuck detector, lesson store, retrieval, planner, refusals and digests are the shipped implementation. Whether a repair reaches the defect is simulated in attempt_result(): the scenario's defect is an env-ordering defect that a SAME_EDIT repair cannot reach. No model is called and no real defect is fixed. This proves the learning machinery changes a later decision and can measure and revoke it \u2014 not that Forge can fix software.",
+  "episode_evidence": {
+    "applications": [
+      {
+        "changed_strategy": true,
+        "digest": "29126f8c41a842149aa3c8af685e31e53af6f0ae27a51e82fb2295c40d2c0006"
+      }
+    ],
+    "baseline": {
+      "direction": "LOWER_IS_BETTER",
+      "name": "attempts_to_green",
+      "value": 3.0
+    },
+    "candidate_lesson_digest": "8d638e5678a23473dad19e9b80671b89607920051ce57d40ac37ec83aa19066f",
+    "changed_later_behaviour": true,
+    "decision": {
+      "evidence_digest": "7ba2de01be72ca1a4f4e62a8c4da47798aa19c17331a41d2642e9bd79fee66c9",
+      "lesson_id": "LESSON-ENV-ORDER",
+      "rationale": "Reproduced against the episode-one outcome records; the refused second attempt is in evidence.",
+      "scope": "REPOSITORY",
+      "validated": true,
+      "validator": "astra"
+    },
+    "improved_named_outcome": true,
+    "lesson_id": "LESSON-ENV-ORDER",
+    "measurements": [
+      {
+        "reason": "attempts_to_green moved from 3.0 to 1.0.",
+        "verdict": "IMPROVED"
+      }
+    ],
+    "negative_knowledge": [
+      "Re-editing at the SAME_EDIT rung cannot reach an env-ordering defect; the second attempt was refused as not materially different and the attempt was spent anyway."
+    ],
+    "outcomes": [
+      "66034aa2f6832c268d7822b4dd36ae452633c0bc343e9392c736dc3032ea18b8",
+      "bdfafdac98b481f11f6a7c4acb9e35f1acf87281172b7fbc6a7e270b152d7ca7",
+      "7ba2de01be72ca1a4f4e62a8c4da47798aa19c17331a41d2642e9bd79fee66c9"
+    ],
+    "repository_digest": "forge-agent-proving-repository",
+    "retrievals": [
+      "4069121f5fcf56151be98417e8170035dd998b83082c064797792b2c3346d66c",
+      "130c0a36c5fe2b065ac9f2c6ca15f0be327a60573bdfc641d467a1dfc8b4676d",
+      "c6dabeaede8eae347dbea9178eb4fe8f6c2c0c27076add5d68098d26f7a38e6d"
+    ],
+    "scope": "REPOSITORY",
+    "state": "VALIDATED"
+  },
+  "episode_one": {
+    "attempts_to_green": 3,
+    "opening_rung": "SAME_EDIT",
+    "outcomes": [
+      "66034aa2f6832c268d7822b4dd36ae452633c0bc343e9392c736dc3032ea18b8",
+      "bdfafdac98b481f11f6a7c4acb9e35f1acf87281172b7fbc6a7e270b152d7ca7",
+      "7ba2de01be72ca1a4f4e62a8c4da47798aa19c17331a41d2642e9bd79fee66c9"
+    ],
+    "packet_id": "FORGE-SI-E1"
+  },
+  "episode_three": {
+    "lesson_id": "LESSON-HARMFUL",
+    "packet_id": "FORGE-SI-E3",
+    "retrievable_after_rollback": false,
+    "state_after": "ROLLED_BACK",
+    "verdict": "HARMED"
+  },
+  "episode_two": {
+    "attempts_to_green": 1,
+    "changed_strategy": true,
+    "measurement": {
+      "baseline": {
+        "direction": "LOWER_IS_BETTER",
+        "name": "attempts_to_green",
+        "value": 3.0
+      },
+      "observed": {
+        "direction": "LOWER_IS_BETTER",
+        "name": "attempts_to_green",
+        "value": 1.0
+      },
+      "reason": "attempts_to_green moved from 3.0 to 1.0.",
+      "verdict": "IMPROVED"
+    },
+    "opening_rung_with_lesson": "MECHANISM",
+    "opening_rung_without_lesson": "SAME_EDIT",
+    "packet_id": "FORGE-SI-E2",
+    "retrieval_digest": "4069121f5fcf56151be98417e8170035dd998b83082c064797792b2c3346d66c",
+    "retrieved": [
+      [
+        "LESSON-ENV-ORDER",
+        1.0
+      ]
+    ],
+    "strategy_with_lesson": "a79d763dc0d3729b518838e6c5642cc2729d97ce22137073356f69268b8d8006",
+    "strategy_without_lesson": "1ddf87b0bdc7f79b36b6bc749c1290467b263a6f693ed7022c81dc41bef3a5d5"
+  },
+  "metric": "attempts_to_green",
+  "metric_direction": "LOWER_IS_BETTER",
+  "packet": "FORGE-SI-001",
+  "repository_digest": "forge-agent-proving-repository"
+}

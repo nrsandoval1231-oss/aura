@@ -1,0 +1,198 @@
+{
+  "audit": {
+    "bound_to_candidate": true,
+    "confidence": 0.9,
+    "discovery_verdict": "OBSERVATION",
+    "implementation_verdict": "PASS"
+  },
+  "base_candidate_digest": "f76a5184666b7b4da5a904ad636c494708c2d880c6be76e90ff3d4ae02b15acb",
+  "budget": {
+    "budget_digest": "0271719a1cb1877a348e54924decce927cc5196764f3041e3effac6809624b98",
+    "declared_dimensions": [
+      "ATTEMPTS"
+    ],
+    "exhausted": [],
+    "limits": {
+      "ATTEMPTS": 3,
+      "INPUT_TOKENS": null,
+      "MODEL_CALLS": null,
+      "OUTPUT_TOKENS": null,
+      "WALL_CLOCK_SECONDS": null
+    },
+    "packet_id": "FORGE-EVO-001",
+    "refusals": [],
+    "spend_count": 1,
+    "spent": {
+      "ATTEMPTS": 1,
+      "INPUT_TOKENS": 0,
+      "MODEL_CALLS": 0,
+      "OUTPUT_TOKENS": 0,
+      "WALL_CLOCK_SECONDS": 0
+    },
+    "unbounded_dimensions": [
+      "INPUT_TOKENS",
+      "MODEL_CALLS",
+      "OUTPUT_TOKENS",
+      "WALL_CLOCK_SECONDS"
+    ]
+  },
+  "candidate_digest": "24116869366c6dc73ec935135a58c61954ba61d539e1c7ddc7822601de265be1",
+  "candidate_tree": "751eb35af1d9125d600e8326d89e306612ef55e291c060eb81c3f86c7e0ace97",
+  "changed_paths": [
+    ".agent/graph/work-graph.json",
+    ".agent/tasks/FORGE-EVO-001.md",
+    "scripts/prove_governed_evolution.py",
+    "scripts/validate.sh",
+    "src/forge/policy.py",
+    "tests/test_gate_parity.py",
+    "tests/test_governed_evolution.py",
+    "tests/test_policy.py"
+  ],
+  "context_independence": {
+    "auditor_was_given_builder_reasoning": false,
+    "builder_was_given_specification": false
+  },
+  "gates": {
+    "pytest": {
+      "evidence_digest": "2306b955c36cb9a9d15d2e068fe28c5b9210502ae10bf805a4354ede2af7276c",
+      "passed": true,
+      "summary": "478 passed in 2.11s"
+    },
+    "ruff_check": {
+      "evidence_digest": "a77d8f852772a0310ebc371b8a4b725aa8a04867242572c7ffdef37cb2838f71",
+      "passed": true,
+      "summary": "All checks passed!"
+    },
+    "ruff_format": {
+      "evidence_digest": "42a3ef55ccc28e7cbb7e251531f7db812f93bd04cdceb6b6441453d873ab1112",
+      "passed": true,
+      "summary": "48 files already formatted"
+    }
+  },
+  "generated_at": "2026-09-22T02:34:51.094359+00:00",
+  "ledger": {
+    "head_hash": "4dc72c24493861c8ed4c5a66a3b3ee126de43c458f161ca93905350f7b258907",
+    "path": ".agent/ledger/FORGE-EVO-001.jsonl",
+    "receipts": 4,
+    "reloaded_and_verified": true
+  },
+  "limits": [
+    "Agent roles are simulated; no model provider was called.",
+    "Role signing keys are process-local, not durably custodied.",
+    "Merge eligibility was computed, not acted on; no merge occurred."
+  ],
+  "loop_state": "MERGE_ELIGIBLE",
+  "merge_eligibility": {
+    "audit_digest": "edad76004feeac4d8b0db497f5df2767b0e583bb2e132c3a2bde8c250f8adcbb",
+    "authorized_by_role": "GOVERNOR",
+    "candidate_digest": "24116869366c6dc73ec935135a58c61954ba61d539e1c7ddc7822601de265be1"
+  },
+  "owner_authorization": {
+    "bound_to_packet_scope": true,
+    "evidence": "docs/audit/2026-09-21-repository-audit.md",
+    "owner_ref": "OWNER"
+  },
+  "packet_id": "FORGE-EVO-001",
+  "repository": {
+    "base_sha": "949c23b3e8a55f156e2be6fd48c8a25b21e54fef",
+    "branch": "claude/repo-audit-2n4o60",
+    "remote": "https://github.com/nrsandoval1231-oss/forge-agent"
+  },
+  "role_contexts": {
+    "architect": {
+      "digest": "cce0967f842e87e3a6006d8db644c7b03ca9e458508f88518ebfd92b136bbe5b",
+      "forbidden_source_types": [
+        "ACCEPTANCE_CRITERION",
+        "BUILDER_REASONING",
+        "DIFF",
+        "REPOSITORY_SLICE"
+      ],
+      "size_receipt": {
+        "budget": 60000,
+        "by_source_type": {
+          "PACKET": 200,
+          "REQUIREMENT": 9
+        },
+        "context_digest": "cce0967f842e87e3a6006d8db644c7b03ca9e458508f88518ebfd92b136bbe5b",
+        "headroom": 59791,
+        "items_dropped": 0,
+        "items_included": 2,
+        "packet_id": "FORGE-EVO-001",
+        "role": "ARCHITECT",
+        "unit": "characters",
+        "used": 209
+      },
+      "source_types": [
+        "PACKET",
+        "REQUIREMENT"
+      ]
+    },
+    "auditor": {
+      "digest": "324c0aaed015aa92166e5b3e9986bb79b977fd645bc6928eadaf2a5af77fe5d1",
+      "forbidden_source_types": [
+        "ASSUMPTION",
+        "BUILDER_REASONING",
+        "DECISION",
+        "LESSON",
+        "NORTH_STAR",
+        "REPOSITORY_SLICE"
+      ],
+      "size_receipt": {
+        "budget": 80000,
+        "by_source_type": {
+          "ACCEPTANCE_CRITERION": 47,
+          "DIFF": 214,
+          "EVIDENCE": 45,
+          "PACKET": 200
+        },
+        "context_digest": "324c0aaed015aa92166e5b3e9986bb79b977fd645bc6928eadaf2a5af77fe5d1",
+        "headroom": 79494,
+        "items_dropped": 0,
+        "items_included": 6,
+        "packet_id": "FORGE-EVO-001",
+        "role": "AUDITOR",
+        "unit": "characters",
+        "used": 506
+      },
+      "source_types": [
+        "ACCEPTANCE_CRITERION",
+        "DIFF",
+        "EVIDENCE",
+        "PACKET"
+      ]
+    },
+    "builder": {
+      "digest": "fc23ada8acb07b35135cf6f7bb4403ddbbecfcb239204ea117a8d15aa142675c",
+      "forbidden_source_types": [
+        "ACCEPTANCE_CRITERION",
+        "ASSUMPTION",
+        "BUILDER_REASONING",
+        "DECISION",
+        "DIFF",
+        "EVIDENCE",
+        "NORTH_STAR"
+      ],
+      "size_receipt": {
+        "budget": 120000,
+        "by_source_type": {
+          "PACKET": 200,
+          "REPOSITORY_SLICE": 207,
+          "REQUIREMENT": 9
+        },
+        "context_digest": "fc23ada8acb07b35135cf6f7bb4403ddbbecfcb239204ea117a8d15aa142675c",
+        "headroom": 119584,
+        "items_dropped": 0,
+        "items_included": 10,
+        "packet_id": "FORGE-EVO-001",
+        "role": "BUILDER",
+        "unit": "characters",
+        "used": 416
+      },
+      "source_types": [
+        "PACKET",
+        "REPOSITORY_SLICE",
+        "REQUIREMENT"
+      ]
+    }
+  }
+}

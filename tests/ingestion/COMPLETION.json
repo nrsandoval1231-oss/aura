@@ -1,0 +1,46 @@
+{
+  "packet": "FORGE-ING-001 integrity repair",
+  "base_sha": "df51dfa24493344bc1af391b40621d2eb22709f1",
+  "branch": "codex/forge-ing-integrity",
+  "owned_paths": [
+    "src/forge/ingestion/handoff.py",
+    "src/forge/ingestion/models.py",
+    "src/forge/ingestion/refine.py",
+    "tests/ingestion/test_ingestion.py",
+    "tests/ingestion/COMPLETION.json"
+  ],
+  "repair": [
+    "Owner approval requires a proof verifiable with a trusted owner key and the exact unsigned contract hash.",
+    "Handoff verifies the persisted ledger, receipt data, signature fields, contract hash, and owner proof before emitting a deep-copied contract.",
+    "Ingestion receipts use the core Ledger and LedgerStore, including the independent checkpoint. Missing or inconsistent stream/checkpoint state fails closed."
+  ],
+  "red_tests_before_fix": {
+    "command": "uv run --with pytest pytest -q tests/ingestion/test_ingestion.py -k 'post_signature or truncated_stream'",
+    "exit_code": 1,
+    "failures": [
+      "post-signature contract change accepted by handoff",
+      "truncated ingestion stream accepted on reload"
+    ]
+  },
+  "verification": {
+    "ingestion_tests": {
+      "command": "uv run --with pytest pytest -q tests/ingestion/test_ingestion.py",
+      "exit_code": 0,
+      "result": "15 passed"
+    },
+    "repository_validation": {
+      "command": "PYTHON=.venv/Scripts/python.exe bash scripts/validate.sh (Git Bash on Windows)",
+      "exit_code": 1,
+      "passing_gates": ["import surface", "lint", "format", "doc/graph", "ledger FORGE-FIX-000", "ledger FORGE-SPD-002", "ledger FORGE-VAL-001", "slice"],
+      "failing_gate": "tests: 228 passed, 1 failed: tests/test_gate_parity.py::test_runner_is_executable on Windows"
+    },
+    "diff_check": {"command": "git diff --check", "exit_code": 0}
+  },
+  "migration_impact": "Legacy ingestion JSONL streams without a core checkpoint are refused. They need an owner-reviewed, evidence-preserving migration; no automatic rewrite is performed.",
+  "remaining_unknowns": [
+    "Durable custody and provisioning of owner verification keys is outside this packet.",
+    "Concurrent multi-process writers are not serialized by this ingestion wrapper.",
+    "Independent Sol/Astra audit is pending."
+  ],
+  "authority": "Builder completion claim only; graph status, protected files, remote main, push, merge, and deployment unchanged."
+}

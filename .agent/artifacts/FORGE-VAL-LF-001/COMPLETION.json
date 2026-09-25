@@ -1,0 +1,61 @@
+{
+  "task_id": "FORGE-VAL-LF-001",
+  "status": "IMPLEMENTED_AWAITING_INDEPENDENT_AUDIT",
+  "repository": "nrsandoval1231-oss/forge-agent",
+  "base_sha": "57409c0e9057316907c923582a2bbc3d9daade09",
+  "candidate_sha": null,
+  "candidate_state": "UNCOMMITTED_WORKTREE",
+  "candidate_digest": "ec5b6c6d7bf214c2c0c51ebe051b20ee6af4083e8bd0b644e8c37211aeb00860",
+  "candidate_tree": "53473daf877dd5a9e94eecea95c425b06789a16150deb5f9b77cb44a001e361d",
+  "preliminary_evidence": {
+    "status": "SUPERSEDED_UNACCEPTED",
+    "reason": "The packet was corrected to AWAITING_AUDIT and Markdown whitespace was removed before candidate freeze; its prior four-receipt local simulation is retained under PRELIMINARY.* and is not acceptance evidence.",
+    "jsonl_sha256": "cbba127db1bd7b735ede3349263877ed19a72ace2e5625831c34f31061af2a62"
+  },
+  "summary": "Tracked shell scripts now request LF checkouts through .gitattributes, with a behavioral regression test covering core.autocrlf=true.",
+  "baseline": {
+    "command": "git ls-files --eol scripts/validate.sh",
+    "exit_code": 0,
+    "result": "i/lf    w/crlf  attr/text=auto"
+  },
+  "changes": [
+    ".gitattributes: added *.sh text eol=lf",
+    "tests/test_gate_parity.py: added a temporary Git checkout regression test",
+    ".agent/artifacts/FORGE-VAL-LF-001/COMPLETION.json"
+  ],
+  "evidence": [
+    {
+      "command": "C:\\Program Files\\Git\\bin\\bash.exe -lc 'bash -n scripts/validate.sh' in a disposable checkout after deleting and restoring the runner",
+      "exit_code": 0,
+      "result": "git ls-files --eol reported i/lf w/lf attr/text eol=lf"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\.codex\\worktrees\\forge-v0-completion\\forge-agent\\.venv\\Scripts\\python.exe -m pytest -q tests/test_gate_parity.py",
+      "exit_code": 0,
+      "result": "13 passed"
+    },
+    {
+      "command": "C:\\Program Files\\Git\\bin\\bash.exe -lc 'PYTHON=.../.venv/Scripts/python.exe PYTHONPATH=.../src ./scripts/validate.sh'",
+      "exit_code": 1,
+      "result": "573 passed, 2 warnings; all gates pass except slice, which correctly refuses the pending candidate until a separately supplied exact-candidate external audit is present"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\.codex\\worktrees\\forge-v0-completion\\forge-agent\\.venv\\Scripts\\python.exe scripts/run_slice.py --packet FORGE-VAL-LF-001 --rebind",
+      "exit_code": 0,
+      "result": "Slice complete. Loop state: MERGE_ELIGIBLE. Candidate digest dd0616649d838eec; pytest 573 passed, Ruff check PASS, Ruff format PASS."
+    }
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "environment_path": "C:\\Users\\nrsan\\.codex\\worktrees\\forge-v0-completion\\forge-agent\\.venv",
+    "git": "2.55.0.windows.5",
+    "git_bash": "GNU bash 5.3.15"
+  },
+  "remaining_unknowns": [
+    "Independent audit is still required for the exact candidate before the slice gate can pass.",
+    "The repository's canonical validation command remains intentionally fail-closed until that external audit is supplied."
+  ],
+  "not_done": [
+    "No commit, push, merge, deployment, model call, or spend was performed."
+  ]
+}

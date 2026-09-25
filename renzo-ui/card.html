@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Renzo · Studio Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* Renzo Studio Card — A4 print layout */
+:root {
+  --ivory: #FAF7F2;
+  --ivory-deep: #F4EFE6;
+  --champagne: #E9E3D6;
+  --gold: #B8941F;
+  --gold-soft: #D4AF37;
+  --brown: #2E2A24;
+  --brown-soft: #4A4642;
+  --gray-warm: #8A8275;
+  --gray-soft: #A69C92;
+  --line: rgba(74, 70, 66, 0.12);
+  --line-strong: rgba(74, 70, 66, 0.22);
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: white;
+  font-family: 'EB Garamond', 'Georgia', serif;
+  color: var(--brown);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.card {
+  width: 210mm;
+  height: 297mm;
+  padding: 22mm 20mm 18mm;
+  background: var(--ivory);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Corner brackets — subtle, just on the page */
+.card::before, .card::after,
+.corner-tl, .corner-tr, .corner-bl, .corner-br {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  pointer-events: none;
+}
+.corner-tl { top: 12mm; left: 12mm; border-top: 1px solid var(--gold-soft); border-left: 1px solid var(--gold-soft); }
+.corner-tr { top: 12mm; right: 12mm; border-top: 1px solid var(--gold-soft); border-right: 1px solid var(--gold-soft); }
+.corner-bl { bottom: 12mm; left: 12mm; border-bottom: 1px solid var(--gold-soft); border-left: 1px solid var(--gold-soft); }
+.corner-br { bottom: 12mm; right: 12mm; border-bottom: 1px solid var(--gold-soft); border-right: 1px solid var(--gold-soft); }
+
+/* Header */
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 14mm;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 10mm;
+}
+.brand-block { display: flex; flex-direction: column; gap: 6px; }
+.brand-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--brown);
+}
+.brand-name::after {
+  content: ' ·';
+  color: var(--gold-soft);
+}
+.brand-tagline {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--gray-warm);
+  letter-spacing: 0.005em;
+}
+.card-meta {
+  text-align: right;
+  font-family: 'Outfit', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-warm);
+  font-weight: 500;
+  line-height: 1.6;
+}
+.card-meta strong { color: var(--brown); font-weight: 500; }
+.card-meta-divider {
+  width: 28px; height: 1px;
+  background: var(--gold-soft);
+  margin: 8px 0 8px auto;
+}
+
+/* Hero quote */
+.card-hero {
+  text-align: center;
+  margin-bottom: 9mm;
+}
+.card-hero-h {
+  font-family: 'EB Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--brown);
+  margin-bottom: 6px;
+}
+.card-hero-h em {
+  font-style: italic;
+  color: var(--gold);
+}
+.card-hero-sub {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--gray-warm);
+}
+
+/* Rule */
+.card-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--gold-soft);
+  margin: 0 auto 8mm;
+  position: relative;
+}
+.card-rule::before, .card-rule::after {
+  content: ''; position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  top: -1px;
+}
+.card-rule::before { left: -8px; }
+.card-rule::after { right: -8px; }
+
+/* Body: two columns */
+.card-body {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14mm;
+  flex: 1;
+  margin-bottom: 8mm;
+}
+
+/* Left column: what we do */
+.col-section-h {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--gold);
+  margin-bottom: 6mm;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.col-section-h::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.col-prose p {
+  font-family: 'EB Garamond', serif;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--brown-soft);
+  margin-bottom: 6px;
+  hyphens: auto;
+}
+.col-prose em {
+  font-style: italic;
+  color: var(--brown);
+}
+
+/* Right column: three promises */
+.promises { display: flex; flex-direction: column; gap: 6mm; }
+.promise { display: flex; gap: 6mm; align-items: baseline; }
+.promise-num {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 16px;
+}
+.promise-body {
+  flex: 1;
+}
+.promise-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brown);
+  margin-bottom: 2px;
+  letter-spacing: 0.005em;
+}
+.promise-text {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--gray-warm);
+  line-height: 1.5;
+}
+
+/* The Process — small horizontal section */
+.process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4mm;
+  padding: 7mm 0;
+  margin-bottom: 7mm;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+}
+.proc-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3mm;
+  position: relative;
+}
+.proc-num {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--gold);
+}
+.proc-line {
+  width: 18px;
+  height: 1px;
+  background: var(--gold-soft);
+  position: relative;
+}
+.proc-line::before, .proc-line::after {
+  content: ''; position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  top: -1px;
+}
+.proc-line::before { left: -4px; }
+.proc-line::after { right: -4px; }
+.proc-label {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--brown);
+}
+
+/* Footer */
+.card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5mm;
+  border-top: 1px solid var(--line);
+  font-family: 'Outfit', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-soft);
+  font-weight: 500;
+}
+.card-foot .italic {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--gold);
+  font-size: 11px;
+}
+.card-foot-mid {
+  display: flex;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--gray-warm);
+}
+
+/* The little signature in the corner */
+.corner-sig {
+  position: absolute;
+  bottom: 14mm;
+  left: 20mm;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: var(--gray-soft);
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="corner-tl"></div>
+  <div class="corner-tr"></div>
+  <div class="corner-bl"></div>
+  <div class="corner-br"></div>
+
+  <!-- Header -->
+  <header class="card-head">
+    <div class="brand-block">
+      <div class="brand-name">Renzo</div>
+      <div class="brand-tagline">a quiet companion for building</div>
+    </div>
+    <div class="card-meta">
+      <div><strong>Studio Card</strong></div>
+      <div>Vol. I · 2026</div>
+      <div class="card-meta-divider"></div>
+      <div>For the press</div>
+    </div>
+  </header>
+
+  <!-- Hero quote -->
+  <section class="card-hero">
+    <div class="card-hero-h">
+      Tell Renzo what you <em>want.</em><br>
+      He'll make it, gently.
+    </div>
+    <div class="card-hero-sub">A small local studio that turns your words into working things.</div>
+    <div class="card-rule"></div>
+  </section>
+
+  <!-- Two-column body -->
+  <section class="card-body">
+    <div>
+      <div class="col-section-h">what we do</div>
+      <div class="col-prose">
+        <p>Renzo is a local-first studio that turns your words into working things — small tools, scripts, apps, pages. You describe what you want in plain language. Renzo plans, builds, and quietly puts the result on your desktop.</p>
+        <p>There are no settings to fiddle with, no models to choose. <em>That is the whole point.</em> The studio knows what to use; you describe the work.</p>
+        <p>Everything lives on your machine. Nothing phones home. What Renzo makes is yours — open it, change it, throw it away. No accounts. No lock-in.</p>
+        <p>Named for Renzo Piano, who builds buildings that show their structure. We tried to build software the same way.</p>
+      </div>
+    </div>
+    <div>
+      <div class="col-section-h">three promises</div>
+      <div class="promises">
+        <div class="promise">
+          <span class="promise-num">i.</span>
+          <div class="promise-body">
+            <div class="promise-title">Local</div>
+            <div class="promise-text">Your files, your keys, your work. Nothing travels.</div>
+          </div>
+        </div>
+        <div class="promise">
+          <span class="promise-num">ii.</span>
+          <div class="promise-body">
+            <div class="promise-title">Quiet</div>
+            <div class="promise-text">No notifications, no chat windows, no model pickers. Renzo finishes, then tells you.</div>
+          </div>
+        </div>
+        <div class="promise">
+          <span class="promise-num">iii.</span>
+          <div class="promise-body">
+            <div class="promise-title">Yours</div>
+            <div class="promise-text">What he makes is yours to keep, change, or throw away.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process strip -->
+  <section class="process">
+    <div class="proc-step">
+      <div class="proc-num">i.</div>
+      <div class="proc-line"></div>
+      <div class="proc-label">say it</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">ii.</div>
+      <div class="proc-line"></div>
+      <div class="proc-label">wait quietly</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">iii.</div>
+      <div class="proc-line"></div>
+      <div class="proc-label">take it or leave it</div>
+    </div>
+    <div class="proc-step">
+      <div class="proc-num">iv.</div>
+      <div class="proc-line"></div>
+      <div class="proc-label">make something else</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="card-foot">
+    <div>© 2026 · Renzo Studio</div>
+    <div class="card-foot-mid">
+      <span>renzo.studio</span>
+      <span>·</span>
+      <span>hello@renzo.studio</span>
+    </div>
+    <div class="italic">with care</div>
+  </footer>
+</div>
+</body>
+</html>
+

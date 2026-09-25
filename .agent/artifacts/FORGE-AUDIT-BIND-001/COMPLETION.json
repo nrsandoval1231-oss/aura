@@ -1,0 +1,64 @@
+{
+  "task_id": "FORGE-AUDIT-BIND-001",
+  "status": "IMPLEMENTED_AWAITING_SOL_VALIDATION_AND_INDEPENDENT_AUDIT",
+  "repository": "nrsandoval1231-oss/forge-agent",
+  "base_sha": "92147655b78d020409f4f0a4b35212119baa9707",
+  "candidate_sha": null,
+  "candidate_state": "UNCOMMITTED_WORKTREE",
+  "objective": "Bind a pending slice's detached audit to the exact clean Git commit while retaining its existing pre-commit ledger and selected-file evidence checks.",
+  "changed_paths": [
+    "scripts/run_slice.py",
+    "tests/test_slice_contexts.py",
+    "tests/test_audit_receipts.py",
+    ".agent/artifacts/FORGE-INTEGRATED-001/VALIDATION.json",
+    ".agent/artifacts/FORGE-AUDIT-BIND-001/COMPLETION.json"
+  ],
+  "sol_owned_packet": "docs/packets/FORGE-AUDIT-BIND-001.md (moved under the DEC-006 merged-defect repair exception; not a new graph node)",
+  "repair": {
+    "local_evidence": "The existing append-only ledger, checkpoint, receipt ordering, process-local candidate digest, changed-file list, and selected-file hash remain verified against their recorded worktree identity.",
+    "external_authorization": "The detached verifier now receives exact_candidate(ROOT, packet.id), which derives current origin identity, clean HEAD, and HEAD^{tree}; it never receives the pre-commit base+worktree identity.",
+    "fail_closed": "Missing, malformed, stale, forged, or mismatched detached material still returns failure. Stale selected-file content and checkpoint state are rejected before detached-audit verification."
+  },
+  "regressions": [
+    "The new exact-commit regression failed before the production change because the generic pending check supplied base+worktree to the detached verifier.",
+    "A valid signed detached receipt is accepted for a FORGE-VAL-LF-001 exact candidate in the receipt verifier test fixture.",
+    "Missing external authorization, forged claims, stale selected-file content, stale checkpoint, altered receipt fields, invalid signature, wrong owner key, dirty worktree, wrong HEAD/tree, incomplete manifest, and missing or altered pre-audit gate sets fail closed in focused tests."
+  ],
+  "validation": [
+    {
+      "command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_slice_contexts.py -k exact_commit_for_external_audit",
+      "exit_code": 1,
+      "result": "Pre-fix reproduction: the required exact-commit regression failed because the check supplied the pre-commit worktree identity."
+    },
+    {
+      "command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_slice_contexts.py tests/test_audit_receipts.py",
+      "exit_code": 0,
+      "result": "46 passed"
+    },
+    {
+      "command": ".venv\\Scripts\\python.exe -m ruff check scripts/run_slice.py tests/test_slice_contexts.py src/forge/audit_receipts.py tests/test_audit_receipts.py",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": ".venv\\Scripts\\python.exe -m ruff format --check scripts/run_slice.py tests/test_slice_contexts.py src/forge/audit_receipts.py tests/test_audit_receipts.py && git diff --check",
+      "exit_code": 0,
+      "result": "All files formatted; no whitespace errors"
+    },
+    {
+      "command": "Git Bash: PYTHON=$PWD/.venv/Scripts/python.exe PYTHONPATH=$PWD/src ./scripts/validate.sh",
+      "exit_code": 1,
+      "result": "577 passed; doc/graph and all ledger gates including FORGE-VAL-LF-001 passed. The only red gate is slice, until an independent auditor signs the frozen exact candidate."
+    }
+  ],
+  "migration_impact": "None. Existing FORGE-VAL-LF-001 ledger, checkpoint, SLICE.json, and PRELIMINARY evidence were not modified.",
+  "remaining_unknowns": [
+    "The exact candidate SHA, clean tree, manifest digest, and current validation digest do not exist until Sol freezes the candidate after graph integration.",
+    "No external detached receipt or signature has been created or verified for that future candidate.",
+    "The integrated validation artifact requires one final local pre-audit run after Sol freezes the exact candidate before it can truthfully support a detached signature."
+  ],
+  "not_done": [
+    "No key generation, signing, commit, push, merge, deployment, model call, or spend.",
+    "No graph status change or self-certification."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "task_id": "FORGE-ING-001",
+  "kind": "builder_completion",
+  "base_sha": "e62b96cf77e93646e27fd9c2866fc94fdbeaa6f6",
+  "candidate_sha": "WORKTREE_UNCOMMITTED",
+  "objective": "Repair owner approval trust binding, immutable handoff snapshots, and ingestion stream framing integrity.",
+  "changed_files": [
+    "src/forge/ingestion/refine.py",
+    "src/forge/ingestion/handoff.py",
+    "src/forge/ingestion/models.py",
+    "tests/ingestion/test_ingestion.py",
+    ".agent/artifacts/FORGE-ING-001/COMPLETION_REPAIR.json"
+  ],
+  "implementation_claim": "Ingestion now uses the trusted AuthorityGrant issuer signature as the sole owner proof through the supplied runtime TrustKernel, binds the grant scope to the canonical contract hash, hands off one validated immutable contract snapshot including frozen nested lineage, binds the trusted authority repository to the BuildPacket base candidate, and rejects blank or incomplete JSONL framing before LedgerStore reload. Persisted-state preflight also rejects vanished history and a checkpoint naming a different ingestion stream.",
+  "validation": {
+    "command": "$env:PYTHONPATH='src'; C:\\Users\\nrsan\\Projects\\forge-agent-ing-integrity\\.venv\\Scripts\\python.exe -m pytest -q tests/ingestion/test_ingestion.py",
+    "exit_code": 0,
+    "result": "25 passed"
+  },
+  "additional_checks": [
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "python -m compileall -q src tests",
+      "result": "environment unavailable: Python app execution alias was not installed"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\Projects\\forge-agent-ing-integrity\\.venv\\Scripts\\python.exe -m pytest -q",
+      "exit_code": 1,
+      "result": "238 passed, 1 failed: pre-existing tests/test_gate_parity.py::test_runner_is_executable"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\Projects\\forge-agent-ing-integrity\\.venv\\Scripts\\python.exe -m ruff check src tests scripts && C:\\Users\\nrsan\\Projects\\forge-agent-ing-integrity\\.venv\\Scripts\\python.exe -m ruff format --check src tests scripts",
+      "exit_code": 0,
+      "result": "lint passed; 35 files already formatted"
+    }
+  ],
+  "migration_impact": "Existing ingestion streams without a checkpoint remain refused. Existing streams with blank or unterminated framing must be repaired through an owner or architecture decision; no migration was added.",
+  "remaining_unknowns": [
+    "The trusted runtime must supply the genuine preconfigured TrustKernel; ingestion cannot prove provenance of an arbitrary TrustKernel object without changing protected integration.",
+    "Concurrent writer coordination and durable owner key custody remain outside this packet.",
+    "The repository-wide Windows executable-bit gate still fails locally; Sol reran the documented gate in this worktree and observed only that failure."
+  ],
+  "audit_request": "Sol must rerun exact-candidate validation and obtain an independent audit."
+}

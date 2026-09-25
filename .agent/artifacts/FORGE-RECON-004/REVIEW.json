@@ -1,0 +1,15 @@
+{
+  "task_id": "FORGE-RECON-004",
+  "verdict": "PASS",
+  "auditor": "independent Astra",
+  "candidate_sha": "57fb8d2bb45c23b849d1b322fbfa1a5fcbc2bac0",
+  "summary": "The first eight reconciliation receipts remain byte-for-byte preserved and the 11-receipt stream truthfully binds each redirected packet to its explicit graph successor.",
+  "evidence": {
+    "ledger_head": "7976fc9958c86a69b6392e165cade9cf0b8cb89ea4b9f3ac2e718e8346878f46",
+    "historical_receipts_preserved": 8,
+    "receipts_verified": 11,
+    "shared_packet_bindings_verified": true,
+    "adversarial_fail_closed_probes": true
+  },
+  "scope": "This accepts the bounded reconciliation repair only; it is not a V0 completion verdict."
+}

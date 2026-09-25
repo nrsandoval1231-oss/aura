@@ -1,0 +1,69 @@
+{
+  "task_id": "FORGE-EXT-002",
+  "role": "Luna builder",
+  "status": "LIVE_RESULT_PENDING_INDEPENDENT_AUDIT",
+  "base_sha": "25bb8562da546ad43fa89bb92245b5b8c88ff338",
+  "scope": [
+    "scripts/external_trial_recovery.py",
+    "tests/test_external_trial_recovery.py",
+    ".agent/artifacts/FORGE-EXT-002/COMPLETION.json"
+  ],
+  "implemented": [
+    "Reconstructs the validated repository-scoped refusal lesson and independent decision through LessonStore.",
+    "Retrieves the lesson for the real EXT-002 failure signature and records ApplicationRecord before any provider request; changed_strategy is derived from distinct strategy digests.",
+    "Uses a narrower selection-only provider contract. Trusted code deterministically constructs the two allowlisted Hallam edits and never accepts model file content.",
+    "Preserves exact clean identity checks, one O_EXCL claim, durable CALL_INTENT/diagnostic/outcome receipts, checkpoint reload, bounds, secret scanning, refusal codes, latency, and UNKNOWN transport handling.",
+    "Does not edit Hallam or call a provider unless explicitly invoked.",
+    "Repair attempt 1: scans raw response bytes and decoded nested content before computing any response digest; sensitive responses persist no response-derived fields.",
+    "Repair attempt 1: verifies the full accepted decision evidence digest and the exact source strategy SHA-256 before claim creation.",
+    "Repair attempt 1: generated Hallam tests use the exact rendered search expression and concrete industry-only positive and unrelated-industry negative rows."
+    ,"Repair attempt 2: verifies the exact raw SHA-256 bytes and every authority field of retained CANDIDATE.json and VALIDATED.json before claim creation; missing or mutated artifacts fail closed.",
+    "Repair attempt 2: strategy description now includes audited evidence, selection-only model authority, and deterministic two-file edits.",
+    "Correction 001: constructs CallReceipt with required keyword arguments so a valid schema-accepted provider response reaches SUCCEEDED.",
+    "Correction 001: forces max_tokens to MAX_OUTPUT_TOKENS in both the intent-hashed and provider-transmitted payloads, and derives the conservative estimate from that bound.",
+    "Correction 001: integration tests run mocked success and transport interruption through run_once, proving durable intent/outcome evidence and retry blocking.",
+    "Correction 002: parses the exact JSON byte representation accepted downstream before any response digest is computed, and scans the parsed structure recursively for credentials.",
+    "Correction 003: restores raw-byte scanning and adds duplicate-preserving JSON scanning, including nested JSON strings, before response digest or persistence."
+  ],
+  "provider_call": "ONE_REQUEST_REFUSED_SELECTION_INVALID",
+  "external_repository_modified": false,
+  "external_repository_pushed": false,
+  "self_certification": false,
+  "validation": [
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m pytest -q tests/test_external_trial_recovery.py",
+      "exit_code": 0,
+      "result": "23 passed"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m pytest -q",
+      "exit_code": 0,
+      "result": "653 passed, 2 warnings"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m forge.cli graph check",
+      "exit_code": 0,
+      "result": "OK: 45 graph nodes consistent with documents"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m ruff check scripts\\external_trial_recovery.py tests\\test_external_trial_recovery.py",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m ruff format --check scripts\\external_trial_recovery.py tests\\test_external_trial_recovery.py",
+      "exit_code": 0,
+      "result": "2 files already formatted"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "no whitespace errors"
+    }
+  ],
+  "unknowns": [
+    "The live result and diagnostic measurement require independent post-call audit.",
+    "The Hallam task did not succeed: no candidate or remote branch was produced.",
+    "Provider usage and actual billing are UNKNOWN."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "audit": {
+    "bound_to_candidate": true,
+    "confidence": 0.9,
+    "discovery_verdict": "OBSERVATION",
+    "implementation_verdict": "PASS"
+  },
+  "base_candidate_digest": "94c9dd6a9df7c64f4c566e135ae6e5986b26c226ff16c3791c28e6c19c8cd80f",
+  "candidate_digest": "1aac3965bf904fbcc94d3037772c8ca1c2dd18de87adcfbcef4d1b681bbb717a",
+  "candidate_tree": "67f79320f8a1c0fd6bcc852857c55f723ef0f7d8e74abb71999fdb966d34ef49",
+  "changed_paths": [
+    ".agent/CURRENT_STATE.md",
+    ".agent/graph/work-graph.json",
+    ".agent/tasks/FORGE-SPD-002.md",
+    ".github/workflows/validate.yml",
+    "scripts/run_slice.py",
+    "scripts/validate.sh",
+    "src/forge/__init__.py",
+    "src/forge/context_engine.py",
+    "tests/test_context_engine.py",
+    "tests/test_slice_paths.py"
+  ],
+  "gates": {
+    "pytest": {
+      "evidence_digest": "ad4816fbc0b6496a7940de702a2721d1d2aa7488e287072e30075fc605bccc58",
+      "passed": true,
+      "summary": "198 passed in 1.39s"
+    },
+    "ruff_check": {
+      "evidence_digest": "a77d8f852772a0310ebc371b8a4b725aa8a04867242572c7ffdef37cb2838f71",
+      "passed": true,
+      "summary": "All checks passed!"
+    },
+    "ruff_format": {
+      "evidence_digest": "4cda7ea38db06779b315699d0291b44433d438c4401470163e0970efc19bf366",
+      "passed": true,
+      "summary": "26 files already formatted"
+    }
+  },
+  "generated_at": "2026-09-21T04:00:33.141250+00:00",
+  "ledger": {
+    "head_hash": "4f1efcacd41e9b2c6122cb03c0dd779bfb0efe648cb2360facdf102c29f8e386",
+    "path": ".agent/ledger/FORGE-SPD-002.jsonl",
+    "receipts": 4,
+    "reloaded_and_verified": true
+  },
+  "limits": [
+    "Agent roles are simulated; no model provider was called.",
+    "Role signing keys are process-local, not durably custodied.",
+    "Merge eligibility was computed, not acted on; no merge occurred."
+  ],
+  "loop_state": "MERGE_ELIGIBLE",
+  "merge_eligibility": {
+    "audit_digest": "b56e59277a1432a4cce81ab9788375bb094d86a01c6f1b0ae21056e5103ad708",
+    "authorized_by_role": "GOVERNOR",
+    "candidate_digest": "1aac3965bf904fbcc94d3037772c8ca1c2dd18de87adcfbcef4d1b681bbb717a"
+  },
+  "owner_authorization": {
+    "bound_to_packet_scope": true,
+    "evidence": "docs/audit/2026-09-21-repository-audit.md",
+    "owner_ref": "OWNER"
+  },
+  "packet_id": "FORGE-SPD-002",
+  "repository": {
+    "base_sha": "cbb63f16febe0b189694b1664db66d2065affb25",
+    "branch": "claude/forge-spd-002",
+    "remote": "https://github.com/nrsandoval1231-oss/forge-agent"
+  }
+}

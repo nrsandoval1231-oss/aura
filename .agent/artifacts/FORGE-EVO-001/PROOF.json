@@ -1,0 +1,83 @@
+{
+  "acceptance": {
+    "ambiguous_and_absent_effects_stay_unknown": true,
+    "discovery_can_reject_a_change": true,
+    "discovery_validates_a_change_with_lineage": true,
+    "evidence_for_the_wrong_effect_is_refused": true,
+    "evolution_requires_a_discovery_record": true,
+    "evolution_requires_sufficient_authority": true,
+    "local_remote_and_runtime_reconcile_separately": true,
+    "mission_replays_deterministically": true,
+    "reconciliation_is_durable": true,
+    "restart_rebuilds_the_same_state": true,
+    "restore_requires_an_independent_checkpoint": true,
+    "subsequent_execution_uses_the_evolved_specification": true,
+    "truncated_restore_is_refused": true,
+    "unknown_writes_no_reconciliation_receipt": true
+  },
+  "boundary": "Every component here is the shipped implementation: the trust kernel's transition table and authority checks, the Product Brain's versioning and lineage, LedgerStore, and ExecutionLoop's specification binding. No model is called. This proves the governed machinery holds on real state; it claims nothing about the quality of agent output.",
+  "packet": "FORGE-EVO-001",
+  "restart_and_reconciliation": {
+    "ledger_verifies_after_reconciliation": true,
+    "mismatched_effect_refused": "UNTRUSTED_RECONCILIATION_EVIDENCE",
+    "reconciliation": {
+      "local_worktree_edit": "EFFECT_COMPLETED",
+      "missing_evidence": "UNKNOWN",
+      "remote_push": "SAFE_TO_RETRY",
+      "runtime_process": "UNKNOWN"
+    },
+    "reconciliation_receipts_persisted": 2,
+    "restart": {
+      "head_hash_preserved": true,
+      "receipts": 5,
+      "replayed_identically": true,
+      "restore_without_checkpoint_refused": "LEDGER_CHECKPOINT_REQUIRED",
+      "state_after_restart": "IMPLEMENTING",
+      "state_before_restart": "IMPLEMENTING",
+      "truncated_restore_refused": "LEDGER_CHECKPOINT_MISMATCH"
+    },
+    "state_unchanged_by_reconciliation": true,
+    "unknown_dispositions_write_no_receipt": true
+  },
+  "specification_evolution": {
+    "evolution_receipt": {
+      "carries_authority_grant": true,
+      "carries_discovery": true,
+      "state_after": "SPEC_EVOLUTION",
+      "state_before": "ACCEPTED"
+    },
+    "lineage": {
+      "current_status": "ACTIVE",
+      "current_version": 2,
+      "discovery_cited_in_receipt": true,
+      "superseded_status": "SUPERSEDED",
+      "versions_retained": 2
+    },
+    "mission_state_after_replan": "PLANNING",
+    "path_taken": [
+      "INITIALIZING",
+      "UNDERSTANDING",
+      "PLANNING",
+      "TASK_READY",
+      "IMPLEMENTING",
+      "TESTING",
+      "AUDITING",
+      "DISCOVERY_REVIEW",
+      "ACCEPTED",
+      "SPEC_EVOLUTION"
+    ],
+    "refusals": {
+      "evolution_from_an_unvalidated_discovery": "INVALID_DISCOVERY_RECORD",
+      "evolution_with_insufficient_authority": "INSUFFICIENT_AUTHORITY",
+      "evolution_without_a_discovery_record": "DISCOVERY_AUTHORIZATION_REQUIRED"
+    },
+    "replays_to": "PLANNING",
+    "specification_changed": true,
+    "specification_hash_after": "43a3fc45f0bed826de47814674a1e0f91e3d97645c5d50649925d876d897d23d",
+    "specification_hash_before": "def2906d47ee98ac127786d96e7f901d0b76c98c2af3b9ca287d7eb083b4243b",
+    "subsequent_execution": {
+      "packet_bound_to_evolved_specification_accepted": true,
+      "packet_bound_to_superseded_specification_refused": true
+    }
+  }
+}

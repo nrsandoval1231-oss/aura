@@ -1,0 +1,53 @@
+{
+  "packet_id": "FORGE-VAL-WIN-001",
+  "builder": "Luna",
+  "claim": "implementation evidence only; this is not certification",
+  "base_sha": "7d786156df403adc20b41b751546364522be28bb",
+  "base_tree_sha": "adb4e6dee456e442cd4fba9c67338c80a488c648",
+  "candidate_sha": "UNCOMMITTED_BUILDER_HANDOFF",
+  "changed_files": [
+    "tests/test_gate_parity.py",
+    ".agent/artifacts/FORGE-VAL-WIN-001/COMPLETION.json"
+  ],
+  "command_results": [
+    {
+      "command": "py -3 -c <Windows mode reproduction>",
+      "result": "PASS",
+      "detail": "os.name=nt; Git index mode=100755; stat.S_IXUSR=False, reproducing the base false failure. Exit status 0."
+    },
+    {
+      "command": "uv run --python 3.13 --with pytest pytest -q tests/test_gate_parity.py",
+      "result": "PASS",
+      "detail": "12 passed in 1.13s. Exit status 0."
+    },
+    {
+      "command": "uv run --python 3.13 --with pytest pytest -q",
+      "result": "PASS",
+      "detail": "511 passed, 2 warnings in 5.08s. Exit status 0."
+    },
+    {
+      "command": "uv run --python 3.13 --with ruff ruff check src tests scripts",
+      "result": "PASS",
+      "detail": "All checks passed. Exit status 0."
+    },
+    {
+      "command": "uv run --python 3.13 --with ruff ruff format --check src tests scripts",
+      "result": "PASS",
+      "detail": "48 files already formatted. Exit status 0."
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "detail": "No whitespace errors. Exit status 0."
+    },
+    {
+      "command": "bash scripts/validate.sh",
+      "result": "UNKNOWN",
+      "detail": "Windows shell invocation cannot parse the repository CRLF script (\r command-not-found and pipefail errors); no repository script was changed."
+    }
+  ],
+  "remaining_unknowns": [
+    "The canonical validate.sh aggregate gate remains UNKNOWN on this Windows shell because the checked-in CRLF script is not executable by the available WSL bash; focused and equivalent pytest/Ruff/diff gates passed.",
+    "Independent strategic audit verdict is UNKNOWN; builders do not self-certify."
+  ]
+}

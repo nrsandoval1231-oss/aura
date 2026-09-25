@@ -1,0 +1,20 @@
+{
+  "packet_id": "FORGE-ING-001",
+  "verdict": "PASS",
+  "reviewed_by": "independent review at integration, 2026-09-21",
+  "history": "Authored before FORGE-FIX-000. Its builder could not install pydantic and recorded the pytest result as UNKNOWN rather than claiming a pass — the correct call, and the reason this was safe to pick up rather than rewrite.",
+  "basis": [
+    "Rebased onto current main, the suite runs: 222 tests pass, 8 of them this packet's.",
+    "Integration verified against the rewritten provider layer: it calls provider.call(Capability.HIGH_REASONING, ...), which the FIX-000 signature still serves, and Capability now resolves to the single shared enum.",
+    "All gates green via scripts/validate.sh."
+  ],
+  "changes_at_integration": [
+    "pyproject.toml taken from main: FIX-000 already declared pydantic and httpx, so this packet's version of that change was redundant and would have reverted the dev extras.",
+    "Four auto-fixable lint findings (import ordering, datetime.UTC alias) and formatting."
+  ],
+  "residual_risk": [
+    "No live model call. Every provider and Jev interaction in the ingestion tests is mocked, so this proves the pipeline's control flow and not the quality of a real decomposition or interview.",
+    "The Owner Contract's plain-language requirement is enforced by a jargon denylist, which is a proxy for readability rather than a measure of it.",
+    "Written against the pre-FIX-000 decision layer. Its tests pass, but it does not use classify_tool_call, so the touched_paths and traversal fixes are untested through this path."
+  ]
+}

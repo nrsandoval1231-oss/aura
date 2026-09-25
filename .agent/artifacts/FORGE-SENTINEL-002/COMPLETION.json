@@ -1,0 +1,50 @@
+{
+  "task_id": "FORGE-SENTINEL-002",
+  "role": "Luna builder",
+  "base_sha": "f5f00fb861da89ca07ad0cf9a2151db2dd507390",
+  "status": "IMPLEMENTED_PENDING_REVIEW",
+  "changed_files": [
+    "scripts/sentinel_builder.py",
+    "tests/test_sentinel_builder.py",
+    ".agent/artifacts/FORGE-SENTINEL-002/COMPLETION.json"
+  ],
+  "implemented": [
+    "Distinct FORGE-SENTINEL-002 claim and ledger stream",
+    "Request-local DeepSeek thinking disabled payload",
+    "Preflight wire digest bound to the exact serialized bytes sent",
+    "Sanitized HTTP status, finish reason, usage, and response digest persisted before parsing",
+    "Optional provider response ID is whitelisted without copying arbitrary body fields",
+    "Diagnostic and outcome receipts form a continuous durable state chain",
+    "Owner-reported prior spend is included in cumulative preflight cap",
+    "Transport interruption remains UNKNOWN and no retry occurs",
+    "Malformed, incomplete, or out-of-scope proposals are refused without target mutation"
+  ],
+  "validation": [
+    {
+      "command": "uv run --with httpx --with pydantic --with pytest --with pytest-httpx --with cryptography --with python-dotenv --with ruff python -m pytest -q tests/test_sentinel_builder.py",
+      "exit": 0,
+      "result": "15 passed"
+    },
+    {
+      "command": "ruff check scripts/sentinel_builder.py tests/test_sentinel_builder.py",
+      "exit": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": "ruff format --check scripts/sentinel_builder.py tests/test_sentinel_builder.py",
+      "exit": 0,
+      "result": "format check passed"
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0,
+      "result": "no whitespace errors"
+    }
+  ],
+  "unknowns": [
+    "No paid provider call was made by this builder.",
+    "The target repository was not edited.",
+    "Independent review and full repository validation remain Sol/Astra responsibilities."
+  ],
+  "self_certification": false
+}

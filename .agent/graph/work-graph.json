@@ -1,0 +1,788 @@
+{
+  "graph_version": 4,
+  "canonical_branch": "main",
+  "nodes": [
+    {
+      "id": "FORGE-REPO-001",
+      "title": "Establish governed repository foundation",
+      "status": "COMPLETE",
+      "dependencies": [],
+      "produces": [
+        "canonical architecture",
+        "V0 PRD",
+        "repository governance",
+        "Finish Contract",
+        "initial ADR",
+        "validated repository identity"
+      ]
+    },
+    {
+      "id": "FORGE-TK-001",
+      "title": "Design and implement the deterministic trust kernel",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-REPO-001"
+      ],
+      "produces": [
+        "state-transition kernel",
+        "authority checks",
+        "candidate identity",
+        "append-only receipts",
+        "self-improvement evidence foundations"
+      ]
+    },
+    {
+      "id": "FORGE-SI-001",
+      "title": "Governed self-improvement proof",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-TK-001",
+        "FORGE-REPO-001"
+      ],
+      "produces": [
+        "self-improvement acceptance contract",
+        "attributable learning evidence",
+        "future-behavior improvement proof"
+      ],
+      "constraints": [
+        "global automatic lesson promotion disabled",
+        "protected governance cannot self-modify"
+      ],
+      "packet": ".agent/tasks/FORGE-LRN-000.md",
+      "evidence": ".agent/artifacts/FORGE-SI-001/PROOF.json",
+      "real_evidence": ".agent/artifacts/FORGE-SI-001/REAL_EPISODE.json",
+      "status_note": "COMPLETE. The simulated chain and harmful-lesson rollback remain in PROOF.json. The separately retained real EXT-001 to EXT-002 episode proves that validated lesson LESSON-EXPLAIN-EXTERNAL-REFUSAL changed the later diagnostic strategy and improved unexplained_external_refusals from 1 to 0. FORGE-SENTINEL-003 binds that episode into the independently accepted Phase 9 release packet without claiming that the refused Hallam selection itself succeeded."
+    },
+    {
+      "id": "FORGE-PB-001",
+      "title": "Implement Product Brain and Living Specification",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-TK-001"
+      ],
+      "produces": [
+        "versioned requirements",
+        "assumption registry",
+        "decision and invariant records",
+        "Finish Contract model",
+        "specification hash",
+        "simple contradiction detection"
+      ]
+    },
+    {
+      "id": "FORGE-LOOP-001",
+      "title": "Prove Architect-Builder-Auditor loop",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-TK-001",
+        "FORGE-PB-001"
+      ],
+      "produces": [
+        "bounded Build Packet",
+        "Builder handoff contract",
+        "independent audit contract",
+        "Governor-only merge eligibility"
+      ]
+    },
+    {
+      "id": "FORGE-ING-001",
+      "title": "Intent Ingestion Protocol: free-text intent to signed Mission",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-TK-001",
+        "FORGE-PB-001",
+        "FORGE-LOOP-001",
+        "FORGE-FIX-000"
+      ],
+      "produces": [
+        "ambiguity map",
+        "Jev-ranked interview (max 5 questions)",
+        "plain-language Owner Contract",
+        "Mission object handoff"
+      ],
+      "packet": "docs/packets/FORGE-ING-001-intent-ingestion.md"
+    },
+    {
+      "id": "FORGE-FIX-000",
+      "title": "Phase 0 repair and first vertical slice",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-TK-001",
+        "FORGE-PB-001",
+        "FORGE-LOOP-001"
+      ],
+      "produces": [
+        "declared dependencies and import surface",
+        "per-family provider adapters",
+        "concurrency-safe audit independence",
+        "durable evidence ledger",
+        "deterministic CI gates",
+        "first end-to-end governed slice"
+      ],
+      "packet": ".agent/tasks/FORGE-FIX-000.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 0
+    },
+    {
+      "id": "FORGE-VAL-WIN-001",
+      "title": "Preserve executable validation on Windows",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-VAL-001"
+      ],
+      "packet": ".agent/tasks/FORGE-VAL-WIN-001.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 0,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. The Windows executable-bit repair remains in the integrated tree, but it has no slice evidence or current acceptance credit until exact-candidate validation and independent audit."
+    },
+    {
+      "id": "FORGE-FIX-001",
+      "title": "Derive all status from ledger; kill hand-maintained state",
+      "status": "ABSORBED",
+      "dependencies": [],
+      "phase": 0,
+      "absorbed_by": "FORGE-FIX-000"
+    },
+    {
+      "id": "FORGE-FIX-002",
+      "title": "Minimal ModelProvider with structured output",
+      "status": "ABSORBED",
+      "dependencies": [],
+      "phase": 0,
+      "absorbed_by": "FORGE-FIX-000"
+    },
+    {
+      "id": "FORGE-FIX-003",
+      "title": "First end-to-end vertical slice on own repo",
+      "status": "ABSORBED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "phase": 0,
+      "absorbed_by": "FORGE-FIX-000"
+    },
+    {
+      "id": "FORGE-FIX-004",
+      "title": "Close the 2026-09-22 reaudit findings",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "produces": [
+        "single protected-surface registry with an existence assertion",
+        "ledger recovery from a crash between the two writes",
+        "capability-keyed model resolution",
+        "doctrine and unbackticked contradiction detection",
+        "Python floor as gate zero"
+      ],
+      "packet": ".agent/tasks/FORGE-FIX-004.md",
+      "authority": "A3 (owner-authorized; repair under DEC-006)",
+      "phase": 0,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-GOV-001",
+      "title": "Governor budget enforcement",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-FIX-004"
+      ],
+      "produces": [
+        "per-packet budgets across attempts, wall clock, model calls and tokens",
+        "spend receipts for allowed and refused charges",
+        "a reader for BuildPacket.retry_limit",
+        "Governor-owned budget ledgers that span loop instances"
+      ],
+      "packet": ".agent/tasks/FORGE-GOV-001.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 0,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-EVO-001",
+      "title": "Prove governed specification evolution and restart reconciliation",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-INT-001"
+      ],
+      "produces": [
+        "discovery-validated specification change with retained lineage",
+        "proof that later work binds to the evolved specification and not the superseded one",
+        "restart from disk replaying to the same state",
+        "local, remote and runtime effects reconciled separately",
+        "UNKNOWN preserved and never recorded as a resolution"
+      ],
+      "packet": ".agent/tasks/FORGE-EVO-001.md",
+      "evidence": ".agent/artifacts/FORGE-EVO-001/PROOF.json",
+      "authority": "A3 (owner-authorized)",
+      "phase": 2,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-INT-001",
+      "title": "Wire the orphaned subsystems into the harness",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-GOV-001",
+        "FORGE-SPD-002"
+      ],
+      "produces": [
+        "role contexts assembled under real policy and budget in the slice",
+        "per-role context digests and size receipts in candidate evidence",
+        "negatively-asserted independence records",
+        "Governor-owned budget evidence per slice"
+      ],
+      "packet": ".agent/tasks/FORGE-INT-001.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 1,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-SPD-002",
+      "title": "Context Engine with role budgets",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "produces": [
+        "role-scoped context policy",
+        "context provenance records",
+        "hard per-role context budgets",
+        "context size receipts for routing"
+      ],
+      "packet": ".agent/tasks/FORGE-SPD-002.md",
+      "authority": "A2 (owner-authorized)",
+      "phase": 1
+    },
+    {
+      "id": "FORGE-SPD-001",
+      "title": "Parallel packet scheduler + worktree pool [OWNER-GATED]",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-SPD-002"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "FORGE-SPD-003",
+      "title": "Speculative execution [OWNER-GATED]",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-SPD-001"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "FORGE-SPD-004",
+      "title": "Verification impact analysis",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "phase": 1
+    },
+    {
+      "id": "FORGE-STK-001",
+      "title": "Patch-hash loop detection",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "packet": ".agent/tasks/FORGE-LRN-000.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 2,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-STK-002",
+      "title": "Non-LLM watchdog budgets [OWNER-GATED]",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-STK-001"
+      ],
+      "phase": 2
+    },
+    {
+      "id": "FORGE-STK-003",
+      "title": "Abstraction-ladder escalation in state machine",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-STK-001"
+      ],
+      "packet": ".agent/tasks/FORGE-LRN-000.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 2,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-VER-002",
+      "title": "Adversarial verification agent",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "FORGE-VER-003",
+      "title": "Canary benchmark harness",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "FORGE-VER-001",
+      "title": "Cross-family auditor + ADR amending S51 [OWNER-GATED]",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-VER-003"
+      ],
+      "phase": 3
+    },
+    {
+      "id": "FORGE-LRN-000",
+      "title": "Stuck resolution, the learning engines, and the self-improvement proof",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-FIX-004"
+      ],
+      "produces": [
+        "patch-content loop detection",
+        "materially-different-strategy enforcement",
+        "abstraction-ladder escalation bounded at the owner",
+        "attributable outcome and lesson records",
+        "deterministic failure-similarity retrieval",
+        "measurement that preserves UNKNOWN",
+        "demotion and rollback on measured harm",
+        "the FORGE-SI-001 causal-chain proof"
+      ],
+      "packet": ".agent/tasks/FORGE-LRN-000.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 2,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-LRN-001",
+      "title": "Failure-similarity retrieval (FTS first)",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-VER-003"
+      ],
+      "packet": ".agent/tasks/FORGE-LRN-000.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 4,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-LRN-002",
+      "title": "Routing stats + difficulty baselines",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-SPD-002"
+      ],
+      "phase": 4
+    },
+    {
+      "id": "FORGE-LRN-003",
+      "title": "Versioned prompt A/B evolution",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-VER-003",
+        "FORGE-LRN-002"
+      ],
+      "phase": 4
+    },
+    {
+      "id": "FORGE-LRN-004",
+      "title": "Replanning heartbeat wired to cumulative audit",
+      "status": "PROPOSED",
+      "dependencies": [
+        "FORGE-LRN-001"
+      ],
+      "phase": 4
+    },
+    {
+      "id": "FORGE-VAL-001",
+      "title": "Local-only deterministic validation",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "produces": [
+        "single local validation authority",
+        "credential configuration surface"
+      ],
+      "packet": ".agent/tasks/FORGE-VAL-001.md",
+      "authority": "A3 (owner-authorized)",
+      "phase": 0
+    },
+    {
+      "id": "FORGE-STATE-001",
+      "title": "Reconcile V0 state after first live Builder request",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "packet": ".agent/tasks/FORGE-STATE-001.md",
+      "authority": "Sol state reconciliation under owner V0 completion direction",
+      "phase": 0,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; current integrated acceptance is UNKNOWN pending exact-candidate validation and independent audit. No completion or dependency credit."
+    },
+    {
+      "id": "FORGE-LIVE-WIRE-001",
+      "title": "Prepare documented DeepSeek JSON transport",
+      "status": "BLOCKED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "produces": [
+        "DeepSeek JSON Output transport with local schema validation",
+        "incomplete completion refusal"
+      ],
+      "packet": ".agent/tasks/FORGE-LIVE-WIRE-001.md",
+      "authority": "A3 (owner V0 completion instruction)",
+      "phase": 0,
+      "status_note": "Local candidate 1fb40f43e11f4791d4a3fdb3a08a4a95c26c23a2 received an independent PASS. Integration and candidate-bound repository validation remain pending; no live request occurred."
+    },
+    {
+      "id": "FORGE-EVID-001",
+      "title": "Reconcile historical slice evidence on the integrated tree",
+      "status": "REJECTED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "packet": ".agent/tasks/FORGE-EVID-001.md",
+      "authority": "A3 (owner V0 completion instruction; Sol-controlled evidence governance)",
+      "phase": 0,
+      "status_note": "Independent audit of exact a530abc7a5af9cdba097e8385eedc8564426434e returned FIX: the reconciliation ledger misclassified live evidence, accepted false absence and cross-packet substitutions, and had no trusted audit acceptance path. Its ledger is retained as negative evidence; no completion or dependency credit. FORGE-EVID-002 is the repair packet."
+    },
+    {
+      "id": "FORGE-EVID-002",
+      "title": "Truthful reconciliation and detached independent audit",
+      "status": "REJECTED",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "packet": ".agent/tasks/FORGE-EVID-002.md",
+      "authority": "A3 (owner V0 completion instruction; Sol-controlled evidence governance)",
+      "phase": 0,
+      "status_note": "Independent audit of exact 38112f9490b49b4e3237f46236df87ee380b7539 returned FIX: the EVID-002 ledger was absent, false evidence classes and extra events could pass, and no genuine integrated signed-audit gate path existed. Code is retained as an unaccepted candidate; no completion credit. FORGE-EVID-003 narrows the historical reconciliation repair."
+    },
+    {
+      "id": "FORGE-EVID-003",
+      "title": "Reconcile the actual historical evidence classes",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "packet": ".agent/tasks/FORGE-EVID-003.md",
+      "authority": "A3 (owner V0 completion instruction; Sol-controlled evidence governance)",
+      "phase": 0,
+      "status_note": "Independent PASS at exact clean 461228cec486f19ed23b653a9753ad10fd4ce3d9 for historical reconciliation only: eight truthful receipts/checkpoint match the redirected graph packets. The integrated signed-audit gate remains separate and red; no V0 completion credit follows."
+    },
+    {
+      "id": "FORGE-INTEGRATED-001",
+      "title": "Integrated exact-candidate audit of redirected V0 work",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EVID-003"
+      ],
+      "packet": ".agent/tasks/FORGE-INTEGRATED-001.md",
+      "authority": "A3 (owner V0 completion instruction; owner approves one-time auditor key fingerprint before final validation)",
+      "phase": 0,
+      "status_note": "Independent detached PASS receipt binds exact clean 15366f908e201debe4c6d6c443ca0e243208fd9b under the owner-approved key; full local validation passed 557 tests and all 20 gates, exit 0. This accepts the bounded integrated slice, not V0 completion or a later changed candidate."
+    },
+    {
+      "id": "FORGE-SENTINEL-001",
+      "title": "Local Sentinal proving run on a real Windows validation defect",
+      "status": "BLOCKED",
+      "dependencies": [
+        "FORGE-INTEGRATED-001"
+      ],
+      "packet": ".agent/tasks/FORGE-SENTINEL-001.md",
+      "authority": "A2 (owner V0 direction and separate maximum $15 for at most two DeepSeek calls, local only)",
+      "phase": 9,
+      "status_note": "One owner-authorized DeepSeek invocation under this packet ended UNKNOWN, with no provider receipt or proposal; billing is UNKNOWN. Core ledger FORGE-SENTINEL-001 has two receipts and a valid checkpoint at head 3bfd2bf. Sentinal clone d43e2629 is unchanged. The retained claim blocks retry until the effect is reconciled or a separately governed recovery decision is recorded."
+    },
+    {
+      "id": "FORGE-SENTINEL-002",
+      "title": "One-call local Sentinal proving recovery with provider diagnostics",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-INTEGRATED-001"
+      ],
+      "packet": ".agent/tasks/FORGE-SENTINEL-002.md",
+      "authority": "A2 (owner's existing maximum $15 for at most two local DeepSeek calls; one invoked, owner reports $0.03 charge)",
+      "phase": 9,
+      "status_note": "One recovery call returned a schema-valid bounded proposal with HTTP 200, finish stop, and token usage in a three-receipt ledger at head aee9d815. Astra FIX on first local target a9c464b found WindowsApps case and POSIX fallback errors. Bounded local repair at clean target 61258ab passes 422 tests, 3 skipped and the research runner with the isolated venv active. Independent Astra PASS binds exact Forge 8c6cbfd and local Sentinal 61258ab after FIX and bounded repair. This completes the local one-call recovery packet, not the full Phase 9 Sentinel release packet or V0. No remote effect."
+    },
+    {
+      "id": "FORGE-LIVE-001",
+      "title": "First governed live DeepSeek Builder request",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-INTEGRATED-001",
+      "dependencies": [
+        "FORGE-FIX-000"
+      ],
+      "produces": [
+        "real structured Builder call receipt",
+        "bounded README candidate and exact-candidate validation"
+      ],
+      "packet": ".agent/tasks/FORGE-LIVE-001.md",
+      "authority": "A3 (owner authorized up to $15 for one DeepSeek Builder call on 2026-09-22)",
+      "phase": 0,
+      "status_note": "REDIRECTED to FORGE-INTEGRATED-001. Historical evidence is retained; the bounded integrated slice passed independent signed audit at 15366f9. The original DeepSeek call and its two core receipts remain real; billing is UNKNOWN. A separate later two-call, $15 maximum grant applies only to the local Sentinal proving run."
+    },
+    {
+      "id": "FORGE-VAL-LF-001",
+      "title": "Keep local validation runnable in Windows checkouts",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-VAL-001"
+      ],
+      "packet": ".agent/tasks/FORGE-VAL-LF-001.md",
+      "authority": "A3 governance packet under owner V0 completion direction; builder edit A1",
+      "phase": 0,
+      "status_note": "Independent Astra PASS at exact 57fb8d2 verified a fresh core.autocrlf=true checkout retains scripts/validate.sh as i/lf w/lf and mode 100755; 13 gate-parity tests passed and no gate was weakened."
+    },
+    {
+      "id": "FORGE-EXT-001",
+      "title": "Controlled Hallam external trial",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-EXT-DIAG-001",
+      "dependencies": [
+        "FORGE-SENTINEL-002"
+      ],
+      "produces": [
+        "one-call external Builder evidence",
+        "audited Hallam candidate",
+        "verified remote trial branch"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-001.md",
+      "authority": "A3 named Hallam branch push; A2 maximum $15 for one DeepSeek call under the owner's paired Hallam-trial and live-work authorization",
+      "phase": 9,
+      "status_note": "One authorized request returned HTTP 200 and a schema-valid response, then failed closed during proposal validation with sanitized ValueError. Core ledger has 3 receipts at head ff73ef89; Hallam remained unchanged at 2d687fe and no branch was pushed. The packet did not meet its repair or remote-trial acceptance criteria and is redirected to a separate local diagnostic-recovery packet; this claim blocks retry."
+    },
+    {
+      "id": "FORGE-EXT-DIAG-001",
+      "title": "Explain external proposal refusals safely",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-001"
+      ],
+      "produces": [
+        "allowlisted refusal reason evidence",
+        "bounded content-free hunk metadata"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-DIAG-001.md",
+      "authority": "A3 recovery packet under owner V0 completion direction; implementation A1 and local only",
+      "phase": 9,
+      "status_note": "Independent Astra ACCEPT binds exact clean 2db548693bcace2606e459b962571b6b47960e81 after two bounded repairs: 42 focused tests, 630 full tests, and 12 escaped-credential probes passed. The original EXT-001 evidence is unchanged. This completes local diagnostics only and grants no call authority."
+    },
+    {
+      "id": "FORGE-EXT-LESSON-001",
+      "title": "Validate the external-refusal lesson",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-001",
+        "FORGE-EXT-DIAG-001"
+      ],
+      "produces": [
+        "validated or rejected repository-scoped lesson decision"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-LESSON-001.md",
+      "authority": "A3 learning-governance packet under owner V0 completion direction; no effect authority",
+      "phase": 9,
+      "status_note": "Independent Astra ACCEPT at exact 3c9691a71f66db5d1cfd5f1b17151b03547fd1fa validates lesson ab743a3c for Forge repository scope with baseline unexplained_external_refusals=1 and evidence digest 39658905. No application or improvement credit follows until a later packet retrieves, changes strategy, and measures it."
+    },
+    {
+      "id": "FORGE-EXT-002",
+      "title": "Hallam recovery and live lesson application",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-EXT-003",
+      "dependencies": [
+        "FORGE-EXT-DIAG-001",
+        "FORGE-EXT-LESSON-001"
+      ],
+      "produces": [
+        "real lesson retrieval and application",
+        "one-call recovery evidence",
+        "audited Hallam candidate",
+        "verified remote trial branch",
+        "real diagnostic measurement"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-002.md",
+      "authority": "A3 owner-selected Hallam branch; A2 one additional request under the owner's up-to-$15 total live self-improvement authorization",
+      "phase": 9,
+      "status_note": "One audited request at 6290157 returned HTTP 200 and failed closed with reconstructable SELECTION_INVALID at ledger head 2b4d9e9c. The validated lesson improved unexplained_external_refusals from 1 to 0, but Hallam remained unchanged and the packet objective was unmet. Independent REDIRECT at d2870bd preserves the claim and routes to FORGE-EXT-003 without retry."
+    },
+    {
+      "id": "FORGE-EXT-002-CORRECTION-001",
+      "title": "Correct the Hallam recovery pre-call runtime",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-DIAG-001",
+        "FORGE-EXT-LESSON-001"
+      ],
+      "produces": [
+        "runtime-tested one-call recovery runner",
+        "wire-bound output-token evidence"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-002-CORRECTION-001.md",
+      "authority": "A3 recovery packet under owner V0 completion direction; implementation local only with no provider or Hallam effect",
+      "phase": 9,
+      "status_note": "Astra independently verified both requested runtime corrections at e164833: valid responses can succeed and the transmitted output bound matches the intent and estimate. Later credential findings were handled by separate correction packets."
+    },
+    {
+      "id": "FORGE-EXT-002-CORRECTION-002",
+      "title": "Match response decoding at the credential boundary",
+      "status": "REDIRECTED",
+      "redirected_to": "FORGE-EXT-002-CORRECTION-003",
+      "dependencies": [
+        "FORGE-EXT-DIAG-001",
+        "FORGE-EXT-LESSON-001"
+      ],
+      "produces": [
+        "encoding-consistent credential refusal evidence"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-002-CORRECTION-002.md",
+      "authority": "A3 recovery packet under owner V0 completion direction; implementation local only with no provider or Hallam effect",
+      "phase": 9,
+      "status_note": "Astra verified the UTF-16/32 correction at b9d3aa0, then reproduced a duplicate-key normalization gap that discarded a secret before scanning. Redirected to FORGE-EXT-002-CORRECTION-003; no provider or Hallam effect occurred."
+    },
+    {
+      "id": "FORGE-EXT-002-CORRECTION-003",
+      "title": "Preserve duplicate JSON values during secret scanning",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-DIAG-001",
+        "FORGE-EXT-LESSON-001"
+      ],
+      "produces": [
+        "lossless duplicate-aware credential refusal evidence"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-002-CORRECTION-003.md",
+      "authority": "A3 recovery packet under owner V0 completion direction; implementation local only with no provider or Hallam effect",
+      "phase": 9,
+      "status_note": "Independent Astra ACCEPT at exact 6290157 verified raw and duplicate-preserving recursive scans with 18 sensitive-response probes across UTF-8/16/32, plus success, refusal, usage, and interruption paths. This completes the local trust-boundary correction only."
+    },
+    {
+      "id": "FORGE-EXT-003",
+      "title": "Complete the Hallam external trial",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-DIAG-001",
+        "FORGE-EXT-LESSON-001",
+        "FORGE-EXT-002-CORRECTION-003"
+      ],
+      "produces": [
+        "one-call bounded Hallam proposal",
+        "audited two-file Hallam candidate",
+        "verified remote trial branch"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-003.md",
+      "authority": "A3 owner-selected Hallam branch; A2 one additional request under the owner's up-to-$15 total remaining live self-improvement authorization",
+      "phase": 9,
+      "status_note": "Independent Astra ACCEPT bound Forge 9698102 and Hallam 93a2015 after one successful 730-input/26-output-token request, a verified three-receipt ledger, deterministic two-file reconstruction, 185 Hallam tests, and exact remote verification. refs/heads/codex/forge-external-trial resolves to 93a2015. No merge or deployment occurred."
+    },
+    {
+      "id": "FORGE-EXT-TEST-001",
+      "title": "Make external-trial validation hermetic",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-003"
+      ],
+      "produces": [
+        "repository-owned Hallam pre-change test fixtures",
+        "mutable-checkout-independent external-trial validation"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-TEST-001.md",
+      "authority": "A1 test repair under DEC-006 and owner V0 completion direction",
+      "phase": 9,
+      "status_note": "Independent Astra PASS at exact 57fb8d2 after one CORRECT cycle verified repository-owned fixtures, actual CRLF checkout normalization, semantic mutation refusal, 113 focused tests, and 715 full tests."
+    },
+    {
+      "id": "FORGE-RECON-004",
+      "title": "Reconcile successor-specific redirected chains",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EVID-003",
+        "FORGE-EXT-003"
+      ],
+      "produces": [
+        "explicit per-packet redirect bindings",
+        "append-only reconciliation of later redirect chains"
+      ],
+      "packet": ".agent/tasks/FORGE-RECON-004.md",
+      "authority": "A3 evidence-gate repair under DEC-006 and owner V0 completion direction",
+      "phase": 9,
+      "status_note": "Independent Astra PASS at exact 57fb8d2 verified the eight historical receipts unchanged, the 11-receipt stream at head 7976fc99, explicit successor bindings, shared-packet agreement, and fail-closed adversarial cases."
+    },
+    {
+      "id": "FORGE-EXT-PORT-001",
+      "title": "Canonicalize retained lesson artifact identity",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-EXT-TEST-001",
+        "FORGE-RECON-004",
+        "FORGE-VAL-LF-001"
+      ],
+      "produces": [
+        "line-ending-stable audited lesson verification",
+        "fresh-checkout external-trial validation"
+      ],
+      "packet": ".agent/tasks/FORGE-EXT-PORT-001.md",
+      "authority": "A3 evidence-boundary repair under DEC-006 and owner V0 completion direction",
+      "phase": 9,
+      "status_note": "Independent Astra ACCEPT at exact f6df4cb reproduced the fresh-checkout failure, verified strict newline-only canonicalization and unchanged legacy authority evidence, passed 34 adversarial probes, 93 focused tests, and 730 tests in a disposable core.autocrlf=true checkout."
+    },
+    {
+      "id": "FORGE-SENTINEL-003",
+      "title": "Complete the Sentinel Phase 9 release packet",
+      "status": "COMPLETE",
+      "dependencies": [
+        "FORGE-SENTINEL-002"
+      ],
+      "produces": [
+        "validated material discovery and specification lineage",
+        "subsequent executed work bound to the evolved specification",
+        "complete Sentinel release packet",
+        "real FORGE-SI-001 episode binding"
+      ],
+      "packet": ".agent/tasks/FORGE-SENTINEL-003.md",
+      "evidence": ".agent/artifacts/FORGE-SENTINEL-003/RELEASE.json",
+      "review": ".agent/artifacts/FORGE-SENTINEL-003/REVIEW.json",
+      "authority": "A3 evidence-governance repair under owner V0 completion direction; remote verification read-only",
+      "phase": 9,
+      "status_note": "Independent Astra ACCEPT on exact Forge candidate 0ede5c883646a283cd9832d09299c49e2dad679b. Release digest ffcdbe991baf28ba60b351a5f79e1d8e9483b061ccb6912b1f5f594861b7786c; 14-receipt core ledger head 06dcd5773eaaab4bbce804a53696a8dda744027d46a993d20ba2211e07c00c5f. Current post-evolution revalidation is bound to exact Sentinel 61258ab and does not claim retrospective authority over the historical repair."
+    },
+    {
+      "id": "FORGE-ADAPT-001",
+      "title": "Shared slice learning and Athena engineering adaptation",
+      "status": "AWAITING_AUDIT",
+      "dependencies": [
+        "FORGE-SI-001"
+      ],
+      "packet": ".agent/tasks/FORGE-ADAPT-001.md",
+      "authority": "Owner direction 2026-09-25: two builder loops, stuck resolution and Athena learning; draft implementation only",
+      "produces": [
+        "durable two-lane learning coordinator",
+        "scoped Athena engineering comparison",
+        "recovery and learning evidence"
+      ],
+      "status_note": "Controller implementation and focused validation complete; full repository gate, active slice binding and live runner integration remain outstanding. Draft only."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "packet_id": "FORGE-EXT-003",
+  "state": "COMPLETE",
+  "base_sha": "ad5592964e8b04f25c0c29e91d3a6e3e7846d231",
+  "allowed_files": [
+    "scripts/external_trial_finalize.py",
+    "tests/test_external_trial_finalize.py",
+    ".agent/artifacts/FORGE-EXT-003/COMPLETION.json"
+  ],
+  "implementation": [
+    "Reuses the accepted EXT-002 identity, exclusive claim, durable intent, checkpoint reload, credential scanning, bounded usage, refusal, and UNKNOWN transport boundary.",
+    "Restricts model authority to decision=include_industry plus the two exact behavior cases.",
+    "Trusted code deterministically emits exactly the two allowlisted Hallam edits; model output never supplies file content.",
+    "Uses a 1024 output-token bound and a 4000-byte request bound. It records prior cumulative estimate 0.40336 USD, prior cumulative maximum 0.46432 USD, packet estimate ceiling 0.55408 USD, and overall cumulative maximum cap 0.69648 USD separately."
+  ],
+  "provider_call": {
+    "made": true,
+    "ledger_created": true,
+    "hallam_touched": true,
+    "retry": false
+  },
+  "validation": [
+    {
+      "command": "python -m pytest -q tests/test_external_trial_finalize.py",
+      "result": "39 passed",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m pytest -q",
+      "result": "706 passed, 2 warnings",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m forge.cli graph check",
+      "result": "OK: 49 graph nodes consistent with documents",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m ruff check scripts/external_trial_finalize.py tests/test_external_trial_finalize.py",
+      "result": "All checks passed",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m ruff format --check scripts/external_trial_finalize.py tests/test_external_trial_finalize.py",
+      "result": "2 files already formatted",
+      "exit_code": 0
+    }
+  ],
+  "unknowns": [
+    "Actual provider billing remains UNKNOWN.",
+    "Independent post-call audit accepted exact Forge 9698102 and Hallam 93a2015 candidates; the verified remote branch resolves to the Hallam candidate.",
+    "Full changed-file Ruff formatting is not green because main.py has a pre-existing difference outside the changed hunk; the new test file is formatted."
+  ],
+  "self_certification": false
+}

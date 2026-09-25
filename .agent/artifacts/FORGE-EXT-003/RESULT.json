@@ -1,0 +1,69 @@
+{
+  "packet_id": "FORGE-EXT-003",
+  "execution_candidate_sha": "1a227f5fa8b6a8592033c5261e870297a727df41",
+  "target_repository": "nrsandoval1231-oss/hallam",
+  "target_base_sha": "2d687fe51fdc406c35f52cfc8c275615f2792772",
+  "target_candidate_sha": "93a2015e58f2c7be7fe95c6676279d1e4a54ec13",
+  "target_tree": "d4bc3cfb4bb6e7952a5d11a914f642a28d060151",
+  "target_branch": "codex/forge-external-trial",
+  "request": {
+    "count": 1,
+    "model": "deepseek-flash",
+    "effect": "PROPOSAL_ONLY",
+    "serialized_bytes": 3263,
+    "output_token_bound": 1024,
+    "wire_payload_digest": "1a85afdb3c7512422043f865b11b307e0a3e83a3a91800a2dc8d149775bccf18",
+    "conservative_estimate_usd": 0.07072,
+    "cumulative_conservative_estimate_usd": 0.47408,
+    "cumulative_conservative_max_usd": 0.53504,
+    "cumulative_conservative_max_cap_usd": 0.69648
+  },
+  "response": {
+    "http_status": 200,
+    "latency_ms": 1250,
+    "response_digest": "1f862739a3143f701e9e764fc4811c9e86886335958dcf13d243cb3339dff735",
+    "status": "SUCCEEDED",
+    "selection": {
+      "decision": "include_industry",
+      "positive_case": "industry_only",
+      "negative_case": "unrelated_industry"
+    },
+    "provider_receipt_id": "CALL-5bd60747",
+    "input_tokens": 730,
+    "output_tokens": 26,
+    "schema_valid": true,
+    "billing": "UNKNOWN",
+    "raw_content_retained": false
+  },
+  "ledger": {
+    "receipts": 3,
+    "head_hash": "2b5a396c237ee20c82963dcb0de7b811709791d565a1a55ebf5a5798887d8dad",
+    "jsonl_sha256": "e9ccd42960f6c0c8d1288d5fd6e14c827f46d4ecbef6d68b613b70be6614ab1a",
+    "checkpoint_sha256": "05394bc92d964cc7775b7d47d5990a80449c186fe7944c546efe2ce97382fd88",
+    "claim_sha256": "339e68a222739eec4ef8fb6025887ce46a9cbd07845d058677b861b1684eb7bd",
+    "verified": true
+  },
+  "hallam_validation": {
+    "changed_files": [
+      "apps/api/sabra_api/main.py",
+      "tests/test_api.py"
+    ],
+    "focused_tests": "8 passed, 2 warnings",
+    "full_tests": "185 passed, 2 warnings",
+    "ruff_check": "passed",
+    "new_test_format": "passed",
+    "full_changed_file_format": "failed on a pre-existing main.py formatting difference also present at the exact base",
+    "diff_check": "passed"
+  },
+  "remote": {
+    "pushed": true,
+    "branch_sha": "93a2015e58f2c7be7fe95c6676279d1e4a54ec13",
+    "ref": "refs/heads/codex/forge-external-trial",
+    "verified": true
+  },
+  "unknowns": [
+    "Actual provider billing is unavailable.",
+    "The Hallam candidate is pushed but is not merged or deployed.",
+    "Hallam main.py has a pre-existing Ruff formatting difference outside the changed hunk."
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "packet_id": "FORGE-LRN-000",
+  "status": "AWAITING_AUDIT",
+  "base": {
+    "sha": "621d8d2d503aed037afb0b87698b3e433486aeb7",
+    "branch": "codex/forge-pr13-integrity-repair",
+    "worktree": "C:/Users/nrsan/.codex/worktrees/forge-pr13-integrity-repair/forge-agent"
+  },
+  "changed_paths": [
+    "src/forge/learning.py",
+    "tests/test_learning.py",
+    "scripts/prove_self_improvement.py",
+    "tests/test_self_improvement.py",
+    ".agent/artifacts/FORGE-SI-001/PROOF.json"
+  ],
+  "review_findings_reproduced": {
+    "command": "uv run pytest tests/test_learning.py -q",
+    "exit_code": 1,
+    "summary": "18 failed, 46 passed on the unmodified implementation plus focused red tests"
+  },
+  "acceptance_checks": {
+    "strategy_digest_required": "PASS",
+    "retrieval_must_match_packet_and_contain_lesson": "PASS",
+    "measurement_must_match_application_candidate": "PASS",
+    "metric_direction_mismatch_is_unknown": "PASS",
+    "positive_self_improvement_path_preserved": "PASS",
+    "harmful_lesson_rollback_preserved": "PASS"
+  },
+  "validation": {
+    "focused_tests": {
+      "command": "uv run pytest tests/test_learning.py tests/test_self_improvement.py -q",
+      "exit_code": 0,
+      "summary": "78 passed"
+    },
+    "full_tests": {
+      "command": "uv run pytest -q",
+      "exit_code": 1,
+      "summary": "502 passed, 1 Windows executable-bit failure in tests/test_gate_parity.py"
+    },
+    "proof_check": {
+      "command": "uv run python scripts/prove_self_improvement.py --check",
+      "exit_code": 0,
+      "summary": "3 to 1 attempts, IMPROVED, harmful lesson ROLLED_BACK"
+    },
+    "ruff_check": {
+      "command": "uv run ruff check src/forge/learning.py tests/test_learning.py scripts/prove_self_improvement.py tests/test_self_improvement.py",
+      "exit_code": 0,
+      "summary": "All checks passed"
+    },
+    "ruff_format": {
+      "command": "uv run ruff format --check src/forge/learning.py tests/test_learning.py scripts/prove_self_improvement.py tests/test_self_improvement.py",
+      "exit_code": 0,
+      "summary": "4 files already formatted"
+    },
+    "diff_check": {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "summary": "No whitespace errors"
+    },
+    "validate_sh": {
+      "command": "bash scripts/validate.sh",
+      "status": "UNKNOWN",
+      "summary": "Windows checkout CRLF prevents the available bash shim from parsing scripts/validate.sh"
+    }
+  },
+  "unknowns": [
+    "Independent Astra audit has not run.",
+    "scripts/validate.sh was not executable in this Windows worktree and could not be parsed by the available bash shim.",
+    "No commit, push, merge, deployment, or live model call was performed."
+  ],
+  "migration_impact": "ApplicationRecord now requires candidate_digest; callers must provide the exact candidate measured later.",
+  "completion_claim": "Implementation and focused evidence are complete; audit and repository-level validation remain external handoff steps."
+}

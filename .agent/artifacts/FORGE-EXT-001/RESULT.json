@@ -1,0 +1,35 @@
+{
+  "packet_id": "FORGE-EXT-001",
+  "verdict": "REDIRECT",
+  "code_candidate": "cd129121a1bbfb309a36598bbd8fd97d2d66acf0",
+  "hallam_base": "2d687fe51fdc406c35f52cfc8c275615f2792772",
+  "request_count": 1,
+  "call_status": "REFUSED",
+  "error_type": "ValueError",
+  "http_status": 200,
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2593,
+    "completion_tokens": 332,
+    "total_tokens": 2925
+  },
+  "latency_ms": 2469,
+  "billing": "UNKNOWN",
+  "ledger_receipts": 3,
+  "ledger_head": "ff73ef89c4c81c40eb9c899d2aebe870bcd8952a43428e39efaf4b5798f389d2",
+  "evidence_sha256": {
+    "jsonl": "fc8778ae31d86e7290132c3eac267e5f70ce3caffceac351311c215904f88ed1",
+    "checkpoint": "01b2a679bd6fd67b65298a5c3a4f486266bd9f367d060aea966842e13686fc00",
+    "claim": "970a8acf35f522c915170a3dfdfbaf03af7c775ef9c75a5ceeafaba67a585d93"
+  },
+  "proposal_retained": false,
+  "hallam_modified": false,
+  "hallam_pushed": false,
+  "acceptance_satisfied": false,
+  "audit": {
+    "verdict": "REDIRECT",
+    "direction": "REDIRECT",
+    "finding": "Fail-closed refusal is valid, but the specific rejected rule cannot be reconstructed from retained evidence."
+  },
+  "next_direction": "Create a local-only diagnostic recovery packet that adds sanitized refusal reason codes and bounded hunk metadata. Do not retry FORGE-EXT-001."
+}

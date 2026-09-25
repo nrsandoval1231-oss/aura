@@ -1,0 +1,61 @@
+{
+  "audit": {
+    "bound_to_candidate": true,
+    "confidence": 0.9,
+    "discovery_verdict": "OBSERVATION",
+    "implementation_verdict": "PASS"
+  },
+  "base_candidate_digest": "7b52186db4ebdac1733dfab4a9dcd0d0cc652ee27b595333ad263decbdf4cbab",
+  "candidate_digest": "00906603f27fae7db4683f2fe3c9570582c54041bfbd350201e25dd77ae94c0a",
+  "candidate_tree": "11e380cb7bfdf073618acd2d8d15639866bb9f2973b14d6d822f0b9435298583",
+  "changed_paths": [
+    "scripts/run_slice.py",
+    "tests/test_slice_paths.py"
+  ],
+  "gates": {
+    "pytest": {
+      "evidence_digest": "0b763a58fdad4456b8cf5341acf548bc2aad965abc8b7d108f1752e1ee94f531",
+      "passed": true,
+      "summary": "160 passed in 1.55s"
+    },
+    "ruff_check": {
+      "evidence_digest": "a77d8f852772a0310ebc371b8a4b725aa8a04867242572c7ffdef37cb2838f71",
+      "passed": true,
+      "summary": "All checks passed!"
+    },
+    "ruff_format": {
+      "evidence_digest": "84b9eba6ee47952754a00083415e577606d545a5546637c44b9569c1c32ed026",
+      "passed": true,
+      "summary": "24 files already formatted"
+    }
+  },
+  "generated_at": "2026-09-21T03:13:09.990784+00:00",
+  "ledger": {
+    "head_hash": "4b82e672366cbcd55e26ae6627ef9189fb9b0925f5353ed825d7e4a86647df6b",
+    "path": ".agent/ledger/FORGE-FIX-000.jsonl",
+    "receipts": 4,
+    "reloaded_and_verified": true
+  },
+  "limits": [
+    "Agent roles are simulated; no model provider was called.",
+    "Role signing keys are process-local, not durably custodied.",
+    "Merge eligibility was computed, not acted on; no merge occurred."
+  ],
+  "loop_state": "MERGE_ELIGIBLE",
+  "merge_eligibility": {
+    "audit_digest": "1f82a5c13fedce05641c7d8b3157942bab125a62b33514ed9372d5c21fb7ad03",
+    "authorized_by_role": "GOVERNOR",
+    "candidate_digest": "00906603f27fae7db4683f2fe3c9570582c54041bfbd350201e25dd77ae94c0a"
+  },
+  "owner_authorization": {
+    "bound_to_packet_scope": true,
+    "evidence": "docs/audit/2026-09-21-repository-audit.md",
+    "owner_ref": "OWNER"
+  },
+  "packet_id": "FORGE-FIX-000",
+  "repository": {
+    "base_sha": "3552ee48ab593785610dba45259fb5536afb4de3",
+    "branch": "claude/repo-audit-kzeivx",
+    "remote": "https://github.com/nrsandoval1231-oss/forge-agent"
+  }
+}

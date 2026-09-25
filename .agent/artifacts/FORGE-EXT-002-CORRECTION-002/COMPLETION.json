@@ -1,0 +1,62 @@
+{
+  "task_id": "FORGE-EXT-002-CORRECTION-002",
+  "role": "Terra senior specialist",
+  "status": "IMPLEMENTED_PENDING_INDEPENDENT_AUDIT",
+  "base_sha": "77b67c4a3e4b88ffb9f7bc203fd057a6a7d28c7f",
+  "scope": [
+    "scripts/external_trial_recovery.py",
+    "tests/test_external_trial_recovery.py",
+    ".agent/artifacts/FORGE-EXT-002/COMPLETION.json",
+    ".agent/artifacts/FORGE-EXT-002-CORRECTION-002/COMPLETION.json"
+  ],
+  "implemented": [
+    "The response scanner first parses the raw bytes with the same JSON parser used by run_once, then scans the complete parsed object before response_digest can be computed.",
+    "Malformed or non-object response representations are refused before any response-derived persistence.",
+    "Actual mocked run_once tests cover UTF-16 and UTF-32 HTTP 200 response bytes containing the configured credential in a schema-valid ignored selection field, an ignored outer field, and a nested unicode-encoded field.",
+    "Each adversarial case proves SENSITIVE_OUTPUT_REFUSED, response_digest null, no credential in the persisted stream, and a retained claim that blocks retry."
+  ],
+  "external_effects": {
+    "provider_call": "NOT_RUN",
+    "hallam_modified": false,
+    "hallam_pushed": false,
+    "merged": false,
+    "deployed": false
+  },
+  "validation": [
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m pytest -q tests/test_external_trial_recovery.py",
+      "exit_code": 0,
+      "result": "30 passed"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m pytest -q",
+      "exit_code": 0,
+      "result": "660 passed, 2 pre-existing Pydantic serializer warnings"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m forge.cli graph check",
+      "exit_code": 0,
+      "result": "OK: 47 graph nodes consistent with documents"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m ruff check scripts\\external_trial_recovery.py tests\\test_external_trial_recovery.py",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\forge-ext-validation-py312\\Scripts\\python.exe -m ruff format --check scripts\\external_trial_recovery.py tests\\test_external_trial_recovery.py",
+      "exit_code": 0,
+      "result": "2 files already formatted"
+    },
+    {
+      "command": "git diff --check 77b67c4a3e4b88ffb9f7bc203fd057a6a7d28c7f",
+      "exit_code": 0,
+      "result": "no whitespace errors"
+    }
+  ],
+  "remaining_unknowns": [
+    "Independent audit and repository-level validation remain pending.",
+    "No live provider response, Hallam candidate, remote push, or diagnostic measurement exists."
+  ],
+  "self_certification": false
+}

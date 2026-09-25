@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "packet_id": "FORGE-SI-001",
+  "kind": "REAL_LEARNING_EPISODE",
+  "source_packets": ["FORGE-EXT-001", "FORGE-EXT-002"],
+  "lesson_id": "LESSON-EXPLAIN-EXTERNAL-REFUSAL",
+  "lesson_digest": "ab743a3cbab9b74d56d102ac4c74a9a02c40444c8c1b0c6e26f2c28f683d6ea3",
+  "retrieval_digest": "b94a08860bef756bb081d5f7ba75e809e5a4c6f938ed0cc5f3ccab9198badb0c",
+  "application_digest": "aeb0494df622cd98df4bcc848c9719303d3c5dfec841916ea6fdbe18188d0080",
+  "changed_later_strategy": true,
+  "metric": {
+    "name": "unexplained_external_refusals",
+    "direction": "LOWER_IS_BETTER",
+    "baseline": 1.0,
+    "observed": 0.0,
+    "verdict": "IMPROVED",
+    "measurement_digest": "a584172f8aa811df830c062021a448149ffeff3cabdef3f963e829357e98921c"
+  },
+  "boundary": "This is the real EXT-001 to EXT-002 diagnostic learning episode. It does not claim that the Hallam task succeeded; EXT-002 was refused with SELECTION_INVALID. The simulated rollback proof remains separate in FORGE-SI-001/PROOF.json."
+}
