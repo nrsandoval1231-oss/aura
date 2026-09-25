@@ -18,6 +18,26 @@ records are retained; neither executor is production-authorized.
   narrow probes, not proof that a candidate or its Git configuration is safe.
 - Ubuntu has Python 3.14.4 and Git 2.53.0, but no Linux pytest or pip. The
   supported test runtime must be provisioned and pinned before execution.
+- A user-local Python virtual environment creation failed because Ubuntu's
+  `python3.14-venv`/`ensurepip` is absent; noninteractive `sudo` is unavailable.
+  The smallest disposable proof can use standard-library `unittest` under the
+  installed Python 3.14.4, with that interpreter identity checked at launch.
+  This does not satisfy a target packet that requires pytest or other packages;
+  such a packet must fail closed until an isolated, pinned runtime is supplied.
+- In `/tmp/aura-bwrap-test-p1isye`, a disposable read-only repository with a
+  standard-library `unittest` test passed under Bubblewrap using Python
+  `-I -B -m unittest discover`; one test ran. This establishes the smallest
+  dependency-free check path, not a complete candidate executor.
+- In `/tmp/aura-bwrap-candidate-v94yzM`, a disposable source base
+  `fe7aa50f5c379f6c2f708c4b16742985e7540546` was mounted read-only. A
+  separate proposal changed `README.md` from value 1 to 2 and added one
+  `unittest` acceptance test. Git clone and worktree creation, the edit,
+  candidate commit, fixed test, and clean-worktree check all ran inside a
+  network-isolated Bubblewrap process. The candidate was
+  `c88a2a1f2c5b4f5a5efbf43dfd2f1d9bae871a47`, tree
+  `81a8a88f33b845fccaf2e5acf68bbb8f0eef018c`; one test passed and the
+  source stayed clean. This is a manual feasibility transcript; no trusted
+  controller or independent review receipt is attached to that candidate.
 - In `/tmp/aura-bwrap-git-nYR1jy`, repository-local `core.fsmonitor` was
   demonstrably invoked (`FSMONITOR_EXECUTED`) inside a Bubblewrap shell with a
   read-only source bind. Attempts to write `/outside/host-marker` and

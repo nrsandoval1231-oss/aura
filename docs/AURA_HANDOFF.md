@@ -41,17 +41,18 @@ existing detached verifier is still hard-coded to a Forge audit domain and
 validation artifact; an Aura-specific protected trust packet and owner approval
 of the independent auditor's public-key fingerprint are prerequisites.
 
-## Proposed audit trust bootstrap (owner decision pending)
+## Owner-selected audit trust bootstrap (key and fingerprint pending)
 
-Use a distinct auditor signing identity for Aura. The auditor, not the builder
-or controller, generates and retains a private RSA signing key outside all Aura
-worktrees and controller processes. The owner receives only the public key and
-checks its SHA-256 fingerprint through an independent channel, then explicitly
-approves the exact fingerprint and auditor identity for a protected trust
+The owner selected an owner-held, passphrase-protected signing key outside all
+Aura and Codex workspaces. The owner generates and retains the private key;
+builder and controller processes must never receive it or its passphrase.
+Astra supplies the independent exact-candidate verdict, and the owner signs
+only after checking that report and the receipt. The signed receipt must keep
+reviewer identity distinct from owner attestation. The owner must separately
+approve the exact SHA-256 fingerprint of the public key for a protected trust
 record. The Aura-specific verifier must bind a new Aura domain, repository,
 packet, exact commit/tree, complete manifest, and local validation artifact.
-Its migration and trust pin require a dedicated governance packet and independent
+Its migration and key pin require a dedicated governance packet and independent
 review; the existing Forge verifier cannot be relabeled by filling empty fields.
-The bootstrap approval is a human decision because no earlier Aura signing root
-exists. Until the key holder and fingerprint are approved and the verifier
-migration is reviewed, detached audit and merge eligibility stay UNKNOWN.
+Until the public key, fingerprint, and reviewed migration exist, detached audit
+and merge eligibility stay UNKNOWN.

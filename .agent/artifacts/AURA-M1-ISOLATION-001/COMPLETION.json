@@ -1,0 +1,30 @@
+{
+  "packet_id": "AURA-M1-ISOLATION-001",
+  "status": "AWAITING_INDEPENDENT_DESIGN_AUDIT",
+  "source_base_sha": "0acb95d59436f73bfbc326f6a69b23689549fa63",
+  "prior_executor_verdicts": ["CORRECT", "CORRECT"],
+  "feasibility": {
+    "bubblewrap_shell": "PASS",
+    "host_file_read_denial": "PASS",
+    "network_denial": "PASS",
+    "fsmonitor_outside_write_denial": "PASS",
+    "included_filter_outside_write_denial": "PASS",
+    "hook_outside_write_denial": "PASS",
+    "isolated_unittest": "1 passed",
+    "manual_candidate": "c88a2a1f2c5b4f5a5efbf43dfd2f1d9bae871a47",
+    "manual_candidate_tree": "81a8a88f33b845fccaf2e5acf68bbb8f0eef018c",
+    "source_remained_clean": true,
+    "cross_process_unknown_refusal": "PASS on the current Windows ledger; sandbox integration not yet built"
+  },
+  "limits": [
+    "Bubblewrap feasibility probes are not a production sandbox runner.",
+    "Ubuntu has no pytest/pip or working venv package; only standard-library unittest was demonstrated.",
+    "No trusted controller binds the manual sandbox candidate to append-only intent, checks, and independent review.",
+    "Owner-held audit key model selected, but no key or public fingerprint is provisioned.",
+    "No provider call or CLI dispatch occurred."
+  ],
+  "local_slice_validation": "576 passed, 1 skipped, 2 existing warnings; Ruff lint and format passed; simulated roles only",
+  "provider_calls": 0,
+  "measured_provider_spend_usd": 0,
+  "production_authority": "ABSENT"
+}

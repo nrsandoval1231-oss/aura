@@ -8,6 +8,8 @@ The M0 CLI records durable bounded requests and refuses builder dispatch. There 
 operational single-builder or two-builder runner. Recovery remains advisory until integrated.
 Production role routing and review verification are not configured. Audit trust is
 unprovisioned and fails closed. No live Aura performance improvement is claimed.
+The owner selected an owner-held, passphrase-protected audit signing key model;
+no private key or public-key fingerprint has been provisioned or pinned.
 The owner set a $5 ceiling for the first live DeepSeek task; no provider call has
 occurred. The current detached verifier still binds Forge's domain and artifact,
 so merely adding an audit key cannot validate an Aura candidate.
