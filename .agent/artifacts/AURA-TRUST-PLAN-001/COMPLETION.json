@@ -1,0 +1,17 @@
+{
+  "packet_id": "AURA-TRUST-PLAN-001",
+  "status": "AWAITING_INDEPENDENT_AUDIT",
+  "base_sha": "581c4506819f8b7e2e393857193cd5f1295ec42a",
+  "owner_decision": "Owner-held passphrase-protected audit signing key outside Aura and Codex workspaces",
+  "private_key_generated": false,
+  "public_key_fingerprint_approved": false,
+  "protected_verifier_changed": false,
+  "production_trust": "ABSENT",
+  "plan": "Separate reviewer identity from owner signature; migrate Forge-only domain, repository, packet and validation bindings under a protected future packet; fail closed on missing or altered exact evidence",
+  "focused_validation": "Graph check passed; 15 packet parser tests passed; diff check clean",
+  "local_slice_validation": "558 passed, 2 existing warnings; Ruff lint and format passed; simulated roles only",
+  "provider_calls": 0,
+  "measured_provider_spend_usd": 0,
+  "external_audit_gate": "UNKNOWN: no approved public key or Aura verifier migration",
+  "merge_eligible": false
+}
