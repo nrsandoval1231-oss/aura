@@ -30,7 +30,7 @@
       "status": "BLOCKED",
       "dependencies": ["AURA-TRUST-002"],
       "packet": ".agent/tasks/AURA-M0-CLI-003.md",
-      "status_note": "Packet prepared; await owner-signed AURA-TRUST-002 exact candidate before local evidence generation."
+      "status_note": "Packet prepared; verify owner-signed AURA-TRUST-002 at exact cc3e78f and mark it COMPLETE before activating local M0 evidence generation."
     },
     {
       "id": "AURA-ROUTING-001",

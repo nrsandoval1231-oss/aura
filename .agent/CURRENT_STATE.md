@@ -17,7 +17,10 @@ CORRECT: its new authority surfaces were unregistered and its external public
 key was read twice. AURA-TRUST-002 repaired both and received independent
 ACCEPT at `b4d0889`. Fresh local trust slice evidence is retained at `cc3e78f`
 and independently ACCEPTed for that bounded checkpoint. Its owner signature
-is pending; full slice validation still reports the stale M0 binding.
+is pending. On this successor branch, the slice gate instead reports the
+AURA-TRUST-002 selected-file binding as stale because this packet changed the
+graph and current state. The trust packet must finish at its exact `cc3e78f`
+candidate before this successor is activated.
 
 The graph tracks remaining Aura milestones; no Forge completion status is inherited.
 The scope cleanup removes unrelated UI, optional decision services, external product

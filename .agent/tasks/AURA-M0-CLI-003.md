@@ -34,7 +34,11 @@ state are simulated proof, never an external audit or merge authority.
 
 ## Acceptance and handoff
 
-After AURA-TRUST-002 owner attestation is verified, activate this node. Run
+First verify the owner signature and packet-specific detached check against
+clean exact `cc3e78f`, with the independent ACCEPT and pre-audit gates bound
+to that commit. Then transition AURA-TRUST-002 to COMPLETE in this graph,
+recording that the trust packet itself passed while the old M0 binding kept the
+repository-wide slice gate red. Only then activate AURA-M0-CLI-003. Run
 the new packet's local slice into new ledger/artifact paths without `--rebind`.
 Record exact candidate, required green pre-audit gates, new ledger verification,
 fresh independent review, owner-signed external receipt, and full
