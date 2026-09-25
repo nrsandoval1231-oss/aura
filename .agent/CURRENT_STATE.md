@@ -19,7 +19,10 @@ trial runners, and historical execution records. Source history remains in Git.
 The first CLI candidate 53fb0e3 received independent CORRECT for a partial-ledger
 loss defect. AURA-M0-CLI-002 is BLOCKED after bounded independent ACCEPT at
 581c450; the full gate's slice check still requires owner-pinned detached audit trust.
-AURA-M1-EXEC-001 is READY for a local isolated candidate mechanism without provider calls.
+AURA-M1-EXEC-001 was rejected by independent CORRECT at 84a3d01: an allowed
+test could rewrite its own bytes after passing, leaving an untested commit.
+AURA-M1-EXEC-002 is READY for a bounded repair. Its offline proof cannot grant
+production execution authority because candidate tests have host filesystem access.
 
-Next: validate isolated candidate execution, provision trusted review, then connect
+Next: repair exact candidate binding, provision trusted review, then connect
 one governed task and prove it before two-lane scheduling, stuck recovery, and learning.

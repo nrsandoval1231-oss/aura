@@ -1,0 +1,21 @@
+{
+  "candidate_sha": "84a3d014c578cf28a0115238ffabbe86a19927a3",
+  "base_sha": "581c4506819f8b7e2e393857193cd5f1295ec42a",
+  "raw_verdict": "CORRECT",
+  "compatible_verdict": "FIX",
+  "finding": "A passing allowed pytest file can rewrite its own bytes; executor committed an untested candidate and returned REVIEW_REQUESTED.",
+  "reproduction": {
+    "disposable_base_sha": "8234ae7329fbfa307a2c0a07eebeafa811324a76",
+    "untested_candidate_sha": "3ee92023db1bd8bbd15d86a170c5162eda300919",
+    "candidate_tree": "ea8b599e2548196df95c4106dc8ceda090bbf10e",
+    "original_check": "pytest PASS",
+    "exact_candidate_rerun": "pytest FAIL"
+  },
+  "required_repair": "Bind tests to exact immutable candidate bytes or tree and refuse check mutation before returning a review request.",
+  "other_findings": [
+    "Proposal test code has host filesystem access; production remains blocked without a real execution sandbox and credential boundary.",
+    "Empty hook directory is writable by test code, Git commands inherit full environment and config, and Git subprocesses have no timeout.",
+    "Fixed pytest argv does not constrain pytest repository config or module shadowing.",
+    "Mandatory detached Aura review gate remains red because trust is unprovisioned."
+  ]
+}

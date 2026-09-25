@@ -27,10 +27,18 @@
     {
       "id": "AURA-M1-EXEC-001",
       "title": "Isolated single-proposal candidate executor",
-      "status": "READY",
+      "status": "REJECTED",
       "dependencies": ["AURA-SCOPE-001"],
       "packet": ".agent/tasks/AURA-M1-EXEC-001.md",
-      "status_note": "Offline mechanism packet; it does not activate a production builder or independent audit."
+      "status_note": "Exact 84a3d01 received independent CORRECT: passing tests can rewrite allowed file bytes before commit; untested candidate produced. Historical evidence retained."
+    },
+    {
+      "id": "AURA-M1-EXEC-002",
+      "title": "Bind offline executor checks to committed candidate bytes",
+      "status": "READY",
+      "dependencies": ["AURA-SCOPE-001"],
+      "packet": ".agent/tasks/AURA-M1-EXEC-002.md",
+      "status_note": "Repair only: exact-byte binding and containment hardening. Production remains blocked pending OS isolation and trust."
     },
     {
       "id": "AURA-ROUTING-001",

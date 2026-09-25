@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 from pathlib import Path
 
@@ -15,11 +16,15 @@ def git(path: Path, *args: str) -> str:
     return result.stdout.strip()
 
 
-def repo_at(path: Path) -> str:
+def repo_at(path: Path, *, object_format: str | None = None) -> str:
     path.mkdir()
-    git(path, "init", "-q")
+    args = ["init", "-q"]
+    if object_format:
+        args.append(f"--object-format={object_format}")
+    git(path, *args)
     git(path, "config", "user.name", "Test")
     git(path, "config", "user.email", "test@example.invalid")
+    git(path, "config", "core.autocrlf", "false")
     (path / "README.md").write_text("base\n")
     git(path, "add", "README.md")
     git(path, "commit", "-qm", "base")
@@ -61,6 +66,152 @@ def test_real_fixed_check_returns_exact_review_candidate_without_touching_source
     assert success_receipt.payload["checks"][0]["stdout_digest"]
     assert git(repo, "rev-parse", "HEAD") == base
     assert git(repo, "status", "--porcelain") == ""
+
+
+def test_sha256_repository_uses_sha256_blob_binding(tmp_path):
+    repo = tmp_path / "repo-sha256"
+    try:
+        base = repo_at(repo, object_format="sha256")
+    except subprocess.CalledProcessError as exc:
+        pytest.skip(f"Installed Git does not support SHA-256 repositories: {exc}")
+    proposal = Proposal(
+        "sha256",
+        base,
+        {"tests/test_candidate.py": "def test_sha256_tree():\n    assert True\n"},
+    )
+    result = execute_proposal(
+        repo,
+        proposal,
+        allowed_paths=tuple(proposal.edits),
+        checks=(Check("pytest"),),
+        receipt_root=tmp_path / "receipts",
+        worktree_root=tmp_path / "worktrees",
+    )
+    assert len(base) == 64
+    assert len(result["candidate"]["revision"]) == 64
+    assert result["status"] == "REVIEW_REQUESTED"
+
+
+def test_refuses_passing_test_that_rewrites_its_own_candidate_bytes(tmp_path):
+    repo = tmp_path / "repo"
+    base = repo_at(repo)
+    test_body = (
+        "from pathlib import Path\n"
+        "def test_rewrite_source_after_collection():\n"
+        "    source = Path(__file__)\n"
+        "    source.write_text(source.read_text().replace('assert True', 'assert False'))\n"
+        "    assert True\n"
+    )
+    proposal = Proposal("rewrite", base, {"tests/test_candidate.py": test_body})
+    with pytest.raises(ForgeError, match="(?i)candidate.*changed"):
+        execute_proposal(
+            repo,
+            proposal,
+            allowed_paths=tuple(proposal.edits),
+            checks=(Check("pytest"),),
+            receipt_root=tmp_path / "receipts",
+            worktree_root=tmp_path / "worktrees",
+        )
+    receipts = LedgerStore(tmp_path / "receipts", "aura-executor-effects").load()
+    failed_result = receipts.receipts[-1]
+    assert failed_result.payload["status"] == "FAILED"
+    assert failed_result.payload["checks"][0]["status"] == "PASS"
+    candidate_revision = failed_result.payload["revision"]
+    candidate_tree = failed_result.payload["tree"]
+    target = tmp_path / "worktrees" / "rewrite"
+    assert git(target, "rev-parse", "HEAD") == candidate_revision
+    assert git(target, "rev-parse", "HEAD^{tree}") == candidate_tree
+    assert git(target, "show", f"{candidate_revision}:tests/test_candidate.py") + "\n" == test_body
+    assert git(target, "status", "--porcelain")
+
+
+def test_pytest_ignores_proposal_module_and_config_shadowing(tmp_path):
+    repo = tmp_path / "repo"
+    base = repo_at(repo)
+    edits = {
+        "tests/test_candidate.py": "def test_real_check():\n    assert True\n",
+        "pytest.py": "raise SystemExit('proposal module shadowed pytest')\n",
+        "pytest.ini": "[pytest]\naddopts = --invalid-proposal-option\n",
+    }
+    proposal = Proposal("pytest-shadow", base, edits)
+    result = execute_proposal(
+        repo,
+        proposal,
+        allowed_paths=tuple(edits),
+        checks=(Check("pytest"),),
+        receipt_root=tmp_path / "receipts",
+        worktree_root=tmp_path / "worktrees",
+    )
+    assert result["status"] == "REVIEW_REQUESTED"
+    assert result["checks"][0]["status"] == "PASS"
+
+
+def test_git_uses_clean_environment_device_hooks_and_finite_timeout(tmp_path, monkeypatch):
+    from forge import aura_executor
+
+    repo = tmp_path / "repo"
+    base = repo_at(repo)
+    monkeypatch.setenv("GIT_DIR", str(tmp_path / "hostile-git-dir"))
+    monkeypatch.setenv("GIT_CONFIG_COUNT", "1")
+    monkeypatch.setenv("GIT_CONFIG_KEY_0", "core.hooksPath")
+    monkeypatch.setenv("GIT_CONFIG_VALUE_0", str(repo / ".git" / "hooks"))
+    original = aura_executor.subprocess.run
+    observed = []
+
+    def inspect(command, *args, **kwargs):
+        if isinstance(command, tuple) and command and command[0] == "git":
+            observed.append((command, kwargs))
+            assert kwargs["timeout"] == 10
+            assert "GIT_DIR" not in kwargs["env"]
+            assert "GIT_CONFIG_COUNT" not in kwargs["env"]
+            if "worktree" in command or "commit" in command:
+                assert f"core.hooksPath={os.devnull}" in command
+        return original(command, *args, **kwargs)
+
+    monkeypatch.setattr(aura_executor.subprocess, "run", inspect)
+    proposal = Proposal(
+        "clean-git",
+        base,
+        {
+            "candidate.txt": "ok\n",
+            "tests/test_candidate.py": "def test_real_check():\n    assert True\n",
+        },
+    )
+    result = execute_proposal(
+        repo,
+        proposal,
+        allowed_paths=tuple(proposal.edits),
+        checks=(Check("pytest"),),
+        receipt_root=tmp_path / "receipts",
+        worktree_root=tmp_path / "worktrees",
+    )
+    assert result["status"] == "REVIEW_REQUESTED"
+    assert observed
+
+
+def test_git_timeout_fails_before_recording_effect(tmp_path, monkeypatch):
+    from forge import aura_executor
+
+    repo = tmp_path / "repo"
+    base = repo_at(repo)
+    original = aura_executor.subprocess.run
+
+    def timeout(command, *args, **kwargs):
+        if isinstance(command, tuple) and command and command[0] == "git":
+            raise subprocess.TimeoutExpired(command, timeout=kwargs["timeout"])
+        return original(command, *args, **kwargs)
+
+    monkeypatch.setattr(aura_executor.subprocess, "run", timeout)
+    with pytest.raises(ForgeError, match="Git operation.*10 second"):
+        execute_proposal(
+            repo,
+            Proposal("git-timeout", base, {"candidate.txt": "ok\n"}),
+            allowed_paths=("candidate.txt",),
+            checks=(Check("pytest"),),
+            receipt_root=tmp_path / "receipts",
+            worktree_root=tmp_path / "worktrees",
+        )
+    assert not (tmp_path / "receipts").exists()
 
 
 @pytest.mark.parametrize("bad", ["../escape", "/absolute", "src\\escape", "AGENTS.md"])
@@ -235,7 +386,7 @@ def test_rejects_files_created_by_a_check_and_check_timeout(tmp_path):
             "    Path('surprise.txt').write_text('extra')\n"
         )
     }
-    with pytest.raises(ForgeError, match="scope"):
+    with pytest.raises(ForgeError, match="changed|scope"):
         execute_proposal(
             repo,
             Proposal("extra", base, edit),

@@ -40,3 +40,18 @@ permission for later calls. The owner requested help selecting audit trust. The
 existing detached verifier is still hard-coded to a Forge audit domain and
 validation artifact; an Aura-specific protected trust packet and owner approval
 of the independent auditor's public-key fingerprint are prerequisites.
+
+## Proposed audit trust bootstrap (owner decision pending)
+
+Use a distinct auditor signing identity for Aura. The auditor, not the builder
+or controller, generates and retains a private RSA signing key outside all Aura
+worktrees and controller processes. The owner receives only the public key and
+checks its SHA-256 fingerprint through an independent channel, then explicitly
+approves the exact fingerprint and auditor identity for a protected trust
+record. The Aura-specific verifier must bind a new Aura domain, repository,
+packet, exact commit/tree, complete manifest, and local validation artifact.
+Its migration and trust pin require a dedicated governance packet and independent
+review; the existing Forge verifier cannot be relabeled by filling empty fields.
+The bootstrap approval is a human decision because no earlier Aura signing root
+exists. Until the key holder and fingerprint are approved and the verifier
+migration is reviewed, detached audit and merge eligibility stay UNKNOWN.
