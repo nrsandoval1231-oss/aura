@@ -1,0 +1,13 @@
+{
+  "probe_root": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\aura-restart-probe-75iapdk0",
+  "base": "846e9d74716dc20f077d5ab0474b6ef1858f2175",
+  "interrupted_process_exit": 91,
+  "fresh_process_exit": 0,
+  "fresh_process_output": "fresh_process_error=UNKNOWN_EFFECT",
+  "receipt_events": [
+    "AURA_EXEC_INTENT"
+  ],
+  "worktree_created": false,
+  "source_clean": true
+}
+probe_exit=0

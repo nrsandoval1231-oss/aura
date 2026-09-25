@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\.agent\artifacts\AURA-M1-ISOLATION-002\probes\restart_probe.py", line 106, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\.agent\artifacts\AURA-M1-ISOLATION-002\probes\restart_probe.py", line 85, in main
+    receipts = LedgerStore(root / "receipts", "aura-executor-effects").load().receipts
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\src\forge\ledger_store.py", line 165, in load
+    raise ForgeError("LEDGER_NOT_FOUND", f"No persisted ledger stream '{self._stream_id}'")
+forge.trust_kernel.ForgeError: No persisted ledger stream 'aura-executor-effects'

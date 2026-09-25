@@ -34,6 +34,10 @@ around a real process sandbox and sterile Git boundary. Ubuntu WSL has a
 working Bubblewrap primitive; Docker daemon is unavailable, and Linux pytest
 is not yet installed. These observations are feasibility evidence, not a
 production runtime claim.
+The feasibility candidate d2f9627 received independent CORRECT because exact
+probe commands/raw output and a fixed next implementation packet were missing.
+AURA-M1-ISOLATION-002 is READY to preserve those reproducibly. No sandbox runner
+or trusted reviewed candidate exists yet.
 
 Next: design isolated check and Git effect boundaries, provision trusted review, then connect
 one governed task and prove it before two-lane scheduling, stuck recovery, and learning.

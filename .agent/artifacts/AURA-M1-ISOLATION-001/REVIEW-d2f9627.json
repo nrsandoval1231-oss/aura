@@ -1,0 +1,10 @@
+{
+  "candidate_sha": "d2f96278e479da7bc1d786fc12824cacd640b4de",
+  "base_sha": "0acb95d59436f73bfbc326f6a69b23689549fa63",
+  "raw_verdict": "CORRECT",
+  "compatible_verdict": "FIX",
+  "finding": "Exact feasibility probe commands and raw outputs were absent from committed artifacts; only summarized claims and ephemeral paths were present.",
+  "required_repair": "Retain runnable probe commands and raw results, and freeze the proposed next implementation packet with exact files, finite budgets, gates, and rollback before fresh audit.",
+  "production_authority": "ABSENT",
+  "external_audit_gate": "FAILED: owner-pinned Aura detached trust is unprovisioned"
+}

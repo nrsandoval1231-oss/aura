@@ -43,10 +43,26 @@
     {
       "id": "AURA-M1-ISOLATION-001",
       "title": "Design isolated check and sterile Git effect boundary",
-      "status": "READY",
+      "status": "REJECTED",
       "dependencies": ["AURA-SCOPE-001"],
       "packet": ".agent/tasks/AURA-M1-ISOLATION-001.md",
-      "status_note": "Replanned approach after two rejected executor attempts. Evidence and design first; no production dispatch."
+      "status_note": "Exact d2f9627 received independent CORRECT: probe commands/raw outputs and a fixed successor packet were absent."
+    },
+    {
+      "id": "AURA-M1-ISOLATION-002",
+      "title": "Retain reproducible isolation probes and implementation packet",
+      "status": "READY",
+      "dependencies": ["AURA-SCOPE-001"],
+      "packet": ".agent/tasks/AURA-M1-ISOLATION-002.md",
+      "status_note": "Repair-only documentation/evidence successor to d2f9627. No production execution."
+    },
+    {
+      "id": "AURA-M1-ISOLATION-003",
+      "title": "Implement one offline WSL sandbox runner",
+      "status": "PROPOSED",
+      "dependencies": ["AURA-M1-ISOLATION-002"],
+      "packet": ".agent/tasks/AURA-M1-ISOLATION-003.md",
+      "status_note": "Cannot become READY until reproducible probes and exact-candidate design audit pass; no provider/CLI activation."
     },
     {
       "id": "AURA-ROUTING-001",

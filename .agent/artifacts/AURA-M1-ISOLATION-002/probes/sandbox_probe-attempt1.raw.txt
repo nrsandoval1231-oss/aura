@@ -1,0 +1,36 @@
+probe=sandbox_probe
+bwrap=bubblewrap 0.11.1
+python=Python 3.14.4
+git=git version 2.53.0
+
+[host-and-network-denial]
+host_file_visible=False
+network_connect_errno=101
+probe_root=/tmp/aura-isolation-probe-YKdt6S
+
+[read-only-source-fsmonitor]
+?? fsmonitor.sh
+FSMONITOR_EXECUTED
+/repo/fsmonitor.sh: 3: cannot create /outside/fsmonitor-marker: Directory nonexistent
+/repo/fsmonitor.sh: 4: cannot create /repo/source-marker: Read-only file system
+warning: Empty last update token.
+fsmonitor_invoked=yes outside_marker=no source_marker=no
+
+[included-filter-and-hook]
+FILTER_EXECUTED
+/repo/filter.sh: 3: cannot create /outside/filter-marker: Directory nonexistent
+FILTER_EXECUTED
+/repo/filter.sh: 3: cannot create /outside/filter-marker: Directory nonexistent
+HOOK_EXECUTED
+/repo/hooks/pre-commit: 3: cannot create /outside/hook-marker: Directory nonexistent
+filter_invoked=yes hook_invoked=yes outside_markers=no
+
+[fixed-unittest-exact-candidate]
+test_value (test_value.ValueTest.test_value) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+63bf43864fe6a005995fe499eceaa009e3ef1eae
+81a8a88f33b845fccaf2e5acf68bbb8f0eef018c

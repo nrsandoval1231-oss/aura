@@ -1,0 +1,23 @@
+{
+  "packet_id": "AURA-M1-ISOLATION-002",
+  "status": "AWAITING_INDEPENDENT_AUDIT",
+  "source_base_sha": "d2f96278e479da7bc1d786fc12824cacd640b4de",
+  "prior_raw_verdict": "CORRECT",
+  "prior_review": ".agent/artifacts/AURA-M1-ISOLATION-001/REVIEW-d2f9627.json",
+  "retained_probes": {
+    "sandbox_script": ".agent/artifacts/AURA-M1-ISOLATION-002/probes/sandbox_probe.sh",
+    "sandbox_failed_attempt": ".agent/artifacts/AURA-M1-ISOLATION-002/probes/sandbox_probe-attempt1.raw.txt",
+    "sandbox_success": ".agent/artifacts/AURA-M1-ISOLATION-002/probes/sandbox_probe.raw.txt",
+    "restart_script": ".agent/artifacts/AURA-M1-ISOLATION-002/probes/restart_probe.py",
+    "restart_failed_attempt": ".agent/artifacts/AURA-M1-ISOLATION-002/probes/restart_probe-attempt1.raw.txt",
+    "restart_success": ".agent/artifacts/AURA-M1-ISOLATION-002/probes/restart_probe.raw.txt"
+  },
+  "probe_results": "Sandbox denial probe exit 0: host file invisible, network errno 101, fsmonitor/filter/hook invoked but outside markers absent, one unittest passed, source clean. Restart probe exit 0: child exit 91 after intent, fresh process UNKNOWN_EFFECT, one intent receipt, no worktree.",
+  "planned_implementation_packet": ".agent/tasks/AURA-M1-ISOLATION-003.md (PROPOSED, inactive)",
+  "focused_validation": "Probe scripts syntax passed; graph check passed; packet parser tests 15 passed",
+  "local_slice_validation": "576 passed, 1 skipped, 2 existing warnings; Ruff lint and format passed; simulated roles only",
+  "provider_calls": 0,
+  "measured_provider_spend_usd": 0,
+  "production_authority": "ABSENT",
+  "external_audit_gate": "UNKNOWN: owner-held public key and Aura verifier migration unprovisioned"
+}
