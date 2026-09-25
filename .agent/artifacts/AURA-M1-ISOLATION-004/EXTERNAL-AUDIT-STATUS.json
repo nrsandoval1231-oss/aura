@@ -1,0 +1,20 @@
+{
+  "packet_id": "AURA-M1-ISOLATION-004",
+  "candidate_commit": "825dba817461a54ccbe0b76d6603635e172075b6",
+  "status": "UNKNOWN",
+  "raw_verdict": "UNKNOWN",
+  "reviewer": "NOT_YET_RECORDED",
+  "owner_trust_anchor": "UNPROVISIONED",
+  "required_scope": [
+    "scope",
+    "authority",
+    "credential isolation",
+    "resource limits",
+    "hostile Git config",
+    "exact candidate/test binding",
+    "effect replay",
+    "restart UNKNOWN",
+    "retained evidence"
+  ],
+  "statement": "No independent audit is claimed by this evidence packet. The external detached audit gate remains UNKNOWN."
+}

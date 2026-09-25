@@ -1,0 +1,6 @@
+Command (from the repository root, PowerShell):
+
+$env:PYTHONPATH=(Resolve-Path src).Path
+& 'C:/Users/nrsan/.codex/worktrees/aura-m0-m1/Aura/.venv/Scripts/python.exe' -m pytest tests/test_aura_sandbox.py -q -s -x -k killed_wsl_child_restart
+
+The corresponding exact output and OS process-tree termination transcript are in fresh-process-kill.raw.txt.

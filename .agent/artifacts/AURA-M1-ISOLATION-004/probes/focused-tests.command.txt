@@ -1,0 +1,4 @@
+Command (PowerShell, repository root):
+
+$env:PYTHONPATH=(Resolve-Path src).Path
+& 'C:/Users/nrsan/.codex/worktrees/aura-m0-m1/Aura/.venv/Scripts/python.exe' -m pytest tests/test_aura_sandbox.py -q

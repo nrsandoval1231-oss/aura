@@ -1,0 +1,24 @@
+{
+  "packet_id": "AURA-M1-ISOLATION-004",
+  "source_candidate_commit": "825dba817461a54ccbe0b76d6603635e172075b6",
+  "source_candidate_tree": "06195a26a4dca38ead1d481e8f26ebdb18c3e02d",
+  "base_commit": "825dba817461a54ccbe0b76d6603635e172075b6",
+  "source_and_tests_worktree": "CLEAN",
+  "source_files": [
+    {
+      "path": "src/forge/aura_sandbox.py",
+      "sha256": "36b8184f3d3f6d2bfef1cad9523237b00c4e926f06cbd52fa0e007761d9352b8"
+    },
+    {
+      "path": "src/forge/aura_sandbox_verifier.py",
+      "sha256": "e4eebd35843aba45f9465b5facb619951489021a7d99f30ca9fc77c83b5e202a"
+    },
+    {
+      "path": "tests/test_aura_sandbox.py",
+      "sha256": "8752e7dc7a0b0b61149930ff36970f5cefe2a7cb7702885312f7142b29a026ef"
+    }
+  ],
+  "prior_003_history": "PRESERVED_UNCHANGED",
+  "provider_call": false,
+  "provider_spend_usd": 0
+}

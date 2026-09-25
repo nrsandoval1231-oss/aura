@@ -1,0 +1,5 @@
+Command (PowerShell, repository root):
+
+$env:PYTHONPATH=(Resolve-Path src).Path
+$env:FORGE_SLICE_BASE='825dba817461a54ccbe0b76d6603635e172075b6'
+& 'C:/Users/nrsan/.codex/worktrees/aura-m0-m1/Aura/.venv/Scripts/python.exe' scripts/run_slice.py --packet AURA-M1-ISOLATION-004

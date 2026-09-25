@@ -1,0 +1,73 @@
+{
+  "approval": "ABSENT",
+  "base_sha": "6b4d3dd87cbad3c2e5e70d61dff3438ba998233a",
+  "candidate_sha": "e080f2292ec0e01b917101bddb74161a38f8b5a5",
+  "changed_paths": [
+    "src/value.py",
+    "tests/test_value.py"
+  ],
+  "denial_probe": {
+    "candidate_tmpfs_limit_bytes": 5242880,
+    "cpu_limit": "ENFORCED",
+    "file_size_limit_bytes": 65536,
+    "filter_invoked": true,
+    "fsmonitor_invoked": true,
+    "hook_invoked": true,
+    "host_file_visible": false,
+    "memory_limit": "ENFORCED",
+    "network_errno": 101,
+    "outside_writes": false,
+    "process_limit": 5,
+    "tmpfs_fill_bytes": 4886528
+  },
+  "independent_verifier": {
+    "candidate_sha": "e080f2292ec0e01b917101bddb74161a38f8b5a5",
+    "changed_paths": [
+      "src/value.py",
+      "tests/test_value.py"
+    ],
+    "read_only_check": "PASS",
+    "runtime_binary_sha256": {
+      "/usr/bin/bwrap": "8e19e40e7d5f7a7e8b488c7926feb040eab6ed10c58fa360e266d2f70670e92b",
+      "/usr/bin/git": "5516c9f362c29376ab9a499a33082f9f611941d8c75930c880e30ad109e39c9a",
+      "/usr/bin/prlimit": "00be18793391b9222a041277a088022cc58088690cb0e851383bd8ec73f0fefb",
+      "/usr/bin/python3": "fa9796cd3a30878e11a2f40372f773d3fcd913fff35e5bee8dd9a036e22e93ab",
+      "/usr/bin/timeout": "48893b0fb21436b54619db80486e83ef39dfccaf1aefe83dfa00c02d6146e8c0"
+    },
+    "sandbox_role": "verify",
+    "status": "VERIFIED",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_output_sha256": "af0e4b1a919c9a7fcbcebc38e21a28c3c7ed664a6f656a58ca3705f1ad0b0ee5",
+    "tree_sha": "0402c3c97a85ceadcc9f9caa43d38180e50e9b3b"
+  },
+  "objective": "Change the bounded example value to two and test it.",
+  "patch_sha256": "01b1ab57a04d4bcd32124f33805354a8be8b15ffe825c161b820d53aff9fd36e",
+  "production_authority": "ABSENT",
+  "proposal_sha256": {
+    "src/value.py": "3da6c4b355804b265ecef19dfe5945fe2790a8cc38dc9d0547fb1634c94cbbe7",
+    "tests/test_value.py": "7378a1f9e49ff2ac3a3f1e552b9623f8bc8e3ac03d817e5ac30939f721053f3b"
+  },
+  "provider_call": false,
+  "provider_spend_usd": 0,
+  "repository": "C:\\Users\\nrsan\\AppData\\Local\\Temp\\pytest-of-nrsan\\pytest-2530\\test_real_wsl_runner_denies_lo0\\repo",
+  "run_id": "aura-sandbox-2a74c27364fe158e25ad4d81082c539b",
+  "runtime": {
+    "binary_sha256": {
+      "/usr/bin/bwrap": "8e19e40e7d5f7a7e8b488c7926feb040eab6ed10c58fa360e266d2f70670e92b",
+      "/usr/bin/git": "5516c9f362c29376ab9a499a33082f9f611941d8c75930c880e30ad109e39c9a",
+      "/usr/bin/prlimit": "00be18793391b9222a041277a088022cc58088690cb0e851383bd8ec73f0fefb",
+      "/usr/bin/python3": "fa9796cd3a30878e11a2f40372f773d3fcd913fff35e5bee8dd9a036e22e93ab",
+      "/usr/bin/timeout": "48893b0fb21436b54619db80486e83ef39dfccaf1aefe83dfa00c02d6146e8c0"
+    },
+    "ok": true,
+    "versions": {
+      "/usr/bin/bwrap": "bubblewrap 0.11.1",
+      "/usr/bin/git": "git version 2.53.0",
+      "/usr/bin/python3": "Python 3.14.4"
+    }
+  },
+  "status": "REVIEW_REQUESTED",
+  "test_output": "test_value (test_value.ValueTest.test_value) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n",
+  "test_output_sha256": "af0e4b1a919c9a7fcbcebc38e21a28c3c7ed664a6f656a58ca3705f1ad0b0ee5",
+  "tree_sha": "0402c3c97a85ceadcc9f9caa43d38180e50e9b3b"
+}

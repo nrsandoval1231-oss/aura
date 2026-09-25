@@ -1,0 +1,17 @@
+diff --git a/src/value.py b/src/value.py
+index b15b1b0..c8fcecd 100644
+--- a/src/value.py
++++ b/src/value.py
+@@ -1 +1 @@
+-VALUE = 1
++VALUE = 2
+diff --git a/tests/test_value.py b/tests/test_value.py
+index a5c8d0a..1156a54 100644
+--- a/tests/test_value.py
++++ b/tests/test_value.py
+@@ -1,4 +1,4 @@
+ import unittest
+ from src.value import VALUE
+ class ValueTest(unittest.TestCase):
+-    def test_value(self): self.assertEqual(VALUE, 1)
++    def test_value(self): self.assertEqual(VALUE, 2)

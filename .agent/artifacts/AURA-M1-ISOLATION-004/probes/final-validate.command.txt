@@ -1,0 +1,5 @@
+Command (PowerShell, repository root):
+
+$env:PYTHONPATH='C:\Users\nrsan\.codex\worktrees\aura-m1-isolated-runner\Aura\src'
+$env:WSLENV='PYTHONPATH'
+wsl.exe -d Ubuntu --exec bash -lc 'cd /mnt/c/Users/nrsan/.codex/worktrees/aura-m1-isolated-runner/Aura && PYTHON=/mnt/c/Users/nrsan/.codex/worktrees/aura-m0-m1/Aura/.venv/Scripts/python.exe ./scripts/validate.sh'

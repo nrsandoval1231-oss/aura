@@ -1,0 +1,7 @@
+Slice complete. Loop state: MERGE_ELIGIBLE
+Candidate: f0a5dba37f48547b  receipts: 4
+  pytest: PASS  581 passed, 1 skipped, 2 warnings in 54.29s
+  ruff_check: PASS  All checks passed!
+  ruff_format: PASS  63 files already formatted
+
+EXIT_CODE=0
