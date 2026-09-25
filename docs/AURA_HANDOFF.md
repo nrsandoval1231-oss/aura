@@ -33,3 +33,10 @@ candidate. The `forge` CLI and imports remain for compatibility. `run_slice.py` 
 harness with test keys and simulated roles; it is not the production runner. Production
 trust is deliberately unprovisioned. No paid call, live activation, or deployment is part
 of this packet. The local source gate and the live finish contract are separate.
+
+The owner set a $5 maximum for the first live DeepSeek builder task on 2026-09-25;
+no call has occurred under that ceiling. This is a per-task ceiling, not standing
+permission for later calls. The owner requested help selecting audit trust. The
+existing detached verifier is still hard-coded to a Forge audit domain and
+validation artifact; an Aura-specific protected trust packet and owner approval
+of the independent auditor's public-key fingerprint are prerequisites.

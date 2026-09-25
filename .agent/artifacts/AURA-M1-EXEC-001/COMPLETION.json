@@ -1,0 +1,26 @@
+{
+  "packet_id": "AURA-M1-EXEC-001",
+  "status": "AWAITING_INDEPENDENT_AUDIT",
+  "source_base_sha": "581c4506819f8b7e2e393857193cd5f1295ec42a",
+  "local_slice_candidate_digest": "020879910d14de0bf49c2771b9929cb456d556e192ec502e9767493887a85a56",
+  "local_slice_tree": "0f497ae31d6f982f2b7621bcb2a6368324d78a5f9e69046be52fea285cb3929a",
+  "implementation": "Offline isolated Git candidate executor for one typed proposal; production CLI and provider remain disconnected",
+  "disposable_repository": {
+    "source_base_sha": "18054f85ec7ec0aa574f78e9e2d8667051e7ad71",
+    "candidate_sha": "e383773bc44431882b06434de9ff41827d52f5d1",
+    "candidate_tree": "18839b3b4e485de5d13b4c65eba18f5fb7777d08",
+    "changed_file": "tests/test_value.py",
+    "check": "pytest exit 0",
+    "source_remained_clean": true,
+    "review_status": "REVIEW_REQUESTED; approval ABSENT",
+    "effect_receipts": 2
+  },
+  "focused_validation": "13 passed, 1 skipped (Windows symlink privilege unavailable); Ruff lint and format passed",
+  "local_slice_validation": "571 passed, 1 skipped, 2 existing warnings; Ruff lint and format passed",
+  "provider_calls": 0,
+  "measured_provider_spend_usd": 0,
+  "first_live_deepseek_budget_usd": 5,
+  "budget_consumed_usd": 0,
+  "external_audit_gate": "UNKNOWN until Aura-specific trusted detached review is configured",
+  "m1_live_completion": false
+}
