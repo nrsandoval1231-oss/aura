@@ -14,16 +14,20 @@ retains its passphrase, and approved public PEM SHA-256
 The private key is not in this repository. AURA-TRUST-PLAN-001 received independent
 ACCEPT at `0e4f838`. The first verifier candidate `b23e3c8` received independent
 CORRECT: its new authority surfaces were unregistered and its external public
-key was read twice. AURA-TRUST-002 is the active bounded repair. There is still
-no owner signature, audit activation, or candidate acceptance.
+key was read twice. AURA-TRUST-002 repaired both and received independent
+ACCEPT at `b4d0889`. Fresh local trust slice evidence is retained at `cc3e78f`
+and independently ACCEPTed for that bounded checkpoint. Its owner signature
+is pending; full slice validation still reports the stale M0 binding.
 
 The graph tracks remaining Aura milestones; no Forge completion status is inherited.
 The scope cleanup removes unrelated UI, optional decision services, external product
 trial runners, and historical execution records. Source history remains in Git.
 
 The first CLI candidate 53fb0e3 received independent CORRECT for a partial-ledger
-loss defect. AURA-M0-CLI-002 is the active repair and exact-candidate review packet.
-The full gate's slice check remains red without owner-pinned detached audit trust.
+loss defect. AURA-M0-CLI-002 code was corrected at `581c450`, but its local
+slice binding is stale on the integrated tree. AURA-M0-CLI-003 is BLOCKED until
+the exact trust checkpoint has owner attestation; it will create new evidence
+without replacing the old ledger.
 
-Next: validate the corrected CLI, provision trusted review, then connect one
-governed task and prove it before two-lane scheduling, stuck recovery, and learning.
+Next: verify owner attestation for exact `cc3e78f`, activate the M0 evidence
+successor, then connect one governed task before two-lane scheduling.

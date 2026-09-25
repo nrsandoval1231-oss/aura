@@ -19,9 +19,18 @@
     {
       "id": "AURA-M0-CLI-002",
       "title": "Correct ledger loss and bind Aura M0 CLI candidate",
-      "status": "READY",
+      "status": "BLOCKED",
       "dependencies": ["AURA-SCOPE-001"],
-      "packet": ".agent/tasks/AURA-M0-CLI-002.md"
+      "packet": ".agent/tasks/AURA-M0-CLI-002.md",
+      "status_note": "Code at 581c450 received independent bounded ACCEPT, but its retained slice binding is stale on the integrated tree. Preserve its ledger; successor AURA-M0-CLI-003 will provide fresh exact-candidate evidence."
+    },
+    {
+      "id": "AURA-M0-CLI-003",
+      "title": "Fresh integrated M0 CLI evidence without history rewrite",
+      "status": "BLOCKED",
+      "dependencies": ["AURA-TRUST-002"],
+      "packet": ".agent/tasks/AURA-M0-CLI-003.md",
+      "status_note": "Packet prepared; await owner-signed AURA-TRUST-002 exact candidate before local evidence generation."
     },
     {
       "id": "AURA-ROUTING-001",
@@ -62,7 +71,7 @@
       "status": "PROPOSED",
       "dependencies": [
         "AURA-ROUTING-001",
-        "AURA-TRUST-001"
+        "AURA-TRUST-002"
       ]
     },
     {
