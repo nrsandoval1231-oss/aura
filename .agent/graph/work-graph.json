@@ -67,10 +67,18 @@
     {
       "id": "AURA-M1-ISOLATION-004",
       "title": "Bind restart repair to fresh offline candidate evidence",
-      "status": "READY",
+      "status": "REJECTED",
       "dependencies": ["AURA-M1-ISOLATION-002"],
       "packet": ".agent/tasks/AURA-M1-ISOLATION-004.md",
-      "status_note": "Evidence-only successor frozen at 825dba817461a54ccbe0b76d6603635e172075b6; prior 003 ledger and slice are immutable. No production authority."
+      "status_note": "Exact 83775200a99914f97bb2ec3f62cc24b76d5efdd9 received independent CORRECT: hostile Git diff settings can conceal the returned review patch while bundle checks pass. Evidence retained."
+    },
+    {
+      "id": "AURA-M1-ISOLATION-005",
+      "title": "Bind review patch to independently verified candidate",
+      "status": "READY",
+      "dependencies": ["AURA-M1-ISOLATION-002"],
+      "packet": ".agent/tasks/AURA-M1-ISOLATION-005.md",
+      "status_note": "Repair-only successor frozen at 83775200a99914f97bb2ec3f62cc24b76d5efdd9; production runner and external audit remain blocked."
     },
     {
       "id": "AURA-ROUTING-001",

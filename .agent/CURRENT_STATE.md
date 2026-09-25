@@ -40,10 +40,12 @@ Astra returned bounded ACCEPT for AURA-M1-ISOLATION-002 at exact candidate
 a30c7fca8f6b300cd33012c4eb618897f76794a6; the evidence is recorded in the
 successor packet artifact. AURA-M1-ISOLATION-003 is BLOCKED after a real restart proof at 825dba8 changed
 the source tree bound by its retained slice; its ledger and slice remain intact.
-AURA-M1-ISOLATION-004 is READY at exact base
-825dba817461a54ccbe0b76d6603635e172075b6 to bind fresh evidence and
-seek independent exact-candidate review. The runner remains disconnected;
-external owner-pinned detached audit trust is absent.
+AURA-M1-ISOLATION-004 is REJECTED at exact 83775200a99914f97bb2ec3f62cc24b76d5efdd9
+after independent CORRECT: hostile Git diff settings can conceal the returned
+review patch while candidate bundle verification passes. Its evidence is retained.
+AURA-M1-ISOLATION-005 is READY at that exact base for a narrow patch-binding
+repair. The runner remains disconnected, and owner-pinned detached audit trust
+is absent.
 
 Next: design isolated check and Git effect boundaries, provision trusted review, then connect
 one governed task and prove it before two-lane scheduling, stuck recovery, and learning.
