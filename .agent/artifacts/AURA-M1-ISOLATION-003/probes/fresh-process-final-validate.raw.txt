@@ -1,0 +1,94 @@
+
+[1m== python floor[0m
+Python 3.13.15 satisfies >=3.12
+[32mPASS[0m python floor
+
+[1m== import surface[0m
+80 exports, all resolvable
+[32mPASS[0m import surface
+
+[1m== lint[0m
+All checks passed!
+[32mPASS[0m lint
+
+[1m== format[0m
+63 files already formatted
+[32mPASS[0m format
+
+[1m== tests[0m
+........................................................................ [ 12%]
+.s...................................................................... [ 24%]
+........................................................................ [ 37%]
+........................................................................ [ 49%]
+........................................................................ [ 61%]
+........................................................................ [ 74%]
+........................................................................ [ 86%]
+........................................................................ [ 98%]
+......                                                                   [100%]
+============================== warnings summary ===============================
+tests/ingestion/test_ingestion.py::test_owner_correction_reenters_decompose_and_preserves_lineage
+  C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\.venv\Lib\site-packages\pydantic\main.py:475: UserWarning: Pydantic serializer warnings:
+    PydanticSerializationUnexpectedValue(Expected `tuple[AcceptedAssumption, ...]` - serialized value may not be as expected [field_name='assumptions_accepted', input_value=[AcceptedAssumption(id='A...', 'owner correction'))], input_type=list])
+    return self.__pydantic_serializer__.to_python(
+
+tests/ingestion/test_ingestion.py::test_handoff_rejects_post_signature_contract_change
+  C:\Users\nrsan\.codex\worktrees\aura-m0-m1\Aura\.venv\Lib\site-packages\pydantic\main.py:475: UserWarning: Pydantic serializer warnings:
+    PydanticSerializationUnexpectedValue(Expected `tuple[str, ...]` - serialized value may not be as expected [field_name='in_scope', input_value=['sales', 'stock', 'payroll'], input_type=list])
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_aura_executor.py:277: OS cannot create symlinks: [WinError 1314] A required privilege is not held by the client: 'README.md' -> 'C:\\Users\\nrsan\\AppData\\Local\\Temp\\pytest-of-nrsan\\pytest-2538\\test_symlink_path_is_refused0\\repo\\link'
+581 passed, 1 skipped, 2 warnings in 48.95s
+[32mPASS[0m tests
+
+[1m== doc/graph[0m
+OK: 12 graph nodes consistent with documents
+[32mPASS[0m doc/graph
+
+[1m== ledger AURA-M0-CLI-001[0m
+OK AURA-M0-CLI-001: 4 receipts, head d9140029cf6f5056cdd57922cfaf003af697a0062857337df579965e90790f3f
+[32mPASS[0m ledger AURA-M0-CLI-001
+
+[1m== ledger AURA-M0-CLI-002[0m
+OK AURA-M0-CLI-002: 4 receipts, head 175c2a28480676ec5c14bcf7ec54e11afe11d7f7ea3600f6efeda5d5416b1bb7
+[32mPASS[0m ledger AURA-M0-CLI-002
+
+[1m== ledger AURA-M1-EXEC-001[0m
+OK AURA-M1-EXEC-001: 4 receipts, head 596e9a85fbc7fad7d21d3953d980b6891034f962c309aaa9706aded0330eb5b7
+[32mPASS[0m ledger AURA-M1-EXEC-001
+
+[1m== ledger AURA-M1-EXEC-002[0m
+OK AURA-M1-EXEC-002: 4 receipts, head f18c0945ae23baeb25f9b3fc26a8c4b1de94f07e9f9fc2113b317d054fd9679b
+[32mPASS[0m ledger AURA-M1-EXEC-002
+
+[1m== ledger AURA-M1-ISOLATION-001[0m
+OK AURA-M1-ISOLATION-001: 4 receipts, head 805aba5d847bb8df464411039ad17e5aa3da19c10f70a93738363f9064abf1a5
+[32mPASS[0m ledger AURA-M1-ISOLATION-001
+
+[1m== ledger AURA-M1-ISOLATION-002[0m
+OK AURA-M1-ISOLATION-002: 4 receipts, head 08c1e27a36399333061509a066283826630fcc5fc04bee6e6c8aec6e04159396
+[32mPASS[0m ledger AURA-M1-ISOLATION-002
+
+[1m== ledger AURA-M1-ISOLATION-003[0m
+OK AURA-M1-ISOLATION-003: 4 receipts, head 754ca5cc2614c7394ea081c86db2b8506314e1f2587fd23df3f4b3fa13492e70
+[32mPASS[0m ledger AURA-M1-ISOLATION-003
+
+[1m== slice[0m
+Audited files have changed since the slice evidence was written.
+  recorded tree: f42defc0f6bfddf7a49e305ed9be5458f4ccef8a9b1895102a9c0fe1a40dbcb7
+  current tree:  de08c492191b3cadec27182049de9445facb2d18174f8d83a46ba109c3ef1907
+Retained evidence is stale; preserve it and obtain a fresh candidate audit.
+[31mFAIL[0m slice
+
+[1m== self-improvement[0m
+OK FORGE-SI-001: 3 → 1 attempts, IMPROVED, harmful lesson ROLLED_BACK
+[32mPASS[0m self-improvement
+
+[1m== governed evolution[0m
+OK FORGE-EVO-001: specification evolved with lineage, later work binds to the new hash and not the old, restart replays to IMPLEMENTING, three effect classes reconciled separately
+[32mPASS[0m governed evolution
+
+[31m1 gate(s) failed:[0m slice
+
+EXIT_CODE=1

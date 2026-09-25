@@ -1,0 +1,17 @@
+controller_pid=24536
+wsl_pid=21604
+sandbox_started_stdout=AURA_SANDBOX_CHILD_STARTED
+taskkill_exit=0 output=SUCCESS: The process with PID 27240 (child process of PID 27888) has been terminated.
+SUCCESS: The process with PID 27888 (child process of PID 28944) has been terminated.
+SUCCESS: The process with PID 28944 (child process of PID 21604) has been terminated.
+SUCCESS: The process with PID 21604 (child process of PID 26920) has been terminated.
+SUCCESS: The process with PID 26920 (child process of PID 24536) has been terminated.
+SUCCESS: The process with PID 24536 (child process of PID 32424) has been terminated.
+first_process_exit=1
+fresh_process_exit=0 output={"status": "UNKNOWN", "code": "UNKNOWN_EFFECT", "message": "UNKNOWN_EFFECT: unresolved or rejected run cannot be retried"}
+ledger_events=['AURA_SANDBOX_INTENT'] intent_count=1
+retry_effect_marker_exists=False
+.
+1 passed, 4 deselected in 4.94s
+
+EXIT_CODE=0

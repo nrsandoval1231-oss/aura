@@ -21,3 +21,5 @@ limit, 30 second check/CPU budgets, 512 MiB address-space limit, 32 process
 limit, and 1 MiB output limit are hard caps. Missing runtime identity or any
 unavailable isolation/resource boundary fails closed. No provider call, live
 dispatch, spend, trust pin, merge, or production authority is included.
+
+The repair follow-up adds a fresh-process restart regression: after durable intent and actual WSL Bubblewrap worker startup, the controller and WSL process tree are killed. A separate Python process retries the same request, observes UNKNOWN, leaves exactly one intent receipt, and does not call the runtime probe. Raw command/output is retained under the packet artifacts.

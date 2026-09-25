@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
+import sys
+import textwrap
+import time
 from pathlib import Path
 
 import pytest
@@ -124,6 +128,176 @@ def test_interrupted_invocation_is_durable_unknown_and_never_retried(tmp_path, m
     with pytest.raises(aura_sandbox.SandboxError, match="UNKNOWN_EFFECT"):
         _call(repo, base, tmp_path)
     assert calls == 1
+
+
+@pytest.mark.skipif(
+    os.name != "nt", reason="Process-tree kill regression targets the Windows WSL host"
+)
+def test_killed_wsl_child_restart_in_fresh_process_stays_unknown(tmp_path):
+    if not _wsl_available():
+        pytest.skip("Ubuntu WSL is unavailable")
+    repo, base = _repo(tmp_path)
+    marker = tmp_path / "sandbox-started.json"
+    controller = tmp_path / "start_sandbox.py"
+    controller.write_text(
+        textwrap.dedent(
+            """
+            import json
+            import subprocess
+            import sys
+            from pathlib import Path
+            from forge import aura_sandbox
+
+            repo, base, root, marker = sys.argv[1:]
+            marker = Path(marker)
+            original_driver = aura_sandbox._driver_source
+            def paused_driver():
+                source = original_driver()
+                sentinel = "main()\\n"
+                assert source.endswith(sentinel)
+                return source[:-len(sentinel)] + (
+                    "print('AURA_SANDBOX_CHILD_STARTED', flush=True)\\n"
+                    "import time; time.sleep(120)\\nmain()\\n"
+                )
+            aura_sandbox._driver_source = paused_driver
+            original_run = subprocess.run
+            def observe_sandbox(args, *positional, **kwargs):
+                if isinstance(args, list) and args[:1] == ['wsl.exe'] and '/usr/bin/timeout' in args:
+                    child = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    first_line = child.stdout.readline()
+                    marker.write_text(json.dumps({
+                        'wsl_pid': child.pid,
+                        'sandbox_stdout': first_line.decode('utf-8', 'replace').strip(),
+                    }))
+                    stdout_rest, stderr = child.communicate()
+                    return subprocess.CompletedProcess(
+                        args, child.returncode, first_line + stdout_rest, stderr
+                    )
+                return original_run(args, *positional, **kwargs)
+            aura_sandbox.subprocess.run = observe_sandbox
+            aura_sandbox.execute_proposal(
+                repo,
+                objective='Change the bounded example value to two and test it.',
+                base_sha=base,
+                allowed_paths=['src/value.py', 'tests/test_value.py'],
+                files={
+                    'src/value.py': 'VALUE = 2\\n',
+                    'tests/test_value.py': (
+                        'import unittest\\nfrom src.value import VALUE\\n'
+                        'class ValueTest(unittest.TestCase):\\n'
+                        '    def test_value(self): self.assertEqual(VALUE, 2)\\n'
+                    ),
+                },
+                state_root=Path(root) / 'state',
+                result_root=Path(root) / 'results',
+            )
+            raise SystemExit('stalled sandbox unexpectedly returned')
+            """
+        ),
+        encoding="utf-8",
+    )
+    env = {**os.environ, "PYTHONPATH": str(Path(__file__).parents[1] / "src")}
+    first = subprocess.Popen(
+        [sys.executable, str(controller), str(repo), base, str(tmp_path), str(marker)],
+        cwd=Path(__file__).parents[1],
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    deadline = time.monotonic() + 45
+    while time.monotonic() < deadline and first.poll() is None and not marker.exists():
+        time.sleep(0.05)
+    if not marker.exists():
+        first.kill()
+        output, _ = first.communicate(timeout=5)
+        pytest.fail(f"Sandbox did not reach its started marker; child said: {output}")
+    started = json.loads(marker.read_text(encoding="utf-8"))
+    ledger_path = tmp_path / "state" / f"{aura_sandbox.STREAM_ID}.jsonl"
+    assert ledger_path.is_file(), "durable intent must precede sandbox launch"
+    intent_rows = [
+        json.loads(line) for line in ledger_path.read_text(encoding="utf-8").splitlines()
+    ]
+    assert [row["event"] for row in intent_rows] == ["AURA_SANDBOX_INTENT"]
+    assert started["sandbox_stdout"] == "AURA_SANDBOX_CHILD_STARTED"
+
+    killed = subprocess.run(
+        ["taskkill.exe", "/PID", str(first.pid), "/T", "/F"],
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    if first.poll() is None:
+        first.wait(timeout=10)
+    print(f"controller_pid={first.pid}")
+    print(f"wsl_pid={started['wsl_pid']}")
+    print(f"sandbox_started_stdout={started['sandbox_stdout']}")
+    print(
+        f"taskkill_exit={killed.returncode} output={killed.stdout.strip()} {killed.stderr.strip()}".strip()
+    )
+    print(f"first_process_exit={first.returncode}")
+    assert killed.returncode == 0
+
+    retry_probe = tmp_path / "retry-effect-called"
+    restart = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            textwrap.dedent(
+                """
+                import json, sys
+                from pathlib import Path
+                from forge import aura_sandbox
+                repo, base, root, effect_marker = sys.argv[1:]
+                def probe():
+                    Path(effect_marker).write_text('called')
+                    return ['wsl.exe', '-d', 'Ubuntu', '--exec', '/usr/bin/true']
+                aura_sandbox._runtime_probe = probe
+                try:
+                    aura_sandbox.execute_proposal(
+                        repo,
+                        objective='Change the bounded example value to two and test it.',
+                        base_sha=base,
+                        allowed_paths=['src/value.py', 'tests/test_value.py'],
+                        files={
+                            'src/value.py': 'VALUE = 2\\n',
+                            'tests/test_value.py': (
+                                'import unittest\\nfrom src.value import VALUE\\n'
+                                'class ValueTest(unittest.TestCase):\\n'
+                                '    def test_value(self): self.assertEqual(VALUE, 2)\\n'
+                            ),
+                        },
+                        state_root=Path(root) / 'state',
+                        result_root=Path(root) / 'results',
+                    )
+                except aura_sandbox.SandboxError as error:
+                    print(json.dumps({'status': 'UNKNOWN', 'code': error.code, 'message': str(error)}))
+                    raise SystemExit(0 if error.code == 'UNKNOWN_EFFECT' else 4)
+                raise SystemExit('retry unexpectedly executed')
+                """
+            ),
+            str(repo),
+            base,
+            str(tmp_path),
+            str(retry_probe),
+        ],
+        cwd=Path(__file__).parents[1],
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=15,
+        check=False,
+    )
+    rows = [json.loads(line) for line in ledger_path.read_text(encoding="utf-8").splitlines()]
+    events = [row["event"] for row in rows]
+    print(f"fresh_process_exit={restart.returncode} output={restart.stdout.strip()}")
+    print(f"ledger_events={events} intent_count={events.count('AURA_SANDBOX_INTENT')}")
+    print(f"retry_effect_marker_exists={retry_probe.exists()}")
+    assert restart.returncode == 0, restart.stderr
+    assert json.loads(restart.stdout.strip())["status"] == "UNKNOWN"
+    assert events.count("AURA_SANDBOX_INTENT") == 1
+    assert not retry_probe.exists(), "a restarted UNKNOWN run must not launch another WSL effect"
 
 
 def _wsl_available() -> bool:

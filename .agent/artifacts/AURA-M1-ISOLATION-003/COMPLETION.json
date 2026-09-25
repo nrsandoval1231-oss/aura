@@ -4,7 +4,6 @@
   "repository": "nrsandoval1231-oss/aura",
   "branch": "codex/aura-m1-isolated-runner",
   "base_sha": "a30c7fca8f6b300cd33012c4eb618897f76794a6",
-  "working_candidate_commit": "UNCOMMITTED_BEFORE_PACKET_COMMIT",
   "slice_candidate_digest": "e8a0903af9e4b935435a14d847c9ee22b0b559214cd20cc1a3cf374eed1fa368",
   "slice_candidate_tree": "f42defc0f6bfddf7a49e305ed9be5458f4ccef8a9b1895102a9c0fe1a40dbcb7",
   "changed_paths": [
@@ -16,21 +15,26 @@
     "src/forge/aura_sandbox_verifier.py",
     "tests/test_aura_sandbox.py"
   ],
-  "focused_wsl_regression": "PASS: 1 passed",
-  "full_tests": "PASS: 580 passed, 1 skipped, 2 warnings",
+  "focused_wsl_regression": "PASS: real Bubblewrap worker killed after durable intent; fresh OS process returned UNKNOWN_EFFECT",
+  "full_tests": "PASS: 581 passed, 1 skipped (Windows symlink privilege), 2 existing Pydantic warnings",
   "lint": "PASS",
   "format": "PASS",
-  "final_validate": "FAIL only slice gate: separate exact-commit external audit absent; full raw output retained",
+  "final_validate": "FAIL: slice gate reports preserved slice tree is stale (recorded f42def..., current de08c4...). Historical SLICE.json/ledger left unchanged; --rebind not used.",
   "independent_review": "PENDING",
   "provider_call": false,
   "provider_spend_usd": 0,
   "production_authority": "ABSENT",
-  "restart_unknown": "Durable ledger intent and UNKNOWN tested with injected post-intent interruption followed by API re-invocation; separate process restart and real WSL process kill NOT demonstrated",
+  "restart_unknown": "A real WSL Bubblewrap worker emitted a start marker after durable intent. taskkill /T /F killed the controller and WSL process tree. A separate Python process retried the same request, returned UNKNOWN_EFFECT before runtime probe, ledger remained one intent, and retry-effect marker was absent.",
   "denial_probe": "Recorded at probes/successful-run-evidence.json",
   "evidence": [
     "probes/WSL-ACCEPTANCE.md",
     "probes/focused-wsl-runner.raw.txt",
     "probes/successful-run-evidence.json",
-    "probes/final-validate.raw.txt"
-  ]
+    "probes/final-validate.raw.txt",
+    "probes/fresh-process-kill.command.txt",
+    "probes/fresh-process-kill.raw.txt",
+    "probes/fresh-process-final-validate.raw.txt"
+  ],
+  "previous_candidate_commit": "ecd2cefbf1e374e75b7968bf886774e7c663f5bf",
+  "current_candidate_tree": "de08c492191b3cadec27182049de9445facb2d18174f8d83a46ba109c3ef1907"
 }
