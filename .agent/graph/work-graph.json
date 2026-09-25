@@ -51,18 +51,18 @@
     {
       "id": "AURA-M1-ISOLATION-002",
       "title": "Retain reproducible isolation probes and implementation packet",
-      "status": "READY",
+      "status": "COMPLETE",
       "dependencies": ["AURA-SCOPE-001"],
       "packet": ".agent/tasks/AURA-M1-ISOLATION-002.md",
-      "status_note": "Repair-only documentation/evidence successor to d2f9627. No production execution."
+      "status_note": "Astra ACCEPT of bounded reproducibility evidence at exact candidate a30c7fca8f6b300cd33012c4eb618897f76794a6; no production execution authority."
     },
     {
       "id": "AURA-M1-ISOLATION-003",
       "title": "Implement one offline WSL sandbox runner",
-      "status": "PROPOSED",
+      "status": "READY",
       "dependencies": ["AURA-M1-ISOLATION-002"],
       "packet": ".agent/tasks/AURA-M1-ISOLATION-003.md",
-      "status_note": "Cannot become READY until reproducible probes and exact-candidate design audit pass; no provider/CLI activation."
+      "status_note": "Frozen at exact base a30c7fca8f6b300cd33012c4eb618897f76794a6 after bounded feasibility ACCEPT; offline only, no provider/CLI activation."
     },
     {
       "id": "AURA-ROUTING-001",

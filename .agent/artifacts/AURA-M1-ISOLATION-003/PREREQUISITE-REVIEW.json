@@ -1,0 +1,20 @@
+{
+  "packet_id": "AURA-M1-ISOLATION-002",
+  "audited_candidate": "a30c7fca8f6b300cd33012c4eb618897f76794a6",
+  "raw_verdict": "ACCEPT",
+  "reviewer_role": "ASTRA",
+  "reviewer_reference": "/root/isolation_reaudit",
+  "review_scope": "Bounded reproducibility feasibility evidence only",
+  "evidence": [
+    ".agent/artifacts/AURA-M1-ISOLATION-002/probes/sandbox_probe.sh",
+    ".agent/artifacts/AURA-M1-ISOLATION-002/probes/sandbox_probe.raw.txt",
+    ".agent/artifacts/AURA-M1-ISOLATION-002/probes/restart_probe.py",
+    ".agent/artifacts/AURA-M1-ISOLATION-002/probes/restart_probe.raw.txt"
+  ],
+  "limitations": [
+    "Does not review or approve AURA-M1-ISOLATION-003 implementation",
+    "Does not satisfy the owner-pinned detached audit gate",
+    "Does not grant provider, CLI, merge, or production execution authority"
+  ],
+  "reviewed_at": "UNKNOWN"
+}

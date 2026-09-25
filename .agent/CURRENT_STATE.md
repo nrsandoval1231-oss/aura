@@ -36,8 +36,12 @@ is not yet installed. These observations are feasibility evidence, not a
 production runtime claim.
 The feasibility candidate d2f9627 received independent CORRECT because exact
 probe commands/raw output and a fixed next implementation packet were missing.
-AURA-M1-ISOLATION-002 is READY to preserve those reproducibly. No sandbox runner
-or trusted reviewed candidate exists yet.
+Astra returned bounded ACCEPT for AURA-M1-ISOLATION-002 at exact candidate
+a30c7fca8f6b300cd33012c4eb618897f76794a6; the evidence is recorded in the
+successor packet artifact. AURA-M1-ISOLATION-003 is READY and frozen to that
+base for an unwired offline WSL sandbox implementation. This ACCEPT covers
+reproducible feasibility only, not a runner, candidate, detached owner-trusted
+review, or production authority.
 
 Next: design isolated check and Git effect boundaries, provision trusted review, then connect
 one governed task and prove it before two-lane scheduling, stuck recovery, and learning.

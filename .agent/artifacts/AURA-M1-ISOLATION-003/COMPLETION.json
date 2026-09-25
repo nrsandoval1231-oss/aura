@@ -1,0 +1,36 @@
+{
+  "packet_id": "AURA-M1-ISOLATION-003",
+  "status": "PENDING_INDEPENDENT_REVIEW",
+  "repository": "nrsandoval1231-oss/aura",
+  "branch": "codex/aura-m1-isolated-runner",
+  "base_sha": "a30c7fca8f6b300cd33012c4eb618897f76794a6",
+  "working_candidate_commit": "UNCOMMITTED_BEFORE_PACKET_COMMIT",
+  "slice_candidate_digest": "e8a0903af9e4b935435a14d847c9ee22b0b559214cd20cc1a3cf374eed1fa368",
+  "slice_candidate_tree": "f42defc0f6bfddf7a49e305ed9be5458f4ccef8a9b1895102a9c0fe1a40dbcb7",
+  "changed_paths": [
+    ".agent/CURRENT_STATE.md",
+    ".agent/graph/work-graph.json",
+    ".agent/tasks/AURA-M1-ISOLATION-003.md",
+    "docs/packets/AURA-M1-ISOLATION-003.md",
+    "src/forge/aura_sandbox.py",
+    "src/forge/aura_sandbox_verifier.py",
+    "tests/test_aura_sandbox.py"
+  ],
+  "focused_wsl_regression": "PASS: 1 passed",
+  "full_tests": "PASS: 580 passed, 1 skipped, 2 warnings",
+  "lint": "PASS",
+  "format": "PASS",
+  "final_validate": "FAIL only slice gate: separate exact-commit external audit absent; full raw output retained",
+  "independent_review": "PENDING",
+  "provider_call": false,
+  "provider_spend_usd": 0,
+  "production_authority": "ABSENT",
+  "restart_unknown": "Durable ledger intent and UNKNOWN tested with injected post-intent interruption followed by API re-invocation; separate process restart and real WSL process kill NOT demonstrated",
+  "denial_probe": "Recorded at probes/successful-run-evidence.json",
+  "evidence": [
+    "probes/WSL-ACCEPTANCE.md",
+    "probes/focused-wsl-runner.raw.txt",
+    "probes/successful-run-evidence.json",
+    "probes/final-validate.raw.txt"
+  ]
+}
