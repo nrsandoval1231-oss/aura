@@ -1,24 +1,16 @@
-# Agent Rules
+# Aura agent rules
 
-## Roles
+Sol owns architecture, decomposition, integration, and replanning. DeepSeek and Luna
+implement independent bounded slices. MiniMax performs bounded utility work. Astra
+independently audits exact candidates and lessons. The deterministic Governor owns
+execution permissions, scope, budgets, state, and integration eligibility.
 
-- **Sol:** controls architecture, graph intent, packet boundaries, integration, recovery, and next direction.
-- **Luna:** implements bounded routine work and cannot expand scope, audit itself, merge, deploy, or alter canonical intent.
-- **Astra:** independently audits the integrated candidate and returns exactly one verdict: `PASS`, `FIX`, or `ESCALATE`.
-- **Terra:** optional bounded specialist for difficult debugging or cross-system work.
+Each packet records objective, node, frozen base, allowed files, exclusions, dependencies,
+invariants, acceptance checks, authority, risk, retry budget, and handoff artifacts.
+Use at most two materially different repairs, then replan. Separate coding failures,
+environment problems, missing access, and owner decisions. Preserve UNKNOWN effects.
 
-## Packet contract
-
-Every packet records objective, node ID, base identity, allowed files, exclusions, dependencies, invariants, acceptance checks, authority, risk, retry budget, and required handoff artifacts.
-
-## Validation contract
-
-Builders produce evidence; they do not certify it. Sol reruns deterministic gates. Astra evaluates the actual candidate and evidence. Candidate changes invalidate prior audit.
-
-## Recovery
-
-Allow at most two materially different bounded repairs. If evidence does not improve, return to canonical intent and relevant ADRs, identify the real constraint, and issue a revised packet. Ambiguous interrupted effects remain `UNKNOWN`.
-
-## Learning
-
-Lessons require attribution, evidence, scope, a directional metric, validation, and reversibility. A lesson may improve execution but may not weaken requirements or governance.
+Lessons require attribution, review, scope, compatible directional metrics, and reversal.
+They cannot weaken tests or grant authority. Active slices retain fixed lesson snapshots.
+Independent review is mandatory for material changes; reviewers inspect the exact
+candidate and rerun checks. No builder may certify its own work.

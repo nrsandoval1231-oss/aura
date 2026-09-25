@@ -76,7 +76,7 @@ from forge.stuck import (  # noqa: E402
     StuckVerdict,
 )
 
-ARTIFACTS = ROOT / ".agent" / "artifacts" / "FORGE-SI-001"
+ARTIFACTS = ROOT / "tests" / "fixtures" / "proofs" / "learning"
 REPOSITORY_DIGEST = "forge-agent-proving-repository"
 METRIC = "attempts_to_green"
 

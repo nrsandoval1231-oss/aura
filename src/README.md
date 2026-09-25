@@ -1,5 +1,5 @@
-# Source surface
+# Aura runtime
 
-Runtime implementation has not started.
-
-The first authorized implementation packet will establish the deterministic trust kernel. No executable placeholder is intentionally included in the repository-foundation checkpoint.
+The forge namespace contains Aura's supporting governance, context, intent ingestion,
+provider transport, recovery, and learning libraries. Names remain compatible with the
+imported foundation. See AURA_ARCHITECTURE.md for current product scope and live gaps.

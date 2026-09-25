@@ -277,6 +277,8 @@ def test_manifest_uses_committed_bytes_across_checkout_line_endings(tmp_path):
     subprocess.run(["git", "clone", "-q", str(source), str(crlf)], check=True)
     subprocess.run(["git", "config", "core.autocrlf", "false"], cwd=lf, check=True)
     subprocess.run(["git", "config", "core.autocrlf", "true"], cwd=crlf, check=True)
+    (lf / "line.txt").unlink()
+    (crlf / "line.txt").unlink()
     subprocess.run(
         ["git", "-c", "core.autocrlf=false", "checkout", "-q", "--force"], cwd=lf, check=True
     )

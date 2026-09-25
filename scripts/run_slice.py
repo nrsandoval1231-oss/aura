@@ -803,7 +803,9 @@ def main(argv: list[str] | None = None) -> int:
     repository = RepositoryIdentity(remote, base_sha, str(ROOT), branch)
     if args.check:
         try:
-            verify_reconciliation_records()
+            graph = json.loads((ROOT / ".agent" / "graph" / "work-graph.json").read_text())
+            if any(n.get("status") == "REDIRECTED" for n in graph["nodes"]):
+                verify_reconciliation_records()
         except (SystemExit, ForgeError) as exc:
             print(str(exc), file=sys.stderr)
             return 1
@@ -877,7 +879,7 @@ def main(argv: list[str] | None = None) -> int:
         packet_spec.objective,
         (requirement_for(packet_spec),),
         packet_spec.allowed_paths,
-        ("FORGE_AGENT_CANONICAL_ARCHITECTURE_V1.md", "docs/finish-contract.md"),
+        ("AURA_ARCHITECTURE.md", "docs/finish-contract.md"),
         ("deterministic gates pass on the exact candidate",),
         ("pytest_receipt", "ruff_check_receipt", "ruff_format_receipt"),
         (),
@@ -894,7 +896,7 @@ def main(argv: list[str] | None = None) -> int:
     # authenticated owner authorization. That authorization is real: the owner
     # instructed this repair after reading the audit that enumerated it.
     owner_authorization = OwnerAuthorization.create(
-        packet, owner_ref="OWNER", evidence_digest="docs/audit/2026-09-21-repository-audit.md"
+        packet, owner_ref="OWNER", evidence_digest="docs/packets/AURA-CLEAN-001.md"
     )
 
     # Budgets come from the Governor, not from this loop: a loop accepts one

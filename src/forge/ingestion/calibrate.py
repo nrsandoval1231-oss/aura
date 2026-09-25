@@ -1,18 +1,17 @@
-"""CALIBRATE: one Jev fan-out call and deterministic interview selection."""
+"""CALIBRATE: one provider-neutral scoring call and deterministic interview selection."""
 
 from __future__ import annotations
 
 from pydantic import Field
 
-from forge.decisions.jev_decisions import (
+from .calibration_contracts import (
+    CalibrationClient,
     DecisionReceipt,
-    JevClient,
-    Noul,
-    NoulAnswer,
+    ProbabilityAnswer,
+    ProbabilityQuestion,
     Score,
     ScoreAnswer,
 )
-
 from .models import Ambiguity, AnswerFormat, BlastRadius, ReceiptLedger, StrictModel
 
 
@@ -43,7 +42,7 @@ class CalibrationResult(StrictModel):
 
 def calibrate(
     ambiguities: list[Ambiguity],
-    client: JevClient,
+    client: CalibrationClient,
     *,
     ledger: ReceiptLedger | None = None,
     answers: dict[str, str] | None = None,
@@ -70,10 +69,10 @@ def calibrate(
 
     questions = {}
     for ambiguity in pending:
-        questions[f"{ambiguity.id}.materially_changes"] = Noul(
+        questions[f"{ambiguity.id}.materially_changes"] = ProbabilityQuestion(
             instructions="Would the true answer materially change the system architecture?"
         )
-        questions[f"{ambiguity.id}.default_sufficient"] = Noul(
+        questions[f"{ambiguity.id}.default_sufficient"] = ProbabilityQuestion(
             instructions="Can a reasonable default carry this to a useful first version?"
         )
         questions[f"{ambiguity.id}.default_confidence"] = Score(
@@ -92,15 +91,21 @@ def calibrate(
         material = raw[f"{ambiguity.id}.materially_changes"]
         sufficient = raw[f"{ambiguity.id}.default_sufficient"]
         confidence = raw[f"{ambiguity.id}.default_confidence"]
-        if not isinstance(material, NoulAnswer) or not isinstance(sufficient, NoulAnswer):
-            raise TypeError("Jev returned the wrong answer type for a Noul question")
+        if not isinstance(material, ProbabilityAnswer) or not isinstance(
+            sufficient, ProbabilityAnswer
+        ):
+            raise TypeError(
+                "Calibration provider returned the wrong answer type for a ProbabilityQuestion question"
+            )
         if not isinstance(confidence, ScoreAnswer):
-            raise TypeError("Jev returned the wrong answer type for a Score question")
+            raise TypeError(
+                "Calibration provider returned the wrong answer type for a Score question"
+            )
         scores.append(
             AmbiguityScore(
                 ambiguity_id=ambiguity.id,
-                materially_changes=material.noul,
-                default_sufficient=sufficient.noul,
+                materially_changes=material.probability,
+                default_sufficient=sufficient.probability,
                 default_confidence=_score_probability(confidence),
             )
         )
@@ -136,7 +141,7 @@ def calibrate(
     )
     if ledger:
         ledger.append(
-            "JEV_CALIBRATION",
+            "INTENT_CALIBRATION",
             {
                 "decision_receipt": receipt.model_dump(mode="json"),
                 "scores": [score.model_dump() for score in scores],

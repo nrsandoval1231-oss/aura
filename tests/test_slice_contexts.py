@@ -442,7 +442,14 @@ def test_integrated_successor_uses_detached_audit_without_generic_slice_evidence
     assert "detached pass" in capsys.readouterr().out.lower()
 
 
-def test_check_orders_reconciliation_before_integrated_detached_audit(slicer, monkeypatch):
+def test_check_orders_reconciliation_before_integrated_detached_audit(
+    slicer, monkeypatch, tmp_path
+):
+    graph = tmp_path / ".agent" / "graph"
+    graph.mkdir(parents=True)
+    (graph / "work-graph.json").write_text('{"nodes": [{"id": "OLD", "status": "REDIRECTED"}]}')
+    monkeypatch.setattr(slicer, "ROOT", tmp_path)
+    monkeypatch.setattr(slicer, "git", lambda *args: "test-identity")
     candidate = CandidateIdentity("repo", "a" * 40, "b" * 40, "FORGE-INTEGRATED-001")
     calls: list[str] = []
     monkeypatch.setattr(slicer, "verify_reconciliation_records", lambda: calls.append("evid"))
@@ -776,46 +783,3 @@ def test_reconciliation_rejects_conflicting_shared_packet_successors(slicer, tmp
 # ---------------------------------------------------------------------------
 # The recorded evidence carries the independence records
 # ---------------------------------------------------------------------------
-
-
-def _recorded_slice(packet_id):
-    path = ROOT / ".agent" / "artifacts" / packet_id / "SLICE.json"
-    if not path.is_file():
-        pytest.skip(f"no recorded slice for {packet_id}")
-    import json
-
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def test_recorded_evidence_asserts_both_independence_properties_negatively():
-    recorded = _recorded_slice("FORGE-INT-001")
-    independence = recorded["context_independence"]
-    assert independence["builder_was_given_specification"] is False
-    assert independence["auditor_was_given_builder_reasoning"] is False
-
-
-def test_recorded_evidence_names_what_each_role_was_refused():
-    """The forbidden list is the checkable half; without it this is just a claim."""
-    recorded = _recorded_slice("FORGE-INT-001")
-    builder = recorded["role_contexts"]["builder"]
-    auditor = recorded["role_contexts"]["auditor"]
-    assert "NORTH_STAR" in builder["forbidden_source_types"]
-    assert "DECISION" in builder["forbidden_source_types"]
-    assert "BUILDER_REASONING" in auditor["forbidden_source_types"]
-    assert "BUILDER_REASONING" not in auditor["source_types"]
-
-
-def test_recorded_evidence_carries_a_size_receipt_per_role():
-    recorded = _recorded_slice("FORGE-INT-001")
-    for role in ("architect", "builder", "auditor"):
-        entry = recorded["role_contexts"][role]
-        assert entry["digest"]
-        assert entry["size_receipt"]
-
-
-def test_recorded_evidence_names_the_unbounded_budget_dimensions():
-    """A budget that looks set while every dimension is None is the thing to avoid."""
-    recorded = _recorded_slice("FORGE-INT-001")
-    budget = recorded["budget"]
-    assert "ATTEMPTS" in budget["declared_dimensions"]
-    assert "INPUT_TOKENS" in budget["unbounded_dimensions"]

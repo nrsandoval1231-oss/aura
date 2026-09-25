@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from forge.decisions.jev_decisions import DecisionReceipt, NoulAnswer, ScoreAnswer
 from forge.execution_loop import BuildPacket
 from forge.ingestion.calibrate import calibrate, record_answer
+from forge.ingestion.calibration_contracts import DecisionReceipt, ProbabilityAnswer, ScoreAnswer
 from forge.ingestion.decompose import Decomposition, decompose
 from forge.ingestion.handoff import handoff
 from forge.ingestion.models import (
@@ -161,7 +161,7 @@ class Provider:
         )
 
 
-class Jev:
+class CalibrationFixture:
     def __init__(self, material=0.9, sufficient=0.2):
         self.calls = []
         self.material = material
@@ -172,9 +172,9 @@ class Jev:
         answers = {}
         for name in questions:
             if name.endswith("materially_changes"):
-                answers[name] = NoulAnswer(type="noul", noul=self.material)
+                answers[name] = ProbabilityAnswer(type="probability", probability=self.material)
             elif name.endswith("default_sufficient"):
-                answers[name] = NoulAnswer(type="noul", noul=self.sufficient)
+                answers[name] = ProbabilityAnswer(type="probability", probability=self.sufficient)
             else:
                 answers[name] = ScoreAnswer(
                     type="score",
@@ -184,8 +184,8 @@ class Jev:
                     probabilities={"1": 0.7, "2": 0.2, "3": 0.1},
                 )
         return answers, DecisionReceipt(
-            model_reported="jev-1.13.0",
-            model_requested="jev-1.13.0",
+            model_reported="offline-calibration-fixture",
+            model_requested="offline-calibration-fixture",
             latency_ms=0,
             decision_fn=kwargs["decision_fn"],
             packet_id=kwargs.get("packet_id"),
@@ -203,18 +203,18 @@ def test_decompose_broad_intent_is_validated_and_uses_high_reasoning():
 
 
 def test_calibrate_fans_out_once_caps_at_five_and_receipts_threshold(tmp_path):
-    client = Jev()
+    client = CalibrationFixture()
     ledger = ReceiptLedger(tmp_path / "ledger.jsonl")
     result, _ = calibrate([ambiguity(i) for i in range(1, 9)], client, ledger=ledger)
     assert len(client.calls) == 1
     assert len(client.calls[0][1]) == 24
     assert len(result.questions) == 5
     assert all(item.materially_changes > 0.6 for item in result.questions)
-    assert ledger.payloads("JEV_CALIBRATION")
+    assert ledger.payloads("INTENT_CALIBRATION")
 
 
 def test_zero_blocking_ambiguities_produces_zero_questions():
-    result, _ = calibrate([ambiguity(1)], Jev(material=0.1))
+    result, _ = calibrate([ambiguity(1)], CalibrationFixture(material=0.1))
     assert result.questions == []
 
 
@@ -261,7 +261,7 @@ def test_restart_does_not_reask_answered_question(tmp_path):
     ledger = ReceiptLedger(path)
     record_answer(ledger, "AMB-001", "Ten people")
     restarted = ReceiptLedger(path)
-    client = Jev()
+    client = CalibrationFixture()
     result, _ = calibrate([ambiguity(1), ambiguity(2)], client, ledger=restarted)
     assert result.answered_ambiguities == ["AMB-001"]
     assert all(question.ambiguity != "AMB-001" for question in result.questions)

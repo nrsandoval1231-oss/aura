@@ -41,7 +41,7 @@ STATUS_CLAIM_PATTERN = re.compile(r"^\*\*Implementation:\*\*\s*(?P<claim>.+?)\s*
 #: `.agent/CURRENT_STATE.md` referred to FORGE-FIX-001 bare, and the gate could not
 #: see it. A guardrail that only inspects the well-formatted half of a document
 #: reports on formatting, not on agreement.
-NODE_MENTION = re.compile(r"(?P<tick>`)?(?P<node>FORGE-[A-Z]+-\d+)`?")
+NODE_MENTION = re.compile(r"(?P<tick>`)?(?P<node>(?:AURA|FORGE)-[A-Z]+-\d+)`?")
 
 #: The full status vocabulary, not just the statuses a given graph happens to use.
 #:
@@ -296,7 +296,7 @@ def _graph_check(args: argparse.Namespace) -> int:
     # whichever tree it is pointed at instead of always reading the real repo.
     tasks = args.tasks if args.tasks is not None else args.graph.parent.parent / "tasks"
     known = {n["id"] for n in nodes}
-    for packet in sorted(tasks.glob("FORGE-*.md")):
+    for packet in sorted(tasks.glob("*.md")):
         node_id = packet.stem
         if node_id not in known:
             problems.append(f"{packet}: packet has no node in {args.graph}")

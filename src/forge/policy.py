@@ -33,9 +33,7 @@ direction. So this module carries two kinds of entry and treats them differently
 What earns protection
 ---------------------
 A surface is protected when it *decides* authority, scope, evidence, validation,
-or graph status — not merely when it is important. `jev_decisions.py` is
-deliberately A1: it advises the Governor and its own docstring records that
-confidence never confers authority. `context_engine.py` is protected, because it
+or graph status — not merely when it is important. `context_engine.py` is protected, because it
 enforces role-context independence structurally, and an independence guarantee
 that a routine packet can edit is not a guarantee.
 
@@ -67,8 +65,8 @@ PROTECTED_PATHS: frozenset[str] = frozenset(
     {
         # Canonical authority and governance (AGENTS.md "Protected surfaces").
         "AGENTS.md",
-        "FORGE_AGENT_CANONICAL_ARCHITECTURE_V1.md",
-        "FORGE_AGENT_V0_PRD.md",
+        "AURA_ARCHITECTURE.md",
+        "AURA_PRD.md",
         ".agent/AGENT_RULES.md",
         ".agent/DECISIONS.md",
         "docs/finish-contract.md",

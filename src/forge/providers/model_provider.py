@@ -102,9 +102,6 @@ PROVIDERS: dict[str, ProviderSpec] = {
         family="deepseek",
         wire="deepseek",
     ),
-    # NOTE: Jev is deliberately NOT in this registry. It is a decision model,
-    # not a chat model — it cannot serve a Capability. It lives in
-    # forge.decisions.jev_decisions and advises the Governor/routing from outside.
 }
 
 # Capability -> provider. This is the entire routing table; everything else is code.

@@ -73,7 +73,7 @@ from forge.trust_kernel import (  # noqa: E402
     TrustKernel,
 )
 
-ARTIFACTS = ROOT / ".agent" / "artifacts" / "FORGE-EVO-001"
+ARTIFACTS = ROOT / "tests" / "fixtures" / "proofs" / "evolution"
 MISSION_ID = "FORGE-EVO-001"
 EVIDENCE_KEY = b"evolution-evidence-key-000000000"
 OWNER_KEY = b"evolution-owner-key-00000000000000"

@@ -1,6 +1,6 @@
 """Deterministic Forge Agent foundations."""
 
-# The providers and decisions subpackages are imported here on purpose. They
+# The provider subpackage are imported here on purpose. They
 # were previously unreferenced, so their undeclared third-party dependencies
 # went unnoticed while the test suite stayed green. Importing them means a
 # missing dependency fails at import time, where CI can see it.
@@ -14,7 +14,6 @@ from .context_engine import (
     ContextProvenance,
     SourceType,
 )
-from .decisions import JevClient, RiskLevel
 from .execution_loop import (
     AgentRole,
     AuditReport,
@@ -135,7 +134,6 @@ __all__ = [
     "FinishContract",
     "ForgeError",
     "GovernorError",
-    "JevClient",
     "ImplementationVerdict",
     "Invariant",
     "LearningError",
@@ -166,7 +164,6 @@ __all__ = [
     "Requirement",
     "RequirementStatus",
     "RetrievalRecord",
-    "RiskLevel",
     "Rung",
     "SchemaInvalidError",
     "SourceType",

@@ -1,5 +1,6 @@
-# Test surface
+# Aura tests
 
-Deterministic tests will begin with the trust-kernel packet.
-
-The initial suite must prove state-transition validity, authority enforcement, exact candidate identity, receipt integrity, fail-closed behavior, and restart reconciliation before broader agent behavior is added.
+Offline tests cover the retained runtime and its adversarial boundaries. Synthetic proof
+fixtures check deterministic learning, rollback, specification lineage, and restart.
+Tests do not require model credentials or external product checkouts. Live two-builder
+acceptance remains a separate uncompleted milestone in the finish contract.

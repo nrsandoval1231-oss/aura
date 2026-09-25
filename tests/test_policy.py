@@ -72,7 +72,7 @@ def test_f9_surfaces_require_owner_authority(path):
     "path",
     [
         "AGENTS.md",
-        "FORGE_AGENT_CANONICAL_ARCHITECTURE_V1.md",
+        "AURA_ARCHITECTURE.md",
         ".agent/AGENT_RULES.md",
         ".agent/DECISIONS.md",
         "docs/finish-contract.md",
@@ -96,7 +96,7 @@ def test_governance_surfaces_require_owner_authority(path):
     [
         # Advisory only; its own docstring records that confidence never confers
         # authority, so it is deliberately routine.
-        "src/forge/decisions/jev_decisions.py",
+        "src/forge/ingestion/calibration_contracts.py",
         "README.md",
         "docs/packets/FORGE-ING-001-intent-ingestion.md",
         "tests/test_cli.py",

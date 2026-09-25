@@ -105,7 +105,7 @@ def test_example_names_every_variable_the_code_reads():
     # Capability-keyed model ids are what the primary routes actually read (F11).
     for model_env in CAPABILITY_MODEL_ENV.values():
         assert model_env in example, model_env
-    assert "TYPESAFE_API_KEY" in example
+    assert "TYPESAFE_API_KEY" not in example
 
 
 def test_example_carries_no_values_at_all():
