@@ -23,7 +23,16 @@ They are not Aura execution authority or completion evidence.
 6. Validate combined candidates centrally and require fresh independent candidate review.
 7. Demonstrate real execution, parallelism, forced stuck recovery, restart, and reviewed learning.
 
-The CLI/module name remains forge for compatibility. run_slice.py is an offline proving
+The existing CLI/module name is forge. Add the user-facing aura entry point while
+retaining forge compatibility. run_slice.py is an offline proving
 harness with test keys and simulated roles; it is not the production runner. Production
 trust is deliberately unprovisioned. No paid call, live activation, or deployment is part
 of the scope cleanup. The local source gate and the live finish contract are separate.
+
+## September 25 delivery direction
+
+Start with [the builder handoff](product/AURA_BUILDER_HANDOFF.md) and
+[the approved product direction](product/AURA_PRODUCT_DIRECTION.md).
+Persistent memory, skills and restart are first-release requirements. Deliver a complete
+single-builder task plus continuity, then the full two-builder team and unattended builds.
+The architecture image describes intent; no implementation completion is implied.

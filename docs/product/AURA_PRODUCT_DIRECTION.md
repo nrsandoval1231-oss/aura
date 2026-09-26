@@ -1,78 +1,121 @@
-# Aura product direction
+# Aura: Nick's personal autonomous coding CLI
 
-Owner: Nick Sandoval. This document records the decisions supplied for the Aura
-implementation. It does not grant provider spending, merge, or deployment authority.
+Owner-confirmed direction: September 25, 2026 (America/Chicago).
+This is the target product, not a claim that the runtime is complete.
 
-## Accepted product decisions
+![Aura target agent structure](assets/aura-agent-structure.png)
 
-- Aura is Nick's separate autonomous engineering agent. Forge is its source
-  lineage; Hermes is a reference. Continue the imported Forge foundation rather
-  than forking Hermes or restarting from zero.
-- Build a complete governed engineering loop before a UI, more roles, or extra
-  infrastructure. Keep operation simple for the owner.
-- Sol leads architecture, decomposition, allocation, integration, recovery, and
-  replanning. A deterministic Governor owns authority, scope, budgets,
-  transitions, scheduling, and integration eligibility.
-- Run two independent builder loops when work is ready and disjoint. The
-  intended builders are DeepSeek V4.1 Flash and Luna 6. Each gets a separate
-  worktree, packet, context, candidate identity, and execution state. Serialize
-  dependencies, conflicting files, and integration.
-- MiniMax handles bounded support. Astra reviews independently with separate
-  context. A builder cannot certify its own candidate.
-- Detect repeated patches, recurring failures, and stalled progress. Require a
-  materially different bounded repair, then return to Sol for replanning when
-  the repair budget is exhausted. Classify credentials, dependencies,
-  environment, and owner decisions separately from implementation defects.
-- Use verified experience while coding: Intent → Plan → Implement → Verify →
-  Learn → Update → Continue. Share accepted lessons at later slice boundaries;
-  active slices keep their pinned instructions and lesson snapshots.
-- Measure attributable changes in strategy and comparable outcomes. “Slice 30
-  evolved from slice 1” is an objective, not a promise of statistical
-  significance or model-weight retraining.
-- Deterministic checks and independent audit remain separate from builder
-  confidence and from authority to execute, merge, deploy, or spend. Learning
-  cannot weaken scope, requirements, checks, or audit rules.
-- Retain existing `forge` package and CLI names during this integration.
+## Product promise
 
-## Existing implementation
+Tell Aura what to build in a selected repository. It understands the project, plans the
+work, runs Nick's chosen agent team, tests and reviews the result, repairs problems,
+remembers useful outcomes, and continues within the authorized scope and budget.
+Nick can inspect or intervene from a simple terminal interface. An unattended build
+ends in a verified result or a precise blocker that explains what is needed next.
 
-The imported source includes Forge's governed loop, providers, policy,
-recovery, and learning modules. `src/forge/slice_learning.py` supplies a durable
-two-lane learning controller; `src/forge/athena_engineering.py` supplies a
-narrow directional outcome comparison. The import has historical focused-test
-and independent-review evidence, but that evidence belongs to its source
-candidate. The controller is not yet wired to a live two-builder runner.
+The goal is superior performance on Nick's real coding projects: high-quality accepted
+builds, short completion time, predictable cost, and fewer owner interventions. Feature
+count and test count alone do not establish superiority to Hermes or another agent.
 
-## Unverified assumptions
+## Agent team
 
-- “DeepSeek 4.1 flags” was interpreted as “DeepSeek V4.1 Flash.” DeepSeek's
-  [official model documentation](https://api-docs.deepseek.com/quick_start/pricing/)
-  identifies its current API name as `deepseek-flash` (checked 2026-09-24).
-  Availability to Aura's account and a live adapter call are unverified.
-- OpenAI's [official model catalog](https://developers.openai.com/api/docs/models)
-  lists `gpt-6-sol`, `gpt-6-luna`, and `gpt-6-astra` (checked 2026-09-24).
-  Aura account access, compatible call mode, and role routing are unverified.
-- No MiniMax model variant was selected by the owner; its utility-worker API
-  identifier remains to be chosen and verified before activation.
-- Credentials, trusted review identities and keys, and live billing authority
-  have not been verified for Aura.
-- The inherited cross-family audit rule may conflict with Luna and Astra in
-  one provider family. Resolve it through governance before that runtime path.
-- Historical Forge results do not establish Aura's current gate, runtime, or
-  deployment state.
+| Role | Intended assignment | Responsibility |
+| --- | --- | --- |
+| Owner | Nick | Objectives, priorities, scope, budgets and consequential decisions |
+| Engineering lead | Sol | Plan, decompose, allocate, integrate and replan |
+| Builder A | DeepSeek V4.1 Flash | Implement and repair bounded tasks |
+| Builder B | Luna 6 | Parallel independent implementation and repair |
+| Utility worker | MiniMax | Bounded research, discovery and preparation |
+| Independent reviewer | Astra | Check candidate code, tests and acceptance criteria |
+| Governor | Deterministic code, not a model | Enforce scope, budgets, state, retries and integration eligibility |
 
-## Outstanding integration
+Model names above are intended labels. Verify exact provider IDs, account access,
+capabilities and billing before activation. No silent substitution. MiniMax's exact
+variant is unresolved. Resolve the inherited Luna/Astra audit-policy conflict explicitly.
 
-Reconcile Aura's current repository state; pass the full local gate against an
-exact candidate; connect planning, scheduling, isolated builder execution,
-Governor-enforced recovery, deterministic checks, independent review,
-attributable outcomes, reviewed lesson retrieval, and serialized integration.
-Prove restart without duplicate effects, parallel isolation, changed-strategy
-recovery, lesson measurement and withdrawal, and UNKNOWN behavior. Obtain an
-independent audit of the integrated Aura candidate.
+Sol schedules two independent builder loops when dependencies and write conflicts allow.
+Each builder has its own worktree, packet, context and candidate identity. MiniMax does
+not approve candidates or lessons. Astra reviews without builder reasoning. Validate
+the combined integration candidate, not only each builder's separate result.
 
-## Future ideas outside current implementation scope
+## Persistent foundation, included in the first usable release
 
-A UI, additional roles, broad Athena Arena/Gauntlet policy evolution, model
-weight retraining, and autonomous deployment are later decisions. They are not
-prerequisites for the working loop.
+Memory has three scopes: Nick's relevant preferences and working conventions; each
+project's architecture, decisions and constraints; and searchable session/build history
+with outcomes and lessons. Every durable fact has provenance and time context. Explicit
+owner corrections supersede stale beliefs. Keep unrelated project context separate;
+retrieve relevant records rather than injecting every conversation into every prompt.
+Provide inspect, correct, remove and export operations. Never use memory as credential
+storage or let remembered advice override current owner intent or executable permissions.
+
+Skills are focused, versioned SKILL.md procedures with optional scripts and references.
+Load descriptions first and full instructions on demand. Support user-authored and
+agent-proposed skills. Review learned procedures before sharing them across future tasks;
+retain rollback and attribution. Pin each active task's memory/skill snapshot. Compatible
+existing skills may be imported with provenance and inspected dependencies; do not
+blindly execute arbitrary imported scripts.
+
+Durable task state preserves the objective, plan, role assignments, worktree/candidate
+identity, checkpoints, tool outcomes, budget and next action. After interruption,
+reconcile actual repository/process/provider state before continuing. UNKNOWN blocks
+replay of an uncertain effect; confirmed independent work may still proceed.
+
+## Simple runtime
+
+Start with one application: terminal interface, coordinator, execution engine, persistent
+storage and verification. Use SQLite for sessions, tasks, checkpoints and searchable
+memory, and Markdown for readable guidance and skills. Reuse existing validated ledger
+and learning components where they fit; map responsibilities explicitly so two stores
+do not disagree about authoritative task state. Avoid an unnecessary storage migration.
+
+The interactive entry point is `aura`. Also expose `aura init`, `aura build`, `aura status`,
+`aura inspect`, `aura pause`, and `aura resume`. These are target commands, not evidence
+that current main implements them. Retain `forge` imports and compatibility entry points
+while adding Aura's user-facing interface.
+
+The same execution engine supports an attached terminal and later unattended operation.
+If Nick's computer is off, execution requires a running remote machine; reconnecting a
+terminal should restore visibility without restarting the build or duplicating effects.
+Hosting selection and deployment remain separate implementation decisions.
+
+## Delivery sequence
+
+| Increment | Demonstration required |
+| --- | --- |
+| 1. Complete coding path | Real request -> Sol plan -> DeepSeek code -> checks -> Astra review -> bounded repair -> verified candidate and handoff |
+| 2. Personal continuity | A second session recalls correct project decisions and skills; an interrupted task resumes safely |
+| 3. Full agent team | Sol assigns independent tasks to DeepSeek and Luna; MiniMax assists; integrated result passes checks and fresh review |
+| 4. Unattended build | Multi-task feature completes within scope and budget, exercises stuck recovery and restart, and reports results or a precise blocker |
+
+Increments 1 and 2 together form the first usable release. Memory, skills and restart
+interfaces are designed from the start; they are not postponed to an unrelated future
+product. The complete architecture requires increments 3 and 4 plus demonstrated learning.
+
+## Recovery and learning
+
+Detect recurring failed checks, repeated patches and lack of progress. Permit at most
+two materially different repair strategies, then return to Sol for replanning. Separate
+coding defects from environment, access, provider and owner-decision blocks.
+
+Intent -> Plan -> Implement -> Verify -> Learn -> Update -> Continue.
+Record strategy, outcome, checks, cost, latency and evidence. Share reviewed lessons at
+future task boundaries. Demonstrate a lesson changing a later strategy and compare
+compatible outcomes. Withdraw harmful lessons without deleting history. Improvement
+means better decisions and procedures; model-weight training is not required.
+
+## Repository consolidation
+
+Re-fetch main and all draft branches before implementation. Inspect useful CLI, isolation,
+provider, memory and learning code before writing replacements. Integrate corrected,
+reviewed work in coherent order; close superseded PRs only after accounting for unique
+useful changes. Preserve negative evidence and historical receipts. The PR stack is not
+the product roadmap. Do not restart all code or merge defective checkpoints to clear it.
+
+Keep safeguards practical and enforced by code. This direction does not waive existing
+trust, scope, budget or review gates; simplify any conflicting governance design through
+an explicit reviewed change. No new UI, daemon or extra roles are prerequisite to the
+first complete coding path. Do not wait for broad feature parity with Hermes.
+
+Success is measured by accepted builds, regressions, completion time, cost, owner
+interventions, restart success and attributable reuse of reviewed lessons. Establish
+baselines on Nick's representative tasks before claiming an improvement.
