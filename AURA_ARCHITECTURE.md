@@ -1,8 +1,9 @@
 # Aura architecture
 
-Owner-confirmed scope, September 24, 2026 (America/Chicago).
+Owner-confirmed scope, September 24, refined September 25, 2026 (America/Chicago).
 
-Aura is Nick Sandoval's autonomous engineering agent. Its loop is:
+Aura is Nick Sandoval's personal autonomous coding CLI, with persistent memory,
+reusable skills, resumable builds, and his selected engineering team. Its loop is:
 Intent → Plan → Implement → Verify → Learn → Update → Continue.
 
 ## Roles
@@ -64,3 +65,20 @@ Renzo UI, Jev/TypeSafe decision services, external product trials, Forge's old p
 roadmap and completion records are outside Aura's active scope. Existing Python module
 and CLI names remain `forge` for compatibility; the distribution is `aura-agent`.
 Historical source attribution remains in code and Git history, not as active authority.
+
+## Personal coding product
+
+The September 25 [product direction](docs/product/AURA_PRODUCT_DIRECTION.md) defines
+the terminal experience and four delivery increments. The [target architecture image](docs/product/assets/aura-agent-structure.png)
+is a conceptual view of the agreed team, not proof of a working runtime.
+
+One application contains the terminal, coordinator, execution engine, persistent storage
+and verification. SQLite supports searchable memory/session/task data; Markdown carries
+readable guidance and versioned skills. Existing ledgers remain usable; define one
+authority per state field. Persist owner/project memory and sessions, retrieve relevant
+context, and pin active task snapshots. Nick can inspect, correct, remove and export memory.
+
+The first usable release includes a real single-builder path plus persistent memory,
+skills and safe resume. Later increments activate both builder lanes and unattended
+multi-task builds. Add `aura` as the user entry point while retaining `forge` compatibility.
+Validate product quality using accepted results, time, cost and owner intervention.

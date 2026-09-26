@@ -1,12 +1,19 @@
 # Aura
 
-Nick Sandoval's autonomous engineering agent.
+Nick Sandoval's personal autonomous coding CLI — his agent team, persistent memory,
+skills, and resumable autonomous builds.
 
 **Intent → Plan → Implement → Verify → Learn → Update → Continue**
 
 Sol leads; DeepSeek and Luna build in independent loops; MiniMax supports; Astra audits;
 a deterministic Governor controls execution and integration. Both builders share reviewed
 lessons while each active slice keeps a stable snapshot.
+
+![Aura target agent structure](docs/product/assets/aura-agent-structure.png)
+
+[Product direction](docs/product/AURA_PRODUCT_DIRECTION.md) · [Builder handoff](docs/product/AURA_BUILDER_HANDOFF.md)
+
+The image describes the target architecture.
 
 ## Status
 

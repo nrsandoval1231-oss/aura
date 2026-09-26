@@ -14,3 +14,20 @@ trial runners, and historical execution records. Source history remains in Git.
 
 Next: verify role IDs and resolve audit policy, provision trusted review, then connect
 one governed task followed by two independent tasks, stuck recovery, restart, and learning.
+
+## September 25 product direction
+
+The owner approved Aura as a personal autonomous coding CLI with persistent memory,
+skills and safe resume in the first usable release. See docs/product/AURA_PRODUCT_DIRECTION.md
+and docs/product/AURA_BUILDER_HANDOFF.md. The image is target architecture only.
+This documentation packet implements no runtime features and completes no graph milestone.
+The next builder must refresh all PR/branch state, reconcile the expanded requirements,
+and demonstrate the first complete coding path with continuity designed in from the start.
+
+## Repository cleanup
+
+Historical import/runner task packets are archived without byte changes under
+docs/archive/packets; the manifest preserves their original paths and hashes. Their
+old status assertions grant no current authority. Existing ledgers/artifacts and all
+current runtime milestones are unchanged. See docs/REPOSITORY_CLEANUP.md for branch
+disposition and the source-check repairs. No live provider task was run by this cleanup.
