@@ -72,7 +72,7 @@ from forge.execution_loop import (
     _digest,
 )
 from forge.paths import path_matches
-from forge.trust_kernel import ActionKind, AuthorityGrant, ForgeError
+from forge.trust_kernel import ActionKind, AuthorityGrant, ForgeError, Ledger
 
 ROOT = Path(__file__).resolve().parent.parent
 #: Graph statuses that mean "authorized and being worked on". A PROPOSED node
@@ -320,7 +320,7 @@ def verify_reconciliation_records(root: Path = ROOT) -> tuple[str, ...]:
         LedgerStore(root / ".agent" / "ledger", stream_id)
         for stream_id in (RECONCILIATION_STREAM_ID, AURA_RECONCILIATION_STREAM_ID)
     ]
-    ledgers: list[tuple[str, Any]] = []
+    ledgers: list[tuple[str, Ledger]] = []
     for store in stores:
         receipts_exist = store.receipts_path.exists()
         checkpoint_exists = store.checkpoint_path.exists()
@@ -375,16 +375,14 @@ def verify_reconciliation_records(root: Path = ROOT) -> tuple[str, ...]:
 
     seen: set[str] = set()
     packet_ids: list[str] = []
-    records = [
-        (stream_id, receipt)
-        for stream_id, ledger in ledgers
-        for receipt in ledger.receipts
-    ]
+    records = [(stream_id, receipt) for stream_id, ledger in ledgers for receipt in ledger.receipts]
     if not records:
         raise SystemExit("Reconciliation ledgers have no records")
-    for line_number, (stream_id, receipt) in enumerate(records, 1):
+    for line_number, (_stream_id, receipt) in enumerate(records, 1):
         if receipt.event != "RECONCILIATION_RECORDED":
-            raise SystemExit(f"Reconciliation ledger contains an unrelated event at receipt {line_number}")
+            raise SystemExit(
+                f"Reconciliation ledger contains an unrelated event at receipt {line_number}"
+            )
         record = receipt.payload
         if not isinstance(record, Mapping):
             raise SystemExit(f"Malformed reconciliation record at receipt {line_number}")

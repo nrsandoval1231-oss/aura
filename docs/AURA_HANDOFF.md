@@ -36,3 +36,8 @@ Start with [the builder handoff](product/AURA_BUILDER_HANDOFF.md) and
 Persistent memory, skills and restart are first-release requirements. Deliver a complete
 single-builder task plus continuity, then the full two-builder team and unattended builds.
 The architecture image describes intent; no implementation completion is implied.
+
+Repository consolidation is recorded in [the cleanup inventory](REPOSITORY_CLEANUP.md).
+Closed experimental branches retain reusable code and negative evidence. Their closure
+does not mean implementation acceptance. Historical active-folder leftovers are preserved
+verbatim in [the packet archive](archive/README.md).

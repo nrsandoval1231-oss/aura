@@ -524,6 +524,7 @@ def _write_reconciliation(tmp_path, payloads, stream_id="FORGE-EVID-003"):
 
 def _present_reconciliation(old_ledger, **overrides):
     old_candidate = old_ledger.receipts[0].payload["handoff"]["candidate"]
+    packet_id = overrides.get("packet_id", "OLD")
     payload = {
         "packet_id": "OLD",
         "status": "REDIRECTED",
@@ -532,16 +533,17 @@ def _present_reconciliation(old_ledger, **overrides):
         "old_ledger_head": old_ledger.checkpoint.head_hash,
         "reason": "integrated tree changed",
         "successor_packet_id": "FORGE-INTEGRATED-001",
-        "slice_path": ".agent/artifacts/OLD/SLICE.json",
-        "old_ledger_stream": "OLD",
+        "slice_path": f".agent/artifacts/{packet_id}/SLICE.json",
+        "old_ledger_stream": packet_id,
     }
     payload.update(overrides)
     return payload
 
 
 def test_reconciliation_requires_a_persisted_record(slicer, tmp_path):
-    with pytest.raises(ForgeError, match="No persisted ledger"):
+    with pytest.raises(ForgeError, match="No persisted reconciliation ledger stream") as exc:
         slicer.verify_reconciliation_records(tmp_path)
+    assert exc.value.code == "LEDGER_NOT_FOUND"
 
 
 def test_reconciliation_verifies_old_candidate_and_checkpoint(slicer, tmp_path):
@@ -798,14 +800,24 @@ def test_reconciliation_verifies_union_without_rewriting_forge_stream(slicer, tm
     root = tmp_path / "two-stream-union"
     old = _reconciliation_fixture(root)
     graph_nodes = [
-        {"id": "OLD", "status": "REDIRECTED", "packet": ".agent/tasks/OLD.md",
-         "redirected_to": "FORGE-INTEGRATED-001"},
+        {
+            "id": "OLD",
+            "status": "REDIRECTED",
+            "packet": ".agent/tasks/OLD.md",
+            "redirected_to": "FORGE-INTEGRATED-001",
+        },
         {"id": "FORGE-INTEGRATED-001", "status": "PROPOSED"},
     ]
     for packet_id in ("FORGE-ADAPT-001", "AURA-MIG-001", "AURA-RUN-001"):
-        graph_nodes.insert(-1, {"id": packet_id, "status": "REDIRECTED",
-                                "packet": f".agent/tasks/{packet_id}.md",
-                                "redirected_to": "AURA-INTEGRATED-002"})
+        graph_nodes.insert(
+            -1,
+            {
+                "id": packet_id,
+                "status": "REDIRECTED",
+                "packet": f".agent/tasks/{packet_id}.md",
+                "redirected_to": "AURA-INTEGRATED-002",
+            },
+        )
         if packet_id.startswith("AURA-"):
             artifact = root / ".agent" / "artifacts" / packet_id
             artifact.mkdir(parents=True, exist_ok=True)
@@ -814,9 +826,7 @@ def test_reconciliation_verifies_union_without_rewriting_forge_stream(slicer, tm
     (root / ".agent" / "graph" / "work-graph.json").write_text(
         json.dumps({"nodes": graph_nodes}), encoding="utf-8"
     )
-    forge_payload = _present_reconciliation(
-        old, successor_packet_id="FORGE-INTEGRATED-001"
-    )
+    forge_payload = _present_reconciliation(old, successor_packet_id="FORGE-INTEGRATED-001")
     _write_reconciliation(root, [forge_payload])
     forge_bytes = (root / ".agent" / "ledger" / "FORGE-EVID-003.jsonl").read_bytes()
     _write_aura_reconciliation(
@@ -829,7 +839,10 @@ def test_reconciliation_verifies_union_without_rewriting_forge_stream(slicer, tm
     )
 
     assert slicer.verify_reconciliation_records(root) == (
-        "OLD", "FORGE-ADAPT-001", "AURA-MIG-001", "AURA-RUN-001"
+        "OLD",
+        "FORGE-ADAPT-001",
+        "AURA-MIG-001",
+        "AURA-RUN-001",
     )
     assert (root / ".agent" / "ledger" / "FORGE-EVID-003.jsonl").read_bytes() == forge_bytes
 
@@ -846,29 +859,44 @@ def test_reconciliation_union_rejects_duplicate_cross_stream_record(slicer, tmp_
 @pytest.mark.parametrize(
     ("payload", "expected"),
     [
-        ({**_no_legacy_record("AURA-MIG-001"), "successor_packet_id": "OTHER"}, "successor mismatch"),
-        ({**_no_legacy_record("AURA-MIG-001"), "evidence_class": "LEDGER_ONLY"}, "Legacy ledger path"),
+        (_no_legacy_record("AURA-MIG-001"), None),
+        (
+            {**_no_legacy_record("AURA-MIG-001"), "successor_packet_id": "OTHER"},
+            "successor mismatch",
+        ),
+        (
+            {**_no_legacy_record("AURA-MIG-001"), "evidence_class": "LEDGER_ONLY"},
+            "Legacy ledger path",
+        ),
         ({**_no_legacy_record("AURA-MIG-001"), "status": "COMPLETE"}, "Invalid or duplicate"),
     ],
 )
 def test_aura_stream_records_fail_closed_on_claim_mismatch(slicer, tmp_path, payload, expected):
-    root = tmp_path / expected.replace(" ", "-")
-    _reconciliation_fixture(root, "FORGE-OLD")
+    root = tmp_path / (expected or "valid").replace(" ", "-")
+    old_ledger = _reconciliation_fixture(root, "FORGE-OLD")
     graph_path = root / ".agent" / "graph" / "work-graph.json"
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
     graph["nodes"].insert(
         0,
-        {"id": "AURA-MIG-001", "status": "REDIRECTED",
-         "packet": ".agent/tasks/AURA-MIG-001.md", "redirected_to": "AURA-INTEGRATED-002"},
+        {
+            "id": "AURA-MIG-001",
+            "status": "REDIRECTED",
+            "packet": ".agent/tasks/AURA-MIG-001.md",
+            "redirected_to": "AURA-INTEGRATED-002",
+        },
     )
     graph["nodes"].append({"id": "AURA-INTEGRATED-002", "status": "PROPOSED"})
     graph_path.write_text(json.dumps(graph), encoding="utf-8")
-    _write_reconciliation(root, [_present_reconciliation(
-        _reconciliation_fixture(root, "FORGE-OLD"), packet_id="FORGE-OLD"
-    )])
+    _write_reconciliation(
+        root,
+        [_present_reconciliation(old_ledger, packet_id="FORGE-OLD")],
+    )
     _write_aura_reconciliation(root, [payload])
-    with pytest.raises(SystemExit, match=expected):
-        slicer.verify_reconciliation_records(root)
+    if expected is None:
+        assert slicer.verify_reconciliation_records(root) == ("FORGE-OLD", "AURA-MIG-001")
+    else:
+        with pytest.raises(SystemExit, match=expected):
+            slicer.verify_reconciliation_records(root)
 
 
 # ---------------------------------------------------------------------------

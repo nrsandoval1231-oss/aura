@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_commit": "0dd62aae4959227a5c5a2d7cb618bbd7616bfef4",
+  "reason": "Historical import/runner packets had no nodes in the current owner-approved graph. They are superseded planning records, not current execution authority. Preserve exact bytes and all runtime evidence.",
+  "packets": [
+    {
+      "original_path": ".agent/tasks/AURA-INTEGRATED-001.md",
+      "archive_path": "docs/archive/packets/AURA-INTEGRATED-001.md",
+      "sha256": "63b7e31644614516cd0f09b1cbf7260441782e9eb497ed1265be059e80c631ee",
+      "disposition": "ARCHIVED_NOT_ACCEPTED"
+    },
+    {
+      "original_path": ".agent/tasks/AURA-INTEGRATED-002.md",
+      "archive_path": "docs/archive/packets/AURA-INTEGRATED-002.md",
+      "sha256": "7c80fc179e894035cf36770d75bf1d9999c6ec06f41f309943ec8eb5210d9192",
+      "disposition": "ARCHIVED_NOT_ACCEPTED"
+    },
+    {
+      "original_path": ".agent/tasks/AURA-MIG-001.md",
+      "archive_path": "docs/archive/packets/AURA-MIG-001.md",
+      "sha256": "8064adcce2fbc33cf4aa5823f5a075217f1c6b0ed9254818048468172aa20723",
+      "disposition": "ARCHIVED_NOT_ACCEPTED"
+    },
+    {
+      "original_path": ".agent/tasks/AURA-RUN-001.md",
+      "archive_path": "docs/archive/packets/AURA-RUN-001.md",
+      "sha256": "38bf9203488e81bde54100c54eba4f1accdf604fa3feb1c903c853a14f8c195c",
+      "disposition": "ARCHIVED_NOT_ACCEPTED"
+    }
+  ]
+}
