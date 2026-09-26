@@ -67,4 +67,3 @@ archival does not remove an active graph task or create runtime acceptance.
 Follow [the builder handoff](product/AURA_BUILDER_HANDOFF.md): implement one real governed
 coding path with memory/skills/restart designed in, then validate continuity, both lanes
 and an unattended build. Read current source and account/provider access before dispatch.
-
